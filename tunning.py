@@ -14,13 +14,8 @@ def eprint(*args, **kwargs):
     """
     print(*args, file=sys.stderr, **kwargs)
 
-def main():
-    """
-    This is then main framework for tunning program. The main defines arguments format, 
-    validates the arguments format given, and control the whole process of the tunning program.  
-    """
-    
-    #Initialize the parser and define the description information that will be displayed in help.
+def argparser():
+        #Initialize the parser and define the description information that will be displayed in help.
     parser = argparse.ArgumentParser(prog='Parameter tunning tool',\
                                      formatter_class=argparse.RawTextHelpFormatter,\
                                      description='''\
@@ -159,7 +154,19 @@ def main():
     args = parser.parse_args() #parse arguments
     
     print(args)
+    return args
     
+def main():
+    """
+    This is then main framework for tunning program. The main defines arguments format, 
+    validates the arguments format given, and control the whole process of the tunning program.  
+    """
+    
+    '''
+    Parse arguments
+    '''
+    args = argparser()
+
     '''
     Convert solver name to solver flag
     '''
@@ -175,8 +182,6 @@ def main():
     Parameter file
     '''
     pcsFile = args.solver+args.pcs+".pcs"
-            
-        
         
     '''
     Args and value explaination:
