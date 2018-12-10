@@ -24,8 +24,8 @@ def main():
     parser = argparse.ArgumentParser(prog='Parameter tunning tool',\
                                      formatter_class=argparse.RawTextHelpFormatter,\
                                      description='''\
-This program performs automactic parameter tunning with SMAC3.
-To use this program you need to provide:
+    This program performs automactic parameter tunning with SMAC3.
+    To use this program you need to provide:
      1. Model and data files, you can provide several model, each with 
         several data.
         You can provide them by a instances list text file, or write them
@@ -108,8 +108,8 @@ To use this program you need to provide:
     use more SMAC for parallel search. More threads may or may not improve 
     running time, but more SMAC will definitly improve the efficiency for
     finding a good parameter configuration.
-                        
                         ''')
+        
     parser.add_argument('-pcs',choices=['s','m','l'],required=True,metavar='s/m/l',\
                         help='''\
     Specify how many parameters will be used for tunning.
@@ -130,6 +130,7 @@ To use this program you need to provide:
     On some problems it is possible to obtain a 10x boost within one hour when
     you select l for -pcs. But sometimes you obtain a 10x boost until 10 hours.
                         ''')
+    
     parser.add_argument('-c','--cut',type=int,default=0,metavar='cut-off-time-by-seconds',\
                         help='''\
     Specify a cut off time for minizinc solve the problem. It is suggested 
