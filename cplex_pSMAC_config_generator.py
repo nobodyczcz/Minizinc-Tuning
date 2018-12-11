@@ -1,9 +1,9 @@
-def pSMAC_wrapper_generator(n_SMAC, n_MINIZINC):
+def pSMAC_wrapper_generator(n_SMAC, n_MINIZINC, cplex_dll):
     from cplex_wrapper_template import cplex_wrapper
     for i in range(n_SMAC):
         writeToFile = []
-        writeToFile.append('from cplex_wrapper import cplex_wrapper')
-        writeToFile.append('cplex_wrapper({}, {})'.format(i, n_MINIZINC))
+        writeToFile.append('from cplex_wrapper_template import cplex_wrapper')
+        writeToFile.append('cplex_wrapper({}, {}, "{}")'.format(i, n_MINIZINC, cplex_dll))
         with open('cplex_wrapper_' + str(i) + '.py', 'w') as f:
             f.write('\n'.join(writeToFile))
             
@@ -21,3 +21,4 @@ def pSMAC_scenario_generator(n_SMAC, param_config_space, cutoff_time, wallclock_
         writeToFile.append('instance_file = instances.txt')
         with open('scenario_' + str(i) + '.txt', 'w') as f:
             f.write('\n'.join(writeToFile))
+            print('scenario_' + str(i) + '.txt')

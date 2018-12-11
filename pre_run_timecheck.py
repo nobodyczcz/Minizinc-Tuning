@@ -19,7 +19,7 @@ def default_param_config(param_config_space, flag):
             f.write('\n'.join(paramList))
             
 
-def run_solver(n_thread, param_config_space, instance, flag):
+def run_solver(n_thread, param_config_space, instance, flag, cplex_dll):
     cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --solver '
     args = default_param_config(param_config_space, flag)
     
@@ -27,8 +27,8 @@ def run_solver(n_thread, param_config_space, instance, flag):
         cmd += 'osicbc ' + instance + ' --cbcArgs "' + args + '"'
     else:
         cmd += 'cplex ' + instance + ' --readParam pre_run_time_check' + \
-        ' --cplex-dll /opt/ibm/ILOG/CPLEX_Studio128/cplex/bin/x86-64_linux/libcplex1280.so'
-    
+        ' --cplex-dll ' + str(cplex_dll)
+    print('cmd:', cmd)
     io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     (stdout_, stderr_) = io.communicate()
     
@@ -40,11 +40,11 @@ def run_solver(n_thread, param_config_space, instance, flag):
     
     
     
-def instance_runtime(instanceList, n_thread, param_config_space, flag):
+def instance_runtime(instanceList, n_thread, param_config_space, flag, cplex_dll):
     runtime = -1
     for instance in instanceList:
         print(instance)
-        tmp = run_solver(n_thread, param_config_space, instance, flag)
+        tmp = run_solver(n_thread, param_config_space, instance, flag, cplex_dll)
         print(tmp)
         if tmp > runtime:
             runtime = tmp

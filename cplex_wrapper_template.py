@@ -1,7 +1,7 @@
 import sys, os, re
 from subprocess import Popen, PIPE
 
-def cplex_wrapper(n, n_thread):
+def cplex_wrapper(n, n_thread, cplex_dll):
     
     instance = sys.argv[1]
     specifics = sys.argv[2]
@@ -21,16 +21,16 @@ def cplex_wrapper(n, n_thread):
 
     cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --time-limit ' \
     + str(cutoff * 1000) + ' --solver cplex ' + instance \
-    + ' --readParam tmpParamRead' \
-    + ' --cplex-dll /opt/ibm/ILOG/CPLEX_Studio128/cplex/bin/x86-64_linux/libcplex1280.so'
+    + ' --readParam tmpParamRead_' + str(n) \
+    + ' --cplex-dll ' + cplex_dll
 
     #print(cmd)
 
     io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     (stdout_, stderr_) = io.communicate()
 
-    print(stdout_)
-    print(stderr_)
+    print(stdout_.decode('utf-8'))
+    print(stderr_.decode('utf-8'))
     status = "CRASHED"
     runtime = 99999
 
