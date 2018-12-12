@@ -140,8 +140,8 @@ class GenericSolverBase():
         (stdout_, stderr_) = self.runCmd(cmd)
 
         if self.verboseOnOff:
-            print(stdout_.decode('utf-8'))
-            print(stderr_.decode('utf-8'))
+            print(stdout_.decode('utf-8'), end='')
+            print(stderr_.decode('utf-8'), end='')
 
         if re.search(b'time elapsed:', stdout_):
             runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
@@ -209,7 +209,7 @@ class GenericSolverExpansion(GenericSolverBase):
         if self.verboseOnOff:
             while io.poll() is None:
                 line = io.stdout.readline()
-                print(line.decode('utf-8'), end =" ")
+                print(line.decode('utf-8'), end ="")
         else:
             io.wait()
 
@@ -367,8 +367,8 @@ def cplex_wrapper(n, n_thread, cplex_dll):
     (stdout_, stderr_) = io.communicate()
     io.wait()
 
-    print(stdout_.decode('utf-8').decode('utf-8'))
-    print(stderr_.decode('utf-8').decode('utf-8'))
+    print(stdout_.decode('utf-8'), end='')
+    print(stderr_.decode('utf-8'), end='')
     status = "CRASHED"
     runtime = 99999
 
