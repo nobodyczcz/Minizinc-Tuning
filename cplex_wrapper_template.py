@@ -29,8 +29,8 @@ def cplex_wrapper(n, n_thread, cplex_dll):
     io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     (stdout_, stderr_) = io.communicate()
 
-    print(stdout_.decode('utf-8'))
-    print(stderr_.decode('utf-8'))
+    print(stdout_.decode('utf-8'), end=' ')
+    print(stderr_.decode('utf-8'), end=' ')
     status = "CRASHED"
     runtime = 99999
 

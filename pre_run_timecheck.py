@@ -32,8 +32,8 @@ def run_solver(n_thread, param_config_space, instance, flag, cplex_dll):
     io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     (stdout_, stderr_) = io.communicate()
     
-    print(stdout_)
-    print(stderr_)
+    print(stdout_.decode('utf-8'), end=' ')
+    print(stderr_.decode('utf-8'), end=' ')
     if re.search(b'time elapsed:', stdout_):
         runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
         return runtime
