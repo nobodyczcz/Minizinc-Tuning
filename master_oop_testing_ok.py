@@ -11,7 +11,7 @@ import sys, re
 import psutil
 from subprocess import Popen
 
-from OOP_IMPL import *
+from genericSolverSMACOptimization import *
 
 def eprint(*args, **kwargs):
     """
@@ -256,26 +256,31 @@ def main():
     # tmp execution
     try:
         
-        param_config_space = 'cplex.pcs'
+        if solverFlag == 0:
+            
+            solver = CBC(solverFlag, args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll)
+        elif solverFlag == 1:
+            param_config_space = 'cplex.pcs'
         
-        cplex = CPLEX(solverFlag, args.cut, args.t, args.v, 'cplex.pcs', args.p, args.instances_file, args.instances, args.cplex_dll)
-        cplex.cut_off_time_calculation()
-        cplex.pSMAC_wrapper_generator()
-        cplex.pSMAC_scenario_generator()
-        cplex.psamc_exe()
+            solver = CPLEX(solverFlag, args.cut, args.t, args.v, 'cplex.pcs', args.p, args.instances_file, args.instances, args.cplex_dll)
+            
+        solver.cut_off_time_calculation()
+        solver.pSMAC_wrapper_generator()
+        solver.pSMAC_scenario_generator()
+        solver.psamc_exe()
 
     except KeyboardInterrupt:
         print("\n\nKeyboardInterrupt has been caught. Cleaning up...")
         for process in psutil.process_iter():      
-            if set(['python', '--scenario', cplex.outputdir]).issubset(set(process.cmdline())):
+            if set(['python', '--scenario', solver.outputdir]).issubset(set(process.cmdline())):
                 print(' '.join(process.cmdline()))
                 print('Process found. Terminating it.')
                 process.terminate()
-        cplex.remove_tmp_files()
+        solver.remove_tmp_files()
     else:
         #print("Success.")
-        cplex.benchmark_main(5)
-        cplex.remove_tmp_files()        
+        solver.benchmark_main(5)
+        solver.remove_tmp_files()        
     '''
     Handle tunning result and output
     '''
