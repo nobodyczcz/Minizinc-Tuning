@@ -269,7 +269,7 @@ class GenericSolverExpansion(GenericSolverBase):
             if len(i) != 0:
                 res = [line.rstrip('\n') for line in open(stdout_.split(b'\n')[0].decode('utf-8'))]
 
-                if len(res) == 1:
+                if len(res) == 2:
                     print("No new incumbent found!")
                     continue
 
