@@ -68,34 +68,44 @@ class GenericSolverBase():
         Process instance list or path to combine the model file with instance file(s) and write to a txt file with standard format for SMAC.
 
         '''
-
-        if self.insList != None: # If list of instance is provided
-            instance = re.findall('([^\s\.]+\.mzn(?:\s[^\.]+\.dzn)+)+', ' '.join(self.insList))
+        
+        #print('list',self.insList)
+        #print('path',self.insPath)
+        
+        if len(self.insList) != 0: # If list of instance is provided
+            
+            instance = re.findall('([^\s\.]+\.mzn(?:\s[^\s]+\.dzn)+)+', ' '.join(self.insList))
+            #print(instance)
+            
         elif self.insPath != None: # If instance input file is provided
             try:
+                
                 instance = [line.rstrip('\n') for line in open(self.insPath)]
+                
             except FileNotFoundError:
                 raise Exception("FileNotFoundError: No such file or directory")
         else:
             raise Exception('No path or list of instance is passed.')
-
+            
+        if len(instance) == 0:
+            raise Exception("instance list is empty!")
         instanceList = []
         for i in instance:
 
-            if len(re.findall('[^\.\s]+\.mzn', i)) > 1: # Require one model file in each line
+            if len(re.findall('([^\.\s]+\.mzn)(?:\s)', i)) > 1: # Require one model file in each line
                 raise Exception('More than one model file found in the same line.')
             elif len(re.findall('^[^\.\s]+\.mzn', i)) == 0: # Require model file at first of each line
                 raise Exception('Model file must come first in each line.')
 
             for j in i.split()[1:]:
-                newName = i.split()[0].split('.')[0] + '_' + j.split('.')[0] + '.mzn' # Get name of combined model file
+                #newName = i.split()[0].split('.')[0] + '_' + j.split('.')[0] + '.mzn' # Get name of combined model file
+                newName = i.split()[0].split('.')[0] + '_' + re.search('([^\s]+)(?:\.dzn)', j).group(1) + '.mzn' # Get name of combined model file
                 #print("cat " + i.split()[0] + " " + j + " > " + newName)
                 cmd = "cat " + i.split()[0] + " " + j + " > " + newName # Prepare the shell script for concat
                 io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE) # Excecute concat
                 (stdout_, stderr_) = io.communicate()
                 #print(stdout_)
                 instanceList.append(newName)
-
         with open('instances.txt', 'w') as f:
             f.write('\n'.join(instanceList)) # Write the formated instance file to text for smac read in.
 
@@ -107,7 +117,7 @@ class GenericSolverBase():
         '''
 
         if self.cutOffTime == 0:
-            self.cutOffTime = self.instance_runtime() * 5 # Give 5 times of margin of safety for cutoff
+            self.cutOffTime = self.instance_runtime() * 2 # Give 5 times of margin of safety for cutoff
         print('{} Calculating Cutoff Time'.format(self.get_current_timestamp()))
         print("{} Cutoff Time: {} s".format(self.get_current_timestamp(), round(self.cutOffTime, 3)))
 
@@ -154,9 +164,14 @@ class GenericSolverBase():
             print(stdout_.decode('utf-8'), end='')
             print(stderr_.decode('utf-8'), end='')
 
+        
         if re.search(b'time elapsed:', stdout_):
+            
             runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
             return runtime
+        else:
+            raise Exception("No solution")
+            
 
 
     def instance_runtime(self):
@@ -310,7 +325,7 @@ class GenericSolverExpansion(GenericSolverBase):
 
 
     def remove_tmp_files(self):
-        cmd = 'rm cplex_wrapper_?.py cbc_wrapper_?.py scenario* pre_run_time_check instances.txt benchmark_cplex_param_cfg tmpParamRead* ' + ' '.join(self.instanceList)
+        cmd = 'rm cplex_wrapper_?.py cbc_wrapper_?.py scenario* pre_run_time_check instances.txt benchmark_cplex_param_cfg tmpParamRead* __py* ' + ' '.join(self.instanceList)
         self.run_cmd(cmd)
 
 

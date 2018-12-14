@@ -217,6 +217,7 @@ def main():
     '''
     Process instances
     '''
+
     if args.instances_file != None:
         print("Read instances list file: ",args.instances_file)
 
@@ -224,8 +225,8 @@ def main():
         if args.instances == None:
             raise Exception('You need either specify a instances list file or give instances by commandline arguments. Use -h for help')
             
-        #else:
-            #print("Instances from arguments: ",' '.join(args.instances))
+        else:
+            print("Instances from arguments: ",' '.join(args.instances))
 
     
     '''
@@ -255,7 +256,6 @@ def main():
    
     # tmp execution
     try:
-        
         if solverFlag == 0:
             
             solver = CBC(solverFlag, args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll)
@@ -276,11 +276,11 @@ def main():
                 print(' '.join(process.cmdline()))
                 print('Process found. Terminating it.')
                 process.terminate()
-        solver.remove_tmp_files()
+        
     else:
-        #print("Success.")
         solver.benchmark_main(5)
-        solver.remove_tmp_files()        
+    finally:
+        solver.remove_tmp_files()
     '''
     Handle tunning result and output
     '''
