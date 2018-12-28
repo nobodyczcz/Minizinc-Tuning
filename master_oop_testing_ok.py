@@ -260,9 +260,8 @@ def main():
             
             solver = CBC(solverFlag, args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll)
         elif solverFlag == 1:
-            param_config_space = 'cplex.pcs'
         
-            solver = CPLEX(solverFlag, args.cut, args.t, args.v, 'cplex.pcs', args.p, args.instances_file, args.instances, args.cplex_dll)
+            solver = CPLEX(solverFlag, args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll)
             
         solver.cut_off_time_calculation()
         solver.pSMAC_wrapper_generator()
@@ -270,16 +269,18 @@ def main():
         solver.psamc_exe()
 
     except KeyboardInterrupt:
-        print("\n\nKeyboardInterrupt has been caught. Cleaning up...")
+        print("\nKeyboardInterrupt has been caught.")
         for process in psutil.process_iter():      
             if set(['python', '--scenario', solver.outputdir]).issubset(set(process.cmdline())):
                 print(' '.join(process.cmdline()))
                 print('Process found. Terminating it.')
                 process.terminate()
-        
-    else:
-        solver.benchmark_main(5)
     finally:
+        try:
+            solver.benchmark_main(5)
+        except KeyboardInterrupt:
+            pass
+        print("\nCleaning up...")
         solver.remove_tmp_files()
     '''
     Handle tunning result and output
@@ -288,4 +289,5 @@ def main():
     
 if __name__=="__main__":
     main()
+
 

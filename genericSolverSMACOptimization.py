@@ -1,10 +1,6 @@
-import sys, os, re
-import multiprocessing
+import sys, os, re, multiprocessing, subprocess, psutil, time, inspect
 from subprocess import Popen, PIPE
 from random import randint
-import pandas as pd
-import time
-import inspect, os.path, sys
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 path = os.path.dirname(os.path.abspath(filename))
 
@@ -33,7 +29,7 @@ class GenericSolverBase():
         '''
         io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
         (stdout_, stderr_) = io.communicate()
-        io.wait()
+        #io.wait()
         #if len(stdout_) == 0:
         #    raise Exception(stderr_.decode('utf-8'))
         #else:
@@ -319,13 +315,13 @@ class GenericSolverExpansion(GenericSolverBase):
         print('{} SMAC optimization completes'.format(self.get_current_timestamp()))
         print('{} Benchmarking starts'.format(self.get_current_timestamp()))
         for instance in self.instanceList:
-            cmd = 'find . -name traj_old.csv'
+            cmd = 'find ' + os.path.join('.', self.outputdir) + ' -name traj_old.csv'
             stdout_, _ = self.run_cmd(cmd)
             self.run_benchmark(batch, instance, stdout_)
 
 
     def remove_tmp_files(self):
-        cmd = 'rm cplex_wrapper_?.py cbc_wrapper_?.py scenario* pre_run_time_check instances.txt benchmark_cplex_param_cfg tmpParamRead* __py* ' + ' '.join(self.instanceList)
+        cmd = 'rm -R cplex_wrapper_?.py cbc_wrapper_?.py scenario* pre_run_time_check instances.txt benchmark_cplex_param_cfg tmpParamRead* __py* presolved* ' + ' '.join(self.instanceList)
         self.run_cmd(cmd)
 
 
@@ -388,7 +384,7 @@ def cplex_wrapper(n, n_thread, cplex_dll):
 
     io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     (stdout_, stderr_) = io.communicate()
-    io.wait()
+    #io.wait()
 
     print(stdout_.decode('utf-8'), end='')
     print(stderr_.decode('utf-8'), end='')
@@ -423,19 +419,27 @@ def cbc_wrapper(n_thread):
     cmd += '"'
 
     io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
-    (stdout_, stderr_) = io.communicate()
-    io.wait()
-
-    print(stdout_.decode('utf-8'), end='')
-    print(stderr_.decode('utf-8'), end='')
-
+    
     status = "CRASHED"
     runtime = 99999
-
-    if re.search(b'time elapsed:', stdout_):
-        runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
-        status = "SUCCESS"
-    elif re.search(b'=====UNKNOWN=====', stdout_):
+    
+    
+    try:
+        (stdout_, stderr_) = io.communicate(timeout=cutoff)
+        
+        print(stdout_.decode('utf-8'), end='')
+        print(stderr_.decode('utf-8'), end='')
+        
+        if re.search(b'time elapsed:', stdout_):
+            runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
+            status = "SUCCESS"
+        elif re.search(b'=====UNKNOWN=====', stdout_):
+            runtime = cutoff
+            status = "TIMEOUT"        
+        
+    except subprocess.TimeoutExpired:
+        print("timeoutttttttttttttttttt")
+        kill(io.pid)
         runtime = cutoff
         status = "TIMEOUT"
 
@@ -472,3 +476,9 @@ class CBC(GenericSolverExpansion):
             writeToFile.append('instance_file = instances.txt')
             with open('scenario_' + str(i) + '.txt', 'w') as f:
                 f.write('\n'.join(writeToFile))
+
+def kill(proc_pid):
+    process = psutil.Process(proc_pid)
+    for proc in process.children(recursive=True):
+        proc.kill()
+    process.kill()
