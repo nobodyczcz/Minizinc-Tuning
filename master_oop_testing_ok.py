@@ -271,7 +271,7 @@ def main():
     except KeyboardInterrupt:
         print("\nKeyboardInterrupt has been caught.")
         for process in psutil.process_iter():      
-            if set(['python', '--scenario', solver.outputdir]).issubset(set(process.cmdline())):
+            if set(['java', '-Xmx1024m', '-cp']).issubset(set(process.cmdline())):
                 print(' '.join(process.cmdline()))
                 print('Process found. Terminating it.')
                 process.terminate()

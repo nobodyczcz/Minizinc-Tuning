@@ -317,7 +317,7 @@ class GenericSolverExpansion(GenericSolverBase):
         print('{} SMAC optimization completes'.format(self.get_current_timestamp()))
         print('{} Benchmarking starts'.format(self.get_current_timestamp()))
         for instance in self.instanceList:
-            cmd = 'find ' + os.path.join('.', self.outputdir) + ' -name traj_old.csv'
+            cmd = 'find ' + os.path.join('./smac-output', self.outputdir) + ' -name traj-run*.txt'
             stdout_, _ = self.run_cmd(cmd)
             self.run_benchmark(batch, instance, stdout_)
 
@@ -388,7 +388,7 @@ def cplex_wrapper(n, n_thread, cplex_dll):
     (stdout_, stderr_) = io.communicate()
     #io.wait()
 
-    eprint("stdout:", stdout_.decode('utf-8'), "\nstderr:", stderr_.decode('utf-8'))
+    #eprint("stdout:", stdout_.decode('utf-8'), "\nstderr:", stderr_.decode('utf-8'))
 
 
     status = "CRASHED"
