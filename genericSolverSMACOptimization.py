@@ -195,25 +195,27 @@ class GenericSolverExpansion(GenericSolverBase):
     def psmac_args(self):
 
         cmd = []
-        (stdout_, stderr_) = self.run_cmd('which smac')
-        if len(stdout_) == 0:
-            raise Exception("SMAC path not found in environment.")
-        else:
-            smac_path = stdout_.decode('utf-8').strip('\n')
+        #(stdout_, stderr_) = self.run_cmd('which smac')
+        #if len(stdout_) == 0:
+        #    raise Exception("SMAC path not found in environment.")
+        #else:
+        #    smac_path = stdout_.decode('utf-8').strip('\n')
 
+        smac_path = '/home/user/Desktop/smac-v2.10.03-master-778/smac'
+        
         for i in range(self.nSMAC):
             tmp = ''
             if self.solverFlag == 0:
-                tmp += '(python ' + smac_path + ' --scenario scenario_0.txt --seed ' + str(randint(1, 999999)) + ' --shared_model True ' + '--output_dir ' + self.outputdir + ' --input_psmac_dirs ' + self.outputdir + '/run*'
+                tmp += '( ' + smac_path + ' --scenario-file scenario_0.txt --seed ' + str(randint(1, 999999)) + ' --shared-model-mode True ' + '--rungroup ' + self.outputdir + ' --validation false'
                 if self.verboseOnOff:
-                    tmp += ' --verbose DEBUG)'
+                    tmp += ' --console-log-level DEBUG)'
                 else:
                     tmp += ')'
                 cmd.append(tmp)
             elif self.solverFlag == 1:
-                tmp += '(python ' + smac_path + ' --scenario scenario_' + str(i) + '.txt --seed ' + str(randint(1, 999999)) + ' --shared_model True ' + '--output_dir ' + self.outputdir + ' --input_psmac_dirs ' + self.outputdir + '/run*'
+                tmp += '( ' + smac_path + ' --scenario-file scenario_' + str(i) + '.txt --seed ' + str(randint(1, 999999)) + ' --shared-model-mode True ' + '--rungroup ' + self.outputdir + ' --validation false'
                 if self.verboseOnOff:
-                    tmp += ' --verbose DEBUG)'
+                    tmp += ' --console-log-level DEBUG)'
                 else:
                     tmp += ')'
                 cmd.append(tmp)
@@ -346,13 +348,13 @@ class CPLEX(GenericSolverExpansion):
         for i in range(self.nSMAC):
             writeToFile = []
             writeToFile.append('algo = python -u ./cplex_wrapper_{}.py'.format(i))
-            writeToFile.append('paramfile = ./{}'.format(self.pcsFile))
+            writeToFile.append('pcs-file = ./{}'.format(self.pcsFile))
             writeToFile.append('execdir = .')
-            writeToFile.append('deterministic = 0')
-            writeToFile.append('run_obj = runtime')
-            writeToFile.append('overall_obj = PAR10')
-            writeToFile.append('cutoff_time = {}'.format(self.cutOffTime))
-            writeToFile.append('wallclock-limit = {}'.format(self.tuneTimeLimit))
+            writeToFile.append('deterministic = 1')
+            writeToFile.append('runObj = runtime')
+            writeToFile.append('overall_obj = MEAN10')
+            writeToFile.append('target_run_cputime_limit = {}'.format(self.cutOffTime))
+            writeToFile.append('wallclock_limit = {}'.format(self.tuneTimeLimit))
             writeToFile.append('instance_file = instances.txt')
             with open('scenario_' + str(i) + '.txt', 'w') as f:
                 f.write('\n'.join(writeToFile))
@@ -386,8 +388,8 @@ def cplex_wrapper(n, n_thread, cplex_dll):
     (stdout_, stderr_) = io.communicate()
     #io.wait()
 
-    print(stdout_.decode('utf-8'), end='')
-    print(stderr_.decode('utf-8'), end='')
+    eprint("stdout:", stdout_.decode('utf-8'), "\nstderr:", stderr_.decode('utf-8'))
+
 
     status = "CRASHED"
     runtime = 99999
@@ -399,7 +401,7 @@ def cplex_wrapper(n, n_thread, cplex_dll):
         runtime = cutoff
         status = "TIMEOUT"
 
-    print('Result for SMAC: {}, {}, {}, 0, {}, {}'.format(status, runtime, runlength, seed, specifics))
+    print('Result of this algorithm run: {}, {}, {}, 0, {}, {}'.format(status, runtime, runlength, seed, specifics))
 
 
 def cbc_wrapper(n_thread):
@@ -426,9 +428,8 @@ def cbc_wrapper(n_thread):
     
     try:
         (stdout_, stderr_) = io.communicate(timeout=cutoff)
-        
-        print(stdout_.decode('utf-8'), end='')
-        print(stderr_.decode('utf-8'), end='')
+
+        eprint("stdout:", stdout_.decode('utf-8'), "\nstderr:", stderr_.decode('utf-8'))
         
         if re.search(b'time elapsed:', stdout_):
             runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
@@ -443,7 +444,7 @@ def cbc_wrapper(n_thread):
         runtime = cutoff
         status = "TIMEOUT"
 
-    print('Result for SMAC: {}, {}, {}, 0, {}, {}'.format(status, runtime, runlength, seed, specifics))
+    print('Result of this algorithm run: {}, {}, {}, 0, {}, {}'.format(status, runtime, runlength, seed, specifics))
 
 class CBC(GenericSolverExpansion):
 
@@ -466,13 +467,13 @@ class CBC(GenericSolverExpansion):
         for i in range(1):
             writeToFile = []
             writeToFile.append('algo = python -u ./cbc_wrapper_{}.py'.format(i))
-            writeToFile.append('paramfile = ./{}'.format(self.pcsFile))
+            writeToFile.append('pcs-file = ./{}'.format(self.pcsFile))
             writeToFile.append('execdir = .')
-            writeToFile.append('deterministic = 0')
-            writeToFile.append('run_obj = runtime')
-            writeToFile.append('overall_obj = PAR10')
-            writeToFile.append('cutoff_time = {}'.format(self.cutOffTime))
-            writeToFile.append('wallclock-limit = {}'.format(self.tuneTimeLimit))
+            writeToFile.append('deterministic = 1')
+            writeToFile.append('runObj = runtime')
+            writeToFile.append('overall_obj = MEAN10')
+            writeToFile.append('target_run_cputime_limit = {}'.format(self.cutOffTime))
+            writeToFile.append('wallclock_limit = {}'.format(self.tuneTimeLimit))
             writeToFile.append('instance_file = instances.txt')
             with open('scenario_' + str(i) + '.txt', 'w') as f:
                 f.write('\n'.join(writeToFile))
@@ -482,3 +483,6 @@ def kill(proc_pid):
     for proc in process.children(recursive=True):
         proc.kill()
     process.kill()
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
