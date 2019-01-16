@@ -1,1 +1,0 @@
-mapping_full2x2_mp3.mzn
