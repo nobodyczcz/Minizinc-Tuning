@@ -1,9 +1,0 @@
-algo = python -u ./cplex_wrapper_0.py
-pcs-file = .//mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/Minizinc-Tuning/cache/temppcs.pcs
-execdir = .
-deterministic = 1
-runObj = runtime
-overall_obj = MEAN10
-target_run_cputime_limit = 3.9969
-wallclock_limit = 3600
-instance_file = instances.txt

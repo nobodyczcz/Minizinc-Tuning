@@ -1,2 +1,0 @@
-model0data0.mzn
-model0data1.mzn
