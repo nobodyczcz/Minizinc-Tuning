@@ -12,10 +12,16 @@ This is a Automatic parameter tunning program for Minizinc solvers. Currently su
 2. Python 3.x
 
    This program is written in python. (At first we use SMAC3 in python, which require some dependencies only working on linux, but based on the consideration of cross-platform we move to SMAC2 in Java)
+ 
+3. psutil
 
-3. Minizinc
+   The program require psutil python module. Anaconda have this module on default. If you meet error "No module named 'psutil'", you can install it by:
    
-4. Currently only working on Linux. But will soon working on Windows and Mac
+   `pip install psutil`
+
+4. Minizinc
+   
+5. Currently only working on Linux. But will soon working on Windows and Mac
 
 # Usage
 
