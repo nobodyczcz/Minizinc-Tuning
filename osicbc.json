@@ -1,0 +1,465 @@
+{
+    "gomory": {
+        "type": "categorical",
+        "range": [
+            "ifmove",
+            "on",
+            "off",
+            "root",
+            "forceon"
+        ],
+        "default": "ifmove"
+    },
+    "cuts": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off",
+            "root",
+            "ifmove",
+            "forceon"
+        ],
+        "default": "on"
+    },
+    "two": {
+        "type": "categorical",
+        "range": [
+            "root",
+            "on",
+            "off",
+            "ifmove",
+            "forceon"
+        ],
+        "default": "root"
+    },
+    "heur": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off"
+        ],
+        "default": "on"
+    },
+    "presolve": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off"
+        ],
+        "default": "on"
+    },
+    "flow": {
+        "type": "categorical",
+        "range": [
+            "ifmove",
+            "on",
+            "off",
+            "root",
+            "forceon"
+        ],
+        "default": "ifmove"
+    },
+    "reduce": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "root",
+            "ifmove",
+            "forceon"
+        ],
+        "default": "off"
+    },
+    "knapsack": {
+        "type": "categorical",
+        "range": [
+            "ifmove",
+            "on",
+            "off",
+            "root",
+            "forceon"
+        ],
+        "default": "ifmove"
+    },
+    "probing": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "root",
+            "ifmove",
+            "forceOn",
+            "onglobal",
+            "forceonglobal",
+            "forceOnBut",
+            "forceOnStrong",
+            "forceOnButStrong",
+            "strongRoot"
+        ],
+        "default": "on"
+    },
+    "dins": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "local": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off"
+        ],
+        "default": "off"
+    },
+    "combine": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "constraint": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off"
+        ],
+        "default": "off"
+    },
+    "mixed": {
+        "type": "categorical",
+        "range": [
+            "ifmove",
+            "on",
+            "off",
+            "root",
+            "forceon"
+        ],
+        "default": "ifmove"
+    },
+    "reduce2": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "root",
+            "longRoot"
+        ],
+        "default": "off"
+    },
+    "Node": {
+        "type": "categorical",
+        "range": [
+            "hybrid",
+            "fewest",
+            "upfewest",
+            "downfewest",
+            "updepth"
+        ],
+        "default": "fewest"
+    },
+    "rins": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "zero": {
+        "type": "categorical",
+        "range": [
+            "ifmove",
+            "on",
+            "off",
+            "root",
+            "forceon"
+        ],
+        "default": "ifmove"
+    },
+    "divings": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "before"
+        ],
+        "default": "off"
+    },
+    "preprocess": {
+        "type": "categorical",
+        "range": [
+            "sos",
+            "on",
+            "equal",
+            "aggregate",
+            "save"
+        ],
+        "default": "sos"
+    },
+    "lagomory": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "endonlyroot",
+            "endcleanroot",
+            "endonly",
+            "endclean",
+            "endboth"
+        ],
+        "default": "off"
+    },
+    "clique": {
+        "type": "categorical",
+        "range": [
+            "ifmove",
+            "on",
+            "off",
+            "root",
+            "forceon"
+        ],
+        "default": "ifmove"
+    },
+    "lift": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "root",
+            "ifmove",
+            "forceon"
+        ],
+        "default": "off"
+    },
+    "residual": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "root",
+            "ifmove",
+            "forceon"
+        ],
+        "default": "off"
+    },
+    "round": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off",
+            "before",
+            "both"
+        ],
+        "default": "on"
+    },
+    "feas": {
+        "type": "categorical",
+        "range": [
+            "on",
+            "off",
+            "before",
+            "both"
+        ],
+        "default": "on"
+    },
+    "combine2": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "proximity": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "randomi": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "rens": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "vnd": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "divingg": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "divingp": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "divingf": {
+        "type": "categorical",
+        "range": [
+            "off",
+            "on",
+            "before",
+            "both"
+        ],
+        "default": "off"
+    },
+    "cutl": {
+        "type": "ordinal",
+        "range": [
+            "-1",
+            "1000",
+            "10000",
+            "100000",
+            "1000000",
+            "5000000",
+            "20000000"
+        ],
+        "default": "-1"
+    },
+    "dives": {
+        "type": "integer",
+        "range": [
+            0,
+            200
+        ],
+        "default": 100
+    },
+    "expensive": {
+        "type": "integer",
+        "range": [
+            0,
+            20
+        ],
+        "default": 5
+    },
+    "integert": {
+        "type": "real",
+        "range": [
+            1e-10,
+            0.01
+        ],
+        "default": 1e-06
+    },
+    "passp": {
+        "type": "integer",
+        "range": [
+            0,
+            10
+        ],
+        "default": 5
+    },
+    "pret": {
+        "type": "real",
+        "range": [
+            1e-10,
+            0.01
+        ],
+        "default": 1e-08
+    },
+    "strong": {
+        "type": "integer",
+        "range": [
+            0,
+            20
+        ],
+        "default": 5
+    },
+    "trust": {
+        "type": "integer",
+        "range": [
+            0,
+            20
+        ],
+        "default": 5
+    },
+    "cutd": {
+        "type": "ordinal",
+        "range": [
+            "-1",
+            "1000",
+            "10000",
+            "100000",
+            "1000000",
+            "5000000",
+            "20000000"
+        ],
+        "default": "-1"
+    },
+    "passc": {
+        "type": "integer",
+        "range": [
+            -1,
+            200
+        ],
+        "default": -1
+    },
+    "diveo": {
+        "type": "integer",
+        "range": [
+            -1,
+            25
+        ],
+        "default": -1
+    },
+    "fraction": {
+        "type": "ordinal",
+        "range": [
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4",
+            "0.5",
+            "0.6",
+            "0.7",
+            "0.8",
+            "0.9"
+        ],
+        "default": "0.5"
+    }
+}
