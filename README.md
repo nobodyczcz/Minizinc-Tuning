@@ -5,7 +5,7 @@ This is a Automatic parameter tunning program for Minizinc solvers. Currently su
 
 # Requirement
 
-1. Java (8 or higher)
+1. Java (Tested on 8, not sure does it working on 9 or 10)
 
    SMAC2 is written in java.
    
