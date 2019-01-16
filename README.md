@@ -15,9 +15,7 @@ This is a Automatic parameter tunning program for Minizinc solvers. Currently su
  
 3. psutil
 
-   The program require psutil python module. Anaconda have this module on default. If you meet error "No module named 'psutil'", you can install it by:
-   
-   `pip install psutil`
+   The program require psutil python module. Anaconda have this module on default. If you meet error "No module named 'psutil'", you can click [here](https://github.com/giampaolo/psutil/blob/master/INSTALL.rst) to install it.
 
 4. Minizinc
    
