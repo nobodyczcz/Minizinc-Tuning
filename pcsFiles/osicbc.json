@@ -289,16 +289,6 @@
         ],
         "default": "off"
     },
-    "randomi": {
-        "type": "categorical",
-        "range": [
-            "off",
-            "on",
-            "before",
-            "both"
-        ],
-        "default": "off"
-    },
     "rens": {
         "type": "categorical",
         "range": [
