@@ -236,8 +236,8 @@ def main():
         initializer.cut_off_time_calculation()
 
         #generate wrapper and smac scenario
-        initializer.pSMAC_wrapper_generator()
-        initializer.pSMAC_scenario_generator()
+        initializer.pSMAC_wrapper_generator(args.solver)
+        initializer.pSMAC_scenario_generator(args.solver)
 
         '''
         Start Tunning
@@ -264,7 +264,7 @@ def main():
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")
-        initializer.remove_tmp_files()
+        #initializer.remove_tmp_files()
 
 
     # '''

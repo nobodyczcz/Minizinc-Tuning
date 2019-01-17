@@ -1,5 +1,6 @@
-import sys, os, re, multiprocessing, subprocess, psutil, time
+import sys, os, re, multiprocessing, subprocess, psutil, time, shlex
 from subprocess import Popen, PIPE
+from random import randint
 
 def kill(proc_pid):
     process = psutil.Process(proc_pid)
@@ -7,11 +8,11 @@ def kill(proc_pid):
         proc.kill()
     process.kill()
 
-def get_current_timestamp(self):
+def get_current_timestamp():
     '''
     Get current timestamp
     '''
-    return time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime(time.time()))    
+    return time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))    
 
 def eprint(*args, **kwargs):
     """
@@ -19,7 +20,15 @@ def eprint(*args, **kwargs):
     """
     print(*args, file=sys.stderr, **kwargs)
 
-def cplex_wrapper(n, n_thread, cplex_dll):
+def seperateInstance(instance):
+    temp = instance.split('|')
+    instance = ''
+    for i in temp:
+        i = '"'+i+'" '
+        instance = instance + i
+    return instance
+
+def cplex(n_thread, cplex_dll):
 
     instance = sys.argv[1]
     specifics = sys.argv[2]
@@ -27,21 +36,24 @@ def cplex_wrapper(n, n_thread, cplex_dll):
     runlength = int(sys.argv[4])
     seed = int(sys.argv[5])
     params = sys.argv[6:]
-
+    print("#########",instance)
+    instance = seperateInstance(instance)
 
     paramfile = 'CPLEX Parameter File Version 12.6\n'
 
     for name, value in zip(params[::2], params[1::2]):
         paramfile += name.strip('-') + '\t' + value + '\n'
-
-    with open('tmpParamRead_' + str(n) , 'w') as f:
+    
+    tempParam = get_current_timestamp() + str(randint(1, 999999))
+    with open(tempParam , 'w') as f:
         f.write(paramfile)
 
-    cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --time-limit ' + str(cutoff * 1000) + ' --solver cplex ' + instance     + ' --readParam tmpParamRead_' + str(n)     + ' --cplex-dll ' + cplex_dll
-
-
-    io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
+    cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --time-limit ' + str(cutoff * 1000) + ' --solver cplex ' + instance     + ' --readParam ' + tempParam     + ' --cplex-dll ' + cplex_dll
+    cmd = shlex.split(cmd)
+    io = Popen(cmd, stdout=PIPE, stderr=PIPE)
     (stdout_, stderr_) = io.communicate()
+    print('out: ', stdout_)
+    print('error: ', stderr_)
     #io.wait()
 
     #eprint("stdout:", stdout_.decode('utf-8'), "\nstderr:", stderr_.decode('utf-8'))
@@ -49,6 +61,7 @@ def cplex_wrapper(n, n_thread, cplex_dll):
 
     status = "CRASHED"
     runtime = 99999
+    os.remove(tempParam)
 
     if re.search(b'time elapsed:', stdout_):
         runtime = float(re.search(b'(?:mzn-stat time=)(\d+\.\d+)', stdout_).group(1))
@@ -60,7 +73,7 @@ def cplex_wrapper(n, n_thread, cplex_dll):
     print('Result of this algorithm run: {}, {}, {}, 0, {}, {}'.format(status, runtime, runlength, seed, specifics))
 
 
-def cbc_wrapper(n_thread):
+def osicbc(n_thread,empty):
 
     instance = sys.argv[1]
     specifics = sys.argv[2]
@@ -69,14 +82,16 @@ def cbc_wrapper(n_thread):
     seed = int(sys.argv[5])
     params = sys.argv[6:]
 
+    instance = seperateInstance(instance)
+
     cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --time-limit ' \
     + str(cutoff * 1000) + ' --solver osicbc ' + instance + ' --cbcArgs "'
 
     for name, value in zip(params[::2], params[1::2]):
         cmd += ' ' + name + ' ' + value
     cmd += '"'
-
-    io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
+    cmd = shlex.split(cmd)
+    io = Popen(cmd, stdout=PIPE, stderr=PIPE)
     
     status = "CRASHED"
     runtime = 99999

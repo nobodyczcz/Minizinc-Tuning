@@ -59,7 +59,7 @@ class CbcTunning(Tunning):
         
         for i in range(self.nSMAC):
             tmp = ''
-            tmp += '"'+self.smac_path + '" --scenario-file scenario_0.txt --seed ' + str(randint(1, 999999)) + ' --shared-model-mode '+ self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir + ' --validation false'
+            tmp += '"'+self.smac_path + '" --scenario-file scenario_.txt --seed ' + str(randint(1, 999999)) + ' --shared-model-mode '+ self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir + ' --validation false'
             if self.verboseOnOff:
                 tmp += ' --console-log-level DEBUG'
             cmd.append(tmp)
@@ -83,7 +83,7 @@ class CplexTunning(Tunning):
         
         for i in range(self.nSMAC):
             tmp = ''
-            tmp += '"'+self.smac_path + '" --scenario-file scenario_' + str(i) + '.txt --seed ' + str(randint(1, 999999)) + ' --shared-model-mode ' + self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir + ' --validation false'
+            tmp += '"'+self.smac_path + '" --scenario-file scenario_.txt --seed ' + str(randint(1, 999999)) + ' --shared-model-mode ' + self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir + ' --validation false'
             if self.verboseOnOff:
                 tmp += ' --console-log-level DEBUG'
             cmd.append(tmp)
