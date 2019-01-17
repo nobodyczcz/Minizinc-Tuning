@@ -264,7 +264,7 @@ def main():
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")
-        #initializer.remove_tmp_files()
+        initializer.remove_tmp_files()
 
 
     # '''
