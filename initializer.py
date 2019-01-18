@@ -1,8 +1,9 @@
-import sys, os, re, multiprocessing, psutil, time, inspect
-from subprocess import Popen, PIPE
+import sys, os, re, multiprocessing, psutil, time, inspect,shlex
+from subprocess import Popen, PIPE, TimeoutExpired
 from random import randint
 
-class initializer():
+
+class Initializer():
     '''
     This class handle the initialization of tunning,
     which include prepare all required files under cache directory.
@@ -24,23 +25,34 @@ class initializer():
         self.instanceList = None
         self.initialCwd = initialCwd
     
+
     def get_current_timestamp(self):
         '''
         Get current timestamp
         '''
         return time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime(time.time()))
 
-    def run_cmd(self, cmd):
+    def run_cmd(self, cmd,cutOffTime=None):
         '''
         Excecute command line arguments in the background
         '''
-        io = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
-        (stdout_, stderr_) = io.communicate()
-        #io.wait()
-        #if len(stdout_) == 0:
-        #    raise Exception(stderr_.decode('utf-8'))
-        #else:
-        #    return stdout_, stderr_
+        cmd = shlex.split(cmd)
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        try:
+            if cutOffTime is not None:
+                (stdout_, stderr_) = io.communicate(timeout=cutOffTime)
+                
+            else:
+                (stdout_, stderr_) = io.communicate()
+            #io.wait()
+            #if len(stdout_) == 0:
+            #    raise Exception(stderr_.decode('utf-8'))
+            #else:
+            #    return stdout_, stderr_
+            
+        except TimeoutExpired as e:
+            io.kill()
+            print('Time out')
         return stdout_, stderr_
 
     def run_solver(self,instance):
@@ -70,7 +82,7 @@ class initializer():
         '''
         print('{} Calculating Cutoff Time'.format(self.get_current_timestamp()))
         if self.cutOffTime == 0:
-            self.cutOffTime = self.instance_runtime() * 3 # Give 3 times of margin of safety for cutoff
+            self.cutOffTime = self.instance_runtime() * 2 # Give 2 times of margin of safety for cutoff
         print("done")
         print('CutoffTime set as: ',self.cutOffTime)
 
@@ -200,15 +212,18 @@ class initializer():
                 for setting in res[-3:]:
                     params = self.param_generate(setting)
                     cmd = self.cmd_generate(instance, 1, params)
-                    avgtime = self.run_minizinc(batch,cmd )
-                    benchmark[count] = avgtime
-                    benchset[count] = setting
+                    try:
+                        avgtime = self.run_minizinc(batch,cmd,self.cutOffTime )
+                        benchmark[count] = avgtime
+                        benchset[count] = setting
+                        print('Average Time:', avgtime)
+                    except:
+                        print('No solution. Could be out of time limit.')
                     count+=1
-                    print('Average Time:', avgtime)
 
         if len(benchmark) != 0:
             cmd = self.cmd_generate(instance,0, '')
-            avgtime = self.run_minizinc(batch,cmd)
+            avgtime = self.run_minizinc(batch,cmd,self.cutOffTime)
             benchmark['base'] = avgtime
             print('Base Time:', avgtime)
         else:
@@ -220,18 +235,22 @@ class initializer():
             print("Default setting is best")
             return
         setting = benchset[best_args]
-        filename = re.search("([^\/]+(.mzn))|([^\/]+(.dzn))",instance)
-        finalParam = self.param_generate(setting,self.initialCwd+'/'+filename)
+        modelName = re.search("([^\/]+(.mzn))",instance).group(1)
+        dataName = re.search("([^\/]+(.dzn))",instance).group(1)
+        fileName = modelName + dataName + time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
+        finalParam = self.param_generate(setting,self.initialCwd+'/'+fileName)
         print("=" * 50)
         print('Recommendation for {} :\n{}'.format(instance,finalParam))
         print('Runtime: {}s'.format(round(benchmark[best_args], 3)))
         print("=" * 50)
 
-    def run_minizinc(self, batch, cmd):
+    def run_minizinc(self, batch, cmd,cutOffTime=None):
+        '''
+        run minizinc for batch times. calculate average runtime.
+        '''
         avgtime = 0
         for j in range(batch):            
-            stdout_, stderr_ = self.run_cmd(cmd)
-
+            stdout_, stderr_ = self.run_cmd(cmd,cutOffTime)
             if re.search(b'time elapsed:', stdout_):
                 avgtime += float(re.search(b'(?:time=)(\d+\.\d+)', stdout_).group(1))
             else:
@@ -251,9 +270,9 @@ class initializer():
 
 
 
-class cbcInitial(initializer):
+class CbcInitial(Initializer):
     def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd):
-        initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd)
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd)
     
     def param_generate(self,setting,output=None):
         arglist = ''
@@ -271,7 +290,6 @@ class cbcInitial(initializer):
         for i in temp:
             i = '"'+i+'" '
             instance = instance + i
-        instance = " ".join(instance)
         cmd = 'minizinc -p ' + str(self.nThreadMinizinc) + ' --output-time -s --solver osicbc ' + instance
         if runmode == 1:
             cmd = cmd + ' --cbcArgs ' + '"' + params + '"'
@@ -292,9 +310,9 @@ class cbcInitial(initializer):
 
         return ' '.join(paramList)
 
-class cplexInitial(initializer):
+class CplexInitial(Initializer):
     def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd):
-        initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd)
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd)
     
     def param_generate(self,setting,output=None):
         param = 'CPLEX Parameter File Version 12.6\n'

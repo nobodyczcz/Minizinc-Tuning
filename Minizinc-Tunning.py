@@ -216,10 +216,10 @@ def main():
     '''
 
     try:
-        if args.solver == "osicbc" :
-            initializer = cbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll,programPath,args.psmac,initialCwd)
+        if args.solver == "osicbc":
+            initializer = CbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll,programPath,args.psmac,initialCwd)
         elif args.solver == "cplex":
-            initializer = cplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll,programPath,args.psmac,initialCwd)
+            initializer = CplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll,programPath,args.psmac,initialCwd)
         else:
             raise Exception("Do not support solver: ",args.solver)
         
