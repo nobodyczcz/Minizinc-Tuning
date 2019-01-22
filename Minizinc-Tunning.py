@@ -13,7 +13,11 @@ from initializer import *
 from tunning import *
 
 def argparser():
-        #Initialize the parser and define the description information that will be displayed in help.
+    '''
+    Initialize the parser and define the description information that will be displayed in help.
+    :return: parser.parse_args()
+    '''
+
     parser = argparse.ArgumentParser(prog='Parameter tunning tool',\
                                      formatter_class=argparse.RawTextHelpFormatter,\
                                      description='''\
@@ -39,7 +43,7 @@ def argparser():
 
     
     #Define arguments and their help information
-    parser.add_argument('--solver',choices=['osicbc','cplex'],required=True,metavar='osicbc/cplex',\
+    parser.add_argument('--solver',choices=['osicbc','cplex','gurobi'],required=True,metavar='osicbc/cplex',\
                         help='''\
     You can choose osicbc or cplex as solver. 
     If you choose cplex you need to specify the dll file of 
@@ -135,13 +139,13 @@ def argparser():
     
 def main():
     """
-    This is then main framework for tunning program. The main defines arguments format, 
-    validates the arguments format given, and control the whole process of the tunning program.  
-    
+    This is then main framework for tunning program. The main defines arguments format,
+    validates the arguments format given, and control the whole process of the tunning program.
+
     Args and value explaination:
-        args.solver   
+        args.solver
                         string, the name of solver
-        args.cplex_dll    
+        args.cplex_dll
                         string, the path of
         args.cut
                         int, cut off time by seconds
@@ -162,7 +166,8 @@ def main():
         args.v
                         boolean, -v True or False
         pcsFile
-                        string, file name of pcs file
+                        string, file name of pcs fil
+    :return: None
     """
     
     '''
@@ -170,21 +175,20 @@ def main():
     '''
     args = argparser()
 
-    #solver check
+    #check does user provide cplex-dll when using cplex
     if args.solver == "cplex":
         if args.cplex_dll == None:
             raise Exception('You must specify the path of cplex dll file when using cplex.')
     
     '''
-    Parameter file pre check
+    Parameter file pre check.
+    Convert json pcs file to Smac pcs file format
     '''
     converter = pcsConverter()
     initialCwd = os.getcwd()
-    print(sys.path[0])
     filename = inspect.getframeinfo(inspect.currentframe()).filename
     programPath = os.path.dirname(os.path.abspath(filename))
     pcsFile = converter.jsonToPcs(args.pcsJson_file,sys.path[0]+"/cache/temppcs.pcs")
-    print(pcsFile)
     
     '''
     Instances pre check
@@ -214,28 +218,32 @@ def main():
     Tunning initialization
     In this step the program will generate related temperary files
     '''
+    if args.solver == "osicbc":
+        initializer = CbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
+                                 args.cplex_dll, programPath, args.psmac, initialCwd)
+    elif args.solver == "cplex":
+        initializer = CplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
+                                   args.cplex_dll, programPath, args.psmac, initialCwd)
+    elif args.solver == "gurobi":
+        initializer = GurobiInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
+                                    args.cplex_dll, programPath, args.psmac, initialCwd)
+    else:
+        raise Exception("Do not support solver: ", args.solver)
 
     try:
-        if args.solver == "osicbc":
-            initializer = CbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll,programPath,args.psmac,initialCwd)
-        elif args.solver == "cplex":
-            initializer = CplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances, args.cplex_dll,programPath,args.psmac,initialCwd)
-        else:
-            raise Exception("Do not support solver: ",args.solver)
-        
-        #combine instances fils and generate relating temp files
+        # combine instances fils and generate relating temp files
         initializer.process_instance()
 
-        #check threads settings
+        # check threads settings
         initializer.process_thread()
 
-        #change working directory to /cache
+        # change working directory to /cache
         os.chdir(sys.path[0]+"/cache") 
         
-        #Calculate cut off time if use didn't specify
+        # Calculate cut off time if use didn't specify
         initializer.cut_off_time_calculation()
 
-        #generate wrapper and smac scenario
+        # generate wrapper and smac scenario
         initializer.pSMAC_wrapper_generator(args.solver)
         initializer.pSMAC_scenario_generator(args.solver)
 
@@ -244,10 +252,7 @@ def main():
         '''
         smacPath = "../smac-v2/smac"
         print("smac path: ",smacPath)
-        if args.solver == "osicbc" :
-            tunning = CbcTunning(args.v,args.psmac,initializer.outputdir,smacPath)
-        elif args.solver == "cplex":
-            tunning = CplexTunning(args.v,args.psmac,initializer.outputdir,smacPath)
+        tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath)
 
         tunning.runSmac()
 
@@ -260,17 +265,12 @@ def main():
                 process.terminate()
     finally:
         try:
-            initializer.benchmark_main(10)
+            initializer.benchmark_main(3)
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")
         initializer.remove_tmp_files()
 
-
-    # '''
-    # Handle tunning result and output
-    # '''
-    #call handle function
     
 if __name__=="__main__":
     main()

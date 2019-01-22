@@ -106,7 +106,6 @@ class Initializer():
         if len(self.insList) != 0: # If list of instance is provided
             
             instance = self.insList
-            print(instance)
             
         elif self.insPath != None: # If instance input file is provided
             try:
@@ -147,7 +146,6 @@ class Initializer():
             f.write('\n'.join(instanceList)) # Write the formated instance file to text for smac read in.
         
         self.instanceList=instanceList
-        print(instanceList)
         return instanceList # Return the combined file list for removal after smac optimization
 
     def pSMAC_wrapper_generator(self,wrapper):
@@ -187,7 +185,7 @@ class Initializer():
         cmd = 'rm -R cplex_wrapper_?.py cbc_wrapper_?.py *.pcs scenario* pre_run_time_check instances.txt benchmark_cplex_param_cfg tmpParamRead* __py* presolved* '
         self.run_cmd(cmd)
 
-    def benchmark_main(self, batch=5):
+    def benchmark_main(self, batch=5,rows=-3):
         print('{} SMAC optimization completes'.format(self.get_current_timestamp()))
         print('{} Benchmarking starts'.format(self.get_current_timestamp()))
         cmd = 'find ' + os.path.join('./smac-output', self.outputdir) + ' -name traj-run*.txt'
@@ -196,9 +194,9 @@ class Initializer():
         print("Output found: ",stdout_)
         
         for instance in self.instanceList:
-            self.run_benchmark(batch, instance, stdout_)
+            self.run_benchmark(batch, instance, stdout_,rows)
 
-    def run_benchmark(self, batch, instance, stdout_):
+    def run_benchmark(self, batch, instance, stdout_,rows):
         benchmark = {}
         benchset = {}
         count = 1
@@ -209,7 +207,8 @@ class Initializer():
                 if len(res) == 2:
                     print("No new incumbent found!")
                     continue
-                for setting in res[-3:]:
+                for setting in res[rows:]:
+                    print("Current Configeration: ",setting)
                     params = self.param_generate(setting)
                     cmd = self.cmd_generate(instance, 1, params)
                     try:
@@ -250,9 +249,11 @@ class Initializer():
         '''
         avgtime = 0
         for j in range(batch):            
+            t=time.time()
             stdout_, stderr_ = self.run_cmd(cmd,cutOffTime)
             if re.search(b'time elapsed:', stdout_):
-                avgtime += float(re.search(b'(?:time=)(\d+\.\d+)', stdout_).group(1))
+                
+                avgtime += time.time()-t
             else:
                 print(stderr_)
                 raise Exception("No solution")
@@ -290,7 +291,7 @@ class CbcInitial(Initializer):
         for i in temp:
             i = '"'+i+'" '
             instance = instance + i
-        cmd = 'minizinc -p ' + str(self.nThreadMinizinc) + ' --output-time -s --solver osicbc ' + instance
+        cmd = 'minizinc -p' + str(self.nThreadMinizinc) + ' --output-time -s --solver osicbc ' + instance
         if runmode == 1:
             cmd = cmd + ' --cbcArgs ' + '"' + params + '"'
         return cmd
@@ -335,7 +336,7 @@ class CplexInitial(Initializer):
         for i in temp:
             i = '"'+i+'" '
             instance = instance + i
-        cmd = 'minizinc -p ' + str(self.nThreadMinizinc) + ' --output-time -s --solver cplex ' + instance + ' --cplex-dll ' + self.cplex_dll
+        cmd = 'minizinc -p' + str(self.nThreadMinizinc) + ' --output-time -s --solver cplex ' + instance + ' --cplex-dll ' + self.cplex_dll
         if runmode == 1:
             cmd = cmd + ' --readParam ' + params + ' '
         return cmd
@@ -354,6 +355,59 @@ class CplexInitial(Initializer):
                 paramList.append(line.split()[0] + '\t' + str(default_val))
 
         paramList.insert(0, 'CPLEX Parameter File Version 12.6')
+        with open('pre_run_time_check', 'w') as f:
+            f.write('\n'.join(paramList))
+        return "pre_run_time_check"
+
+
+class GurobiInitial(Initializer):
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,
+                 programPath, psmac, initialCwd):
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList,
+                             cplex_dll, programPath, psmac, initialCwd)
+
+    def param_generate(self, setting, output=None):
+        fileName = 'benchmark_gurobi_param_cfg'
+        param = '# Parameter Setting for Gurobi\n'
+        for i in setting.split(',')[5:]:
+            tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
+            param += tmp[0] + '\t' + tmp[1] + '\n'
+
+        with open(fileName, 'w') as f:
+            f.write(param)
+
+        if output is not None:
+            with open(output + fileName, 'w') as f:
+                f.write(param)
+            return output + fileName
+        return fileName
+
+    def cmd_generate(self, instance, runmode, params):
+        temp = instance.replace('"', '').split('|')
+        instance = ''
+        for i in temp:
+            i = '"' + i + '" '
+            instance = instance + i
+        cmd = 'minizinc -p' + str(
+            self.nThreadMinizinc) + ' --output-time -s --solver gurobi ' + instance
+        if runmode == 1:
+            cmd = cmd + ' --readParam ' + params + ' '
+        return cmd
+
+    def default_param_config_generation(self):
+        '''
+        Read default parameters from the parameter configuration space
+        '''
+
+        lines = [line.rstrip('\n') for line in open(self.pcsFile)]
+        paramList = []
+
+        for line in lines:
+            if re.search('(\[)([a-zA-Z0-9]+)(\])', line):
+                default_val = re.search('(\[)([a-zA-Z0-9]+)(\])', line).group(2)
+                paramList.append(line.split()[0] + '\t' + str(default_val))
+
+        paramList.insert(0, '# Parameter Setting for Gurobi')
         with open('pre_run_time_check', 'w') as f:
             f.write('\n'.join(paramList))
         return "pre_run_time_check"

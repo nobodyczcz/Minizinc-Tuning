@@ -18,6 +18,6 @@ initializer.initialCwd = initialCwd
 initializer.outputdir = outputDir
 print(cutOffTime)
 
-initializer.benchmark_main(5)
+initializer.benchmark_main(1,-5)
 
 

@@ -1,0 +1,210 @@
+{
+    "BranchDir": {
+        "type": "integer",
+        "range": [
+            -1,
+            1
+        ],
+        "default": 0
+    },
+    "DegenMoves": {
+        "type": "integer",
+        "range": [
+            -1,
+            2000000000
+        ],
+        "default": -1
+    },
+    "Disconnected": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "Heuristics": {
+        "type": "real",
+        "range": [
+            0.0,
+            1.0
+        ],
+        "default": 0.05
+    },
+    "NodeMethod": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "PartitionPlace": {
+        "type": "integer",
+        "range": [
+            0,
+            31
+        ],
+        "default": 15
+    },
+    "Symmetry": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "VarBranch": {
+        "type": "integer",
+        "range": [
+            -1,
+            3
+        ],
+        "default": -1
+    },
+    "Cuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            3
+        ],
+        "default": -1
+    },
+    "CliqueCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "CoverCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "FlowCoverCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "FlowPathCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "GUBCoverCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "ImpliedCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "MIPSepCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "MIRCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "StrongCGCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "ModKCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "NetworkCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "ProjImpliedCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "SubMIPCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "ZeroHalfCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "InfProofCuts": {
+        "type": "integer",
+        "range": [
+            -1,
+            2
+        ],
+        "default": -1
+    },
+    "CutPasses": {
+        "type": "integer",
+        "range": [
+            -1,
+            2000000000
+        ],
+        "default": -1
+    },
+    "GomoryPasses": {
+        "type": "integer",
+        "range": [
+            -1,
+            2000000000
+        ],
+        "default": -1
+    }
+}
