@@ -82,7 +82,7 @@ class Initializer():
         '''
         print('{} Calculating Cutoff Time'.format(self.get_current_timestamp()))
         if self.cutOffTime == 0:
-            self.cutOffTime = self.instance_runtime() * 2 # Give 2 times of margin of safety for cutoff
+            self.cutOffTime = self.instance_runtime() * 3 # Give 3 times of margin of safety for cutoff
         print("done")
         print('CutoffTime set as: ',self.cutOffTime)
 
@@ -163,6 +163,9 @@ class Initializer():
             f.write('\n'.join(writeToFile))
     
     def pSMAC_scenario_generator(self,wrapper):
+        '''
+        Generate scenario file for running the smac.
+        '''
         print('{} Generating scenario for SMAC'.format(self.get_current_timestamp()))
         python = sys.executable
         writeToFile = []
@@ -186,6 +189,9 @@ class Initializer():
         self.run_cmd(cmd)
 
     def benchmark_main(self, batch=5,rows=-3):
+        '''
+        Find output of smac and ready for benchmark.
+        '''
         print('{} SMAC optimization completes'.format(self.get_current_timestamp()))
         print('{} Benchmarking starts'.format(self.get_current_timestamp()))
         cmd = 'find ' + os.path.join('./smac-output', self.outputdir) + ' -name traj-run*.txt'
@@ -197,13 +203,16 @@ class Initializer():
             self.run_benchmark(batch, instance, stdout_,rows)
 
     def run_benchmark(self, batch, instance, stdout_,rows):
+        '''
+        Run benchmark for each configuration found in smac output. Choose the best one and output it to user directory.
+        '''
         benchmark = {}
         benchset = {}
         count = 1
         for i in stdout_.split(b'\n'):
-            #print(i)
             if len(i) != 0:
-                res = [line.rstrip('\n') for line in open(stdout_.split(b'\n')[0].decode('utf-8'))]
+                print("Configuration file: ", i)
+                res = [line.rstrip('\n') for line in open(i.decode('utf-8'))]
                 if len(res) == 2:
                     print("No new incumbent found!")
                     continue
@@ -221,8 +230,9 @@ class Initializer():
                     count+=1
 
         if len(benchmark) != 0:
+            print("Calculting base time: ")
             cmd = self.cmd_generate(instance,0, '')
-            avgtime = self.run_minizinc(batch,cmd,self.cutOffTime)
+            avgtime = self.run_minizinc(1,cmd,self.cutOffTime) #usally base is very slow, so only run 1 time for base time.
             benchmark['base'] = avgtime
             print('Base Time:', avgtime)
         else:
@@ -245,7 +255,7 @@ class Initializer():
 
     def run_minizinc(self, batch, cmd,cutOffTime=None):
         '''
-        run minizinc for batch times. calculate average runtime.
+        run minizinc for batch times. calculate average runtime. Used in benchmark
         '''
         avgtime = 0
         for j in range(batch):            
@@ -276,6 +286,9 @@ class CbcInitial(Initializer):
         Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd)
     
     def param_generate(self,setting,output=None):
+        '''
+        Generate parameter settings for running the minizinc. Used in benchmark. Also output parameter setting.
+        '''
         arglist = ''
         for i in setting.split(',')[5:]:
             tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
@@ -286,6 +299,9 @@ class CbcInitial(Initializer):
         return arglist
 
     def cmd_generate(self,instance, runmode, params):
+        '''
+        Generate the commands used for run minizinc
+        '''
         temp = instance.replace('"','').split('|')
         instance = ''
         for i in temp:
@@ -299,7 +315,7 @@ class CbcInitial(Initializer):
 
     def default_param_config_generation(self):
         '''
-        Read default parameters from the parameter configuration space
+        Read SMAC pcs configration file and get default parameter settings from the parameter configuration space
         '''
         lines = [line.rstrip('\n') for line in open(self.pcsFile)]
         paramList = []
@@ -316,6 +332,9 @@ class CplexInitial(Initializer):
         Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd)
     
     def param_generate(self,setting,output=None):
+        '''
+        Generate parameter setting files for running the minizinc. Used in benchmark.Also output parameter setting.
+        '''
         param = 'CPLEX Parameter File Version 12.6\n'
         for i in setting.split(',')[5:]:
             tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
@@ -331,6 +350,9 @@ class CplexInitial(Initializer):
         return 'benchmark_cplex_param_cfg'
     
     def cmd_generate(self,instance, runmode, params):
+        '''
+        Generate the commands used for run minizinc
+        '''
         temp = instance.replace('"','').split('|')
         instance = ''
         for i in temp:
@@ -343,7 +365,7 @@ class CplexInitial(Initializer):
 
     def default_param_config_generation(self):
         '''
-        Read default parameters from the parameter configuration space
+        Read SMAC pcs configration file and get default parameter settings from the parameter configuration space
         '''
 
         lines = [line.rstrip('\n') for line in open(self.pcsFile)]
@@ -367,6 +389,9 @@ class GurobiInitial(Initializer):
                              cplex_dll, programPath, psmac, initialCwd)
 
     def param_generate(self, setting, output=None):
+        '''
+        Generate parameter setting files for running the minizinc. Used in Benchmark. Also output parameter setting.
+        '''
         fileName = 'benchmark_gurobi_param_cfg'
         param = '# Parameter Setting for Gurobi\n'
         for i in setting.split(',')[5:]:
@@ -383,6 +408,9 @@ class GurobiInitial(Initializer):
         return fileName
 
     def cmd_generate(self, instance, runmode, params):
+        '''
+        Generate the commands used for run minizinc
+        '''
         temp = instance.replace('"', '').split('|')
         instance = ''
         for i in temp:
@@ -396,7 +424,7 @@ class GurobiInitial(Initializer):
 
     def default_param_config_generation(self):
         '''
-        Read default parameters from the parameter configuration space
+        Read SMAC pcs configration file and get default parameter settings from the parameter configuration space
         '''
 
         lines = [line.rstrip('\n') for line in open(self.pcsFile)]

@@ -12,12 +12,14 @@ if solver == 'osicbc':
     initializer = CbcInitial(cutOffTime, 0, False, None, p, None, None, cplex_dll,None,1,None)
 elif solver == 'cplex':
     initializer = CplexInitial(cutOffTime, 0, False, None, p, None, None, cplex_dll,None,1,None)
+elif solver == 'gurobi':
+    initializer = GurobiInitial(cutOffTime, 0, False, None, p, None, None, cplex_dll,None,1,None)
 os.chdir(sys.path[0]+"/cache") 
 initializer.instanceList = [instance]
 initializer.initialCwd = initialCwd
 initializer.outputdir = outputDir
 print(cutOffTime)
 
-initializer.benchmark_main(1,-5)
+initializer.benchmark_main(1,-1)
 
 

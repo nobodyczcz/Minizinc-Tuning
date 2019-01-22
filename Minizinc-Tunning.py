@@ -33,12 +33,14 @@ def argparser():
         suitable time limit. You also can specify a cut off time for minizinc
         solve the model. If you don't specify cut off time, the program will 
         decide it.
-     4. The size of parameter spaces you want to tunning. Please read help 
-        for -p to choose a suitable pcs size. 
-     5. Number of threads for minizinc solve the model. The number of 
-        threads for minizinc also will decide how smac perform parallel search.
-        See help for -p for details
+     4. The parameter configuration file in json format. We provide several 
+        parameter configuration file uder pcsFile/ directory. You can choose
+        one. You also edit them by yourself.
+     5. Number of threads for minizinc solve the model. 
      6. The dll file for cplex, if you choose cplex as solver.
+     7. If you want to tune faster and your conputer have enough cpus. You can
+        use -psmac for parallel search (smacs will share their results in this 
+        mode.) 
                                  ''')
 
     
@@ -265,7 +267,10 @@ def main():
                 process.terminate()
     finally:
         try:
-            initializer.benchmark_main(3)
+            if args.psmac > 1:
+                initializer.benchmark_main(5,-1) # run benchmark for last 1 configuration of each output file. Each run 5 times.
+            else:
+                initializer.benchmark_main(5,-3) # run benchmark for last 3 configuration of the output file. Each run 5 times.
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")

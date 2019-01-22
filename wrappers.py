@@ -38,8 +38,7 @@ def runMinizinc(cmd,cutoff):
     try:
         (stdout_, stderr_) = io.communicate(timeout=cutoff)
 
-        print('out: ', stdout_)
-        eprint('error: ', stderr_)
+        print('[MiniZinc out] ', stdout_)
         runtime = time.time() - t
 
         if re.search(b'time elapsed:', stdout_):
@@ -49,6 +48,7 @@ def runMinizinc(cmd,cutoff):
             elif re.search(b'This is a maximization problem.', stdout_):
                 quality = -float(re.search(b'(?:mzn-stat objective=)(\d+\.\d+)', stdout_).group(1))
         elif re.search(b'=====UNKNOWN=====', stdout_):
+            eprint('[MiniZinc error] ', stderr_)
             status = "CRASHED"
     except TimeoutExpired:
         io.kill()
@@ -79,7 +79,8 @@ def cplex(n_thread, cplex_dll):
         with open(tempParam , 'w') as f:
             f.write(paramfile)
 
-        cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --solver cplex ' + instance     + ' --readParam ' + tempParam     + ' --cplex-dll ' + cplex_dll
+        cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --solver cplex ' + instance + ' --readParam '\
+              + tempParam + ' --cplex-dll ' + cplex_dll
         cmd = shlex.split(cmd)
 
         status, runtime, quality = runMinizinc(cmd,cutoff)
@@ -87,9 +88,10 @@ def cplex(n_thread, cplex_dll):
         try:
             os.remove(tempParam)
         except:
-            eprint('[warn] remove temp param file failed')
+            eprint('[Wrapper Warn] remove temp param file failed')
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, runlength, quality, seed, specifics))
-    except:
+    except Exception as e:
+        eprint('[Wrapper Exception] ', e)
         status = "CRASHED"
         runtime = 99999
         quality = 99999
@@ -118,7 +120,8 @@ def osicbc(n_thread,empty):
         status, runtime, quality = runMinizinc(cmd, cutoff)
 
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, quality, runlength, seed, specifics))
-    except:
+    except Exception as e:
+        eprint('[Wrapper Exception] ', e)
         status = "CRASHED"
         runtime = 99999
         quality = 99999
@@ -152,10 +155,11 @@ def gurobi(n_thread, cplex_dll):
         try:
             os.remove(tempParam)
         except:
-            eprint('[warn] remove temp param file failed')
+            eprint('[Wrapper warn] remove temp param file failed')
             
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, runlength, quality, seed, specifics))
-    except:
+    except Exception as e:
+        eprint('[Wrapper Exception] ', e)
         status = "CRASHED"
         runtime = 99999
         quality = 99999
