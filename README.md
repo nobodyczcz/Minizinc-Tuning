@@ -85,3 +85,7 @@ With this argument, the program will treat threads as one of parameter for tunni
 **-c**
 
 Set cut off time for each minizinc run manualy
+
+**-v**
+
+Enable verbose
