@@ -1,530 +1,534 @@
 {
-    "CPX_PARAM_LPMETHOD": {
-        "type": "integer",
-        "range": [
-            0,
-            6
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_ADVIND": {
-        "type": "integer",
-        "range": [
-            0,
-            2
-        ],
-        "default": 1
-    },
-    "CPX_PARAM_DPRIIND": {
-        "type": "integer",
-        "range": [
-            0,
-            5
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_PPRIIND": {
-        "type": "integer",
-        "range": [
-            -1,
-            4
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_CRAIND": {
-        "type": "integer",
-        "range": [
-            -1,
-            1
-        ],
-        "default": 1
-    },
-    "CPX_PARAM_BARALG": {
-        "type": "integer",
-        "range": [
-            0,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_BARSTARTALG": {
-        "type": "integer",
-        "range": [
-            1,
-            4
-        ],
-        "default": 1
-    },
-    "CPX_PARAM_BARCROSSALG": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_SIFTALG": {
-        "type": "integer",
-        "range": [
-            0,
-            4
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_BARORDER": {
-        "type": "integer",
-        "range": [
-            0,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_SUBALG": {
-        "type": "integer",
-        "range": [
-            0,
-            5
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_VARSEL": {
-        "type": "integer",
-        "range": [
-            -1,
-            4
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_BRDIR": {
-        "type": "integer",
-        "range": [
-            -1,
-            1
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_BTTOL": {
-        "type": "real",
-        "range": [
-            0.0,
-            1.0
-        ],
-        "default": 0.9999
-    },
-    "CPX_PARAM_DIVETYPE": {
-        "type": "integer",
-        "range": [
-            0,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_MIPORDTYPE": {
-        "type": "integer",
-        "range": [
-            0,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_NODESEL": {
-        "type": "integer",
-        "range": [
-            0,
-            3
-        ],
-        "default": 1
-    },
-    "CPX_PARAM_PRESLVND": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_PROBE": {
-        "type": "integer",
-        "range": [
-            -1,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_FPHEUR": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_CLIQUES": {
-        "type": "integer",
-        "range": [
-            -1,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_COVERS": {
-        "type": "integer",
-        "range": [
-            -1,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_DISJCUTS": {
-        "type": "integer",
-        "range": [
-            -1,
-            3
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_FLOWCOVERS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_FLOWPATHS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_FRACCUTS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_GUBCOVERS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_IMPLBD": {
-        "type": "integer",
-        "range": [
-            -1,
-            1
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_MCFCUTS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_MIRCUTS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_ZEROHALFCUTS": {
-        "type": "integer",
-        "range": [
-            -1,
-            2
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_SYMMETRY": {
-        "type": "integer",
-        "range": [
-            -1,
-            5
-        ],
-        "default": -1
-    },
-    "CPX_PARAM_BNDSTRENIND": {
-        "type": "integer",
-        "range": [
-            -1,
-            1
-        ],
-        "default": -1
-    },
-    "CPX_PARAM_COEREDIND": {
-        "type": "integer",
-        "range": [
-            0,
-            2
-        ],
-        "default": 2
-    },
-    "CPX_PARAM_DEPIND": {
-        "type": "integer",
-        "range": [
-            -1,
-            3
-        ],
-        "default": -1
-    },
-    "CPX_PARAM_PREDUAL": {
-        "type": "integer",
-        "range": [
-            -1,
-            1
-        ],
-        "default": 0
-    },
-    "CPX_PARAM_RELAXPREIND": {
-        "type": "integer",
-        "range": [
-            -1,
-            1
-        ],
-        "default": -1
-    },
-    "CPX_PARAM_REPEATPRESOLVE": {
-        "type": "integer",
-        "range": [
-            -1,
-            3
-        ],
-        "default": -1
-    },
-    "CPX_PARAM_REDUCE": {
-        "type": "integer",
-        "range": [
-            0,
-            3
-        ],
-        "default": 3
-    },
-    "CPX_PARAM_AGGCUTLIM": {
-        "type": "ordinal",
-        "range": [
-            "3",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "3"
-    },
-    "CPX_PARAM_CUTPASS": {
-        "type": "ordinal",
-        "range": [
-            "-1",
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_CUTSFACTOR": {
-        "type": "real",
-        "range": [
-            4.0,
-            10.0
-        ],
-        "default": 4.0
-    },
-    "CPX_PARAM_EACHCUTLIM": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000",
-            "2100000000"
-        ],
-        "default": "2100000000"
-    },
-    "CPX_PARAM_FRACCAND": {
-        "type": "ordinal",
-        "range": [
-            "10",
-            "100",
-            "200",
-            "1000",
-            "10000"
-        ],
-        "default": "200"
-    },
-    "CPX_PARAM_FRACPASS": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "10",
-            "100"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_STRONGCANDLIM": {
-        "type": "ordinal",
-        "range": [
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "10"
-    },
-    "CPX_PARAM_STRONGITLIM": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_PROBETIME": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000",
-            "1E+75"
-        ],
-        "default": "1E+75"
-    },
-    "CPX_PARAM_PERLIM": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_REINV": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "10",
-            "100",
-            "1000"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_SINGLIM": {
-        "type": "ordinal",
-        "range": [
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "10"
-    },
-    "CPX_PARAM_SCAIND": {
-        "type": "ordinal",
-        "range": [
-            "-1",
-            "0",
-            "1"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_MIPSEARCH": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "1",
-            "2"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_BBINTERVAL": {
-        "type": "ordinal",
-        "range": [
-            "0",
-            "1",
-            "7",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "7"
-    },
-    "CPX_PARAM_HEURFREQ": {
-        "type": "ordinal",
-        "range": [
-            "-1",
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_RINSHEUR": {
-        "type": "ordinal",
-        "range": [
-            "-1",
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "0"
-    },
-    "CPX_PARAM_AGGFILL": {
-        "type": "ordinal",
-        "range": [
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "10"
-    },
-    "CPX_PARAM_AGGIND": {
-        "type": "ordinal",
-        "range": [
-            "-1",
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "-1"
-    },
-    "CPX_PARAM_PREPASS": {
-        "type": "ordinal",
-        "range": [
-            "-1",
-            "0",
-            "10",
-            "100",
-            "1000",
-            "10000"
-        ],
-        "default": "-1"
+    "name":"cplex",
+    "description":"",
+    "parameters": {
+        "CPX_PARAM_LPMETHOD": {
+            "type": "integer",
+            "range": [
+                0,
+                6
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_ADVIND": {
+            "type": "integer",
+            "range": [
+                0,
+                2
+            ],
+            "default": 1
+        },
+        "CPX_PARAM_DPRIIND": {
+            "type": "integer",
+            "range": [
+                0,
+                5
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_PPRIIND": {
+            "type": "integer",
+            "range": [
+                -1,
+                4
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_CRAIND": {
+            "type": "integer",
+            "range": [
+                -1,
+                1
+            ],
+            "default": 1
+        },
+        "CPX_PARAM_BARALG": {
+            "type": "integer",
+            "range": [
+                0,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_BARSTARTALG": {
+            "type": "integer",
+            "range": [
+                1,
+                4
+            ],
+            "default": 1
+        },
+        "CPX_PARAM_BARCROSSALG": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_SIFTALG": {
+            "type": "integer",
+            "range": [
+                0,
+                4
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_BARORDER": {
+            "type": "integer",
+            "range": [
+                0,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_SUBALG": {
+            "type": "integer",
+            "range": [
+                0,
+                5
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_VARSEL": {
+            "type": "integer",
+            "range": [
+                -1,
+                4
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_BRDIR": {
+            "type": "integer",
+            "range": [
+                -1,
+                1
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_BTTOL": {
+            "type": "real",
+            "range": [
+                0.0,
+                1.0
+            ],
+            "default": 0.9999
+        },
+        "CPX_PARAM_DIVETYPE": {
+            "type": "integer",
+            "range": [
+                0,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_MIPORDTYPE": {
+            "type": "integer",
+            "range": [
+                0,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_NODESEL": {
+            "type": "integer",
+            "range": [
+                0,
+                3
+            ],
+            "default": 1
+        },
+        "CPX_PARAM_PRESLVND": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_PROBE": {
+            "type": "integer",
+            "range": [
+                -1,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_FPHEUR": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_CLIQUES": {
+            "type": "integer",
+            "range": [
+                -1,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_COVERS": {
+            "type": "integer",
+            "range": [
+                -1,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_DISJCUTS": {
+            "type": "integer",
+            "range": [
+                -1,
+                3
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_FLOWCOVERS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_FLOWPATHS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_FRACCUTS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_GUBCOVERS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_IMPLBD": {
+            "type": "integer",
+            "range": [
+                -1,
+                1
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_MCFCUTS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_MIRCUTS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_ZEROHALFCUTS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_SYMMETRY": {
+            "type": "integer",
+            "range": [
+                -1,
+                5
+            ],
+            "default": -1
+        },
+        "CPX_PARAM_BNDSTRENIND": {
+            "type": "integer",
+            "range": [
+                -1,
+                1
+            ],
+            "default": -1
+        },
+        "CPX_PARAM_COEREDIND": {
+            "type": "integer",
+            "range": [
+                0,
+                2
+            ],
+            "default": 2
+        },
+        "CPX_PARAM_DEPIND": {
+            "type": "integer",
+            "range": [
+                -1,
+                3
+            ],
+            "default": -1
+        },
+        "CPX_PARAM_PREDUAL": {
+            "type": "integer",
+            "range": [
+                -1,
+                1
+            ],
+            "default": 0
+        },
+        "CPX_PARAM_RELAXPREIND": {
+            "type": "integer",
+            "range": [
+                -1,
+                1
+            ],
+            "default": -1
+        },
+        "CPX_PARAM_REPEATPRESOLVE": {
+            "type": "integer",
+            "range": [
+                -1,
+                3
+            ],
+            "default": -1
+        },
+        "CPX_PARAM_REDUCE": {
+            "type": "integer",
+            "range": [
+                0,
+                3
+            ],
+            "default": 3
+        },
+        "CPX_PARAM_AGGCUTLIM": {
+            "type": "ordinal",
+            "range": [
+                "3",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "3"
+        },
+        "CPX_PARAM_CUTPASS": {
+            "type": "ordinal",
+            "range": [
+                "-1",
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_CUTSFACTOR": {
+            "type": "real",
+            "range": [
+                4.0,
+                10.0
+            ],
+            "default": 4.0
+        },
+        "CPX_PARAM_EACHCUTLIM": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000",
+                "2100000000"
+            ],
+            "default": "2100000000"
+        },
+        "CPX_PARAM_FRACCAND": {
+            "type": "ordinal",
+            "range": [
+                "10",
+                "100",
+                "200",
+                "1000",
+                "10000"
+            ],
+            "default": "200"
+        },
+        "CPX_PARAM_FRACPASS": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "10",
+                "100"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_STRONGCANDLIM": {
+            "type": "ordinal",
+            "range": [
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "10"
+        },
+        "CPX_PARAM_STRONGITLIM": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_PROBETIME": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000",
+                "1E+75"
+            ],
+            "default": "1E+75"
+        },
+        "CPX_PARAM_PERLIM": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_REINV": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "10",
+                "100",
+                "1000"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_SINGLIM": {
+            "type": "ordinal",
+            "range": [
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "10"
+        },
+        "CPX_PARAM_SCAIND": {
+            "type": "ordinal",
+            "range": [
+                "-1",
+                "0",
+                "1"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_MIPSEARCH": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "1",
+                "2"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_BBINTERVAL": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "1",
+                "7",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "7"
+        },
+        "CPX_PARAM_HEURFREQ": {
+            "type": "ordinal",
+            "range": [
+                "-1",
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_RINSHEUR": {
+            "type": "ordinal",
+            "range": [
+                "-1",
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "0"
+        },
+        "CPX_PARAM_AGGFILL": {
+            "type": "ordinal",
+            "range": [
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "10"
+        },
+        "CPX_PARAM_AGGIND": {
+            "type": "ordinal",
+            "range": [
+                "-1",
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "-1"
+        },
+        "CPX_PARAM_PREPASS": {
+            "type": "ordinal",
+            "range": [
+                "-1",
+                "0",
+                "10",
+                "100",
+                "1000",
+                "10000"
+            ],
+            "default": "-1"
+        }
     }
 }
