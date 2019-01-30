@@ -2,7 +2,7 @@
 
 This is a Automatic parameter tunning program for Minizinc solvers. 
 
-Currently support cplex, gurobi and osicbc and able to perform parameter tunning on multiple instanes. The program use [SMAC v2.10.03](http://www.cs.ubc.ca/labs/beta/Projects/SMAC/) to perform parameter tunning.
+Currently support cplex, gurobi and osicbc and able to perform parameter tunning on multiple instances. The program use [SMAC v2.10.03](http://www.cs.ubc.ca/labs/beta/Projects/SMAC/) to perform parameter tunning.
 
 
 # Requirement
