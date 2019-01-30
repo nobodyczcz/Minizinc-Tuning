@@ -1,25 +1,61 @@
 from initializer import *
+import argparse,inspect
 
-solver = sys.argv[1]
-outputDir = sys.argv[2]
-cutOffTime = int(sys.argv[3])
-instance = sys.argv[4]
-p = int(sys.argv[5])
-cplex_dll = sys.argv[6]
+parser = argparse.ArgumentParser(prog='Output and benchmark tool',\
+                                     formatter_class=argparse.RawTextHelpFormatter,\
+                                     description='')
+
+parser.add_argument('--solver',choices=['osicbc','cplex','gurobi'],required=True,metavar='osicbc/cplex',\
+                        help='''\
+                        ''')
+
+parser.add_argument('--outputDir',type=str,required=True,\
+                        help='''\
+                        ''')
+parser.add_argument('-c','--cutOff',type=float,\
+                        help='''\
+                        ''')
+
+parser.add_argument('instance', nargs='*', type=str, default= None,\
+                        metavar='"model-name.mzn data1.dzn data2.dzn"',\
+                        help='')
+
+parser.add_argument('-p',type=int,default = 1,\
+                        help='''\
+                        ''')
+parser.add_argument('--cplex-dll',type=str,\
+                        help='''\
+                        ''')
+parser.add_argument('-skip',default = False, action='store_true',\
+                        help='''\
+                        ''')
+args = parser.parse_args() 
+
+solver = args.solver
+outputDir = args.outputDir
+cutOffTime = args.cutOff
+instance = args.instance
+p = args.p
+cplex_dll = args.cplex_dll
 initialCwd = os.getcwd()
+filename = inspect.getframeinfo(inspect.currentframe()).filename
+programPath = os.path.dirname(os.path.abspath(filename))
 
 if solver == 'osicbc':
-    initializer = CbcInitial(cutOffTime, 0, False, None, p, None, None, cplex_dll,None,1,None)
+    initializer = CbcInitial(cutOffTime, 0, False, None, p, None, instance, cplex_dll,programPath,1,None)
 elif solver == 'cplex':
-    initializer = CplexInitial(cutOffTime, 0, False, None, p, None, None, cplex_dll,None,1,None)
+    initializer = CplexInitial(cutOffTime, 0, False, None, p, None, instance, cplex_dll,programPath,1,None)
 elif solver == 'gurobi':
-    initializer = GurobiInitial(cutOffTime, 0, False, None, p, None, None, cplex_dll,None,1,None)
-os.chdir(sys.path[0]+"/cache") 
-initializer.instanceList = [instance]
+    initializer = GurobiInitial(cutOffTime, 0, False, None, p, None, instance, cplex_dll,programPath,1,None)
+initializer.process_instance()
+os.chdir(sys.path[0]+"/cache")
 initializer.initialCwd = initialCwd
 initializer.outputdir = outputDir
 print(cutOffTime)
 
-initializer.benchmark_main(1,-1)
+if args.skip:
+    initializer.noBnechOutput(-2)
+else:
+    initializer.benchmark_main(1,-1)
 
 

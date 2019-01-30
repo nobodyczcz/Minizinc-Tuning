@@ -1,0 +1,4376 @@
+[ {
+  "@pi-id" : 2,
+  "pi-name" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/train/train.mzn|/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/train/instance.16.dzn",
+  "pi-instance-specific-info" : "0",
+  "pi-features" : { },
+  "pi-instance-id(deprecated)" : 1
+}, {
+  "@pi-id" : 3,
+  "pi-name" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/train/train.mzn|/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/train/instance.17.dzn",
+  "pi-instance-specific-info" : "0",
+  "pi-features" : { },
+  "pi-instance-id(deprecated)" : 2
+}, {
+  "@pi-id" : 4,
+  "pi-name" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/train/train.mzn|/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/train/instance.10.dzn",
+  "pi-instance-specific-info" : "0",
+  "pi-features" : { },
+  "pi-instance-id(deprecated)" : 3
+} ] {
+  "r-rc" : {
+    "@rc-id" : 2,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2,
+      "algo-exec" : "/home/czcz213/anaconda3/bin/python -u ./gurobi_.py",
+      "algo-exec-dir" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/Minizinc-Tuning/cache/.",
+      "algo-pcs" : {
+        "@pcs-id" : 2,
+        "pcs-filename" : "/./mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/Minizinc-Tuning/cache/temppcs.pcs",
+        "pcs-text" : "BranchDir categorical {-1, 0, 1} [0]\nDegenMoves integer [-1, 2000000000] [-1]\nDisconnected categorical {-1, 0, 1, 2} [-1]\nHeuristics real [0.0, 1.0] [0.05]\nNodeMethod categorical {-1, 0, 1, 2} [-1]\nPartitionPlace integer [0, 31] [15]\nSymmetry categorical {-1, 0, 1, 2} [-1]\nVarBranch categorical {-1, 0, 1, 2, 3} [-1]\nCuts categorical {-1, 0, 1, 2, 3} [-1]\nCliqueCuts categorical {-1, 0, 1, 2} [-1]\nCoverCuts categorical {-1, 0, 1, 2} [-1]\nFlowCoverCuts categorical {-1, 0, 1, 2} [-1]\nFlowPathCuts categorical {-1, 0, 1, 2} [-1]\nGUBCoverCuts categorical {-1, 0, 1, 2} [-1]\nImpliedCuts categorical {-1, 0, 1, 2} [-1]\nMIPSepCuts categorical {-1, 0, 1, 2} [-1]\nMIRCuts categorical {-1, 0, 1, 2} [-1]\nStrongCGCuts categorical {-1, 0, 1, 2} [-1]\nModKCuts categorical {-1, 0, 1, 2} [-1]\nNetworkCuts categorical {-1, 0, 1, 2} [-1]\nProjImpliedCuts categorical {-1, 0, 1, 2} [-1]\nSubMIPCuts categorical {-1, 0, 1, 2} [-1]\nZeroHalfCuts categorical {-1, 0, 1, 2} [-1]\nInfProofCuts categorical {-1, 0, 1, 2} [-1]\nCutPasses integer [-1, 2000000000] [-1]\nGomoryPasses integer [-1, 2000000000] [-1]\nPresolve categorical {-1, 0, 1, 2} [-1]\nPrePasses integer [-1, 2000000000] [-1]\nAggregate categorical {0, 1} [1]\nAggFill integer [-1, 2000000000] [-1]\nPreSparsify categorical {-1, 0, 1} [-1]\n",
+        "pcs-subspace" : { }
+      },
+      "algo-cutoff" : 2600.0,
+      "algo-deterministic" : true,
+      "algo-tae-context" : { }
+    },
+    "rc-cutoff" : 2600.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2,
+      "pisp-pi" : {
+        "@pi-id" : 2
+      },
+      "pisp-seed" : -1
+    },
+    "rc-pc" : {
+      "@pc-id" : 2,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "-1",
+        "Cuts" : "-1",
+        "DegenMoves" : "-1",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "-1",
+        "Heuristics" : "0.05",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "15",
+        "PrePasses" : "-1",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : true
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 159.70696687698364,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 160.017
+} {
+  "r-rc" : {
+    "@rc-id" : 3,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2600.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3,
+      "pisp-pi" : {
+        "@pi-id" : 3
+      },
+      "pisp-seed" : -1
+    },
+    "rc-pc" : {
+      "@pc-id" : 2
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 175.95821595191956,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 176.094
+} {
+  "r-rc" : {
+    "@rc-id" : 4,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 208.62165759165885,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 4,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1215069031",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "0",
+        "CoverCuts" : "2",
+        "CutPasses" : "580981223",
+        "Cuts" : "3",
+        "DegenMoves" : "396526756",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1932129808",
+        "Heuristics" : "0.7649271453640809",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "20",
+        "PrePasses" : "1067727571",
+        "PreSparsify" : "-1",
+        "Presolve" : "0",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "2",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 209.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 209.187
+} {
+  "r-rc" : {
+    "@rc-id" : 5,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2600.0,
+    "rc-pisp" : {
+      "@pisp-id" : 5,
+      "pisp-pi" : {
+        "@pi-id" : 4
+      },
+      "pisp-seed" : -1
+    },
+    "rc-pc" : {
+      "@pc-id" : 2
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 1724.847855091095,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 1725.01
+} {
+  "r-rc" : {
+    "@rc-id" : 6,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 229.74828142055424,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 6,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "771989851",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "0",
+        "CoverCuts" : "0",
+        "CutPasses" : "1842653371",
+        "Cuts" : "1",
+        "DegenMoves" : "1213532151",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1101688734",
+        "Heuristics" : "0.51270887718326",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "20",
+        "PrePasses" : "316667153",
+        "PreSparsify" : "-1",
+        "Presolve" : "0",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "-1",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 230.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 230.198
+} {
+  "r-rc" : {
+    "@rc-id" : 7,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 229.74828142055424,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 7,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "-1",
+        "Cuts" : "-1",
+        "DegenMoves" : "-1",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "-1",
+        "Heuristics" : "0.05",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "15",
+        "PrePasses" : "-1",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "-1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 230.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 230.19
+} {
+  "r-rc" : {
+    "@rc-id" : 8,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 229.74828142055424,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 8,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1629991913",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "2",
+        "CutPasses" : "1144713774",
+        "Cuts" : "2",
+        "DegenMoves" : "272624674",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1678468936",
+        "Heuristics" : "0.2775391459324935",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "1",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 131.4066195487976,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 131.602
+} {
+  "r-rc" : {
+    "@rc-id" : 9,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2508.8435439703717,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 8
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 2509.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 2509.187
+} {
+  "r-rc" : {
+    "@rc-id" : 10,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 229.74828142055424,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 10,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "2",
+        "CutPasses" : "1144713774",
+        "Cuts" : "-1",
+        "DegenMoves" : "272624674",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "572160155",
+        "Heuristics" : "0.2775391459324935",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "14",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 114.06723666191101,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 114.269
+} {
+  "r-rc" : {
+    "@rc-id" : 11,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2531.3847420163183,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 10
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 1674.8763766288757,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 1675.046
+} {
+  "r-rc" : {
+    "@rc-id" : 12,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 354.0454525392234,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 10
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 43.613845348358154,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 43.819
+} {
+  "r-rc" : {
+    "@rc-id" : 13,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2178.3418903344973,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 13,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1104599537",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "0",
+        "CoverCuts" : "0",
+        "CutPasses" : "482873090",
+        "Cuts" : "2",
+        "DegenMoves" : "1501709626",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "1834240654",
+        "Heuristics" : "0.4895122174784722",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "10",
+        "PrePasses" : "1547514509",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "0",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 2179.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 2179.197
+} {
+  "r-rc" : {
+    "@rc-id" : 14,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 57.700599016036094,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 14,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1716607146",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "580981223",
+        "Cuts" : "2",
+        "DegenMoves" : "105011277",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1932129808",
+        "Heuristics" : "0.3087695076054087",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "20",
+        "PrePasses" : "381346302",
+        "PreSparsify" : "-1",
+        "Presolve" : "0",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "2",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 58.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 58.262
+} {
+  "r-rc" : {
+    "@rc-id" : 15,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2178.3418903344973,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 15,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "415333732",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1329294390",
+        "Cuts" : "1",
+        "DegenMoves" : "1463269973",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1326130417",
+        "Heuristics" : "0.9712570775419691",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "25",
+        "PrePasses" : "1083874887",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "3",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 2179.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 2179.204
+} {
+  "r-rc" : {
+    "@rc-id" : 16,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 57.700599016036094,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 16,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "2",
+        "CutPasses" : "1144713774",
+        "Cuts" : "-1",
+        "DegenMoves" : "272624674",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "572160155",
+        "Heuristics" : "0.2775391459324935",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 58.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 58.21
+} {
+  "r-rc" : {
+    "@rc-id" : 17,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 149.2900079101056,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 17,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1558785524",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "1",
+        "CutPasses" : "950127854",
+        "Cuts" : "0",
+        "DegenMoves" : "1106428034",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "1443025078",
+        "Heuristics" : "0.648323740750174",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "11",
+        "PrePasses" : "1252292823",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 150.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 150.226
+} {
+  "r-rc" : {
+    "@rc-id" : 18,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 149.2900079101056,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 18,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1144713774",
+        "Cuts" : "2",
+        "DegenMoves" : "316906555",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "572160155",
+        "Heuristics" : "0.2775391459324935",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 150.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 150.256
+} {
+  "r-rc" : {
+    "@rc-id" : 19,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 57.700599016036094,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 19,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "681698649",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1216500885",
+        "Cuts" : "3",
+        "DegenMoves" : "1450506186",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "956987039",
+        "Heuristics" : "0.9584639149052112",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "11",
+        "PrePasses" : "523983004",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "2",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 58.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 58.188
+} {
+  "r-rc" : {
+    "@rc-id" : 20,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 149.2900079101056,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 20,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1466208586",
+        "Cuts" : "-1",
+        "DegenMoves" : "-1",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "-1",
+        "Heuristics" : "0.1897770164149048",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "15",
+        "PrePasses" : "-1",
+        "PreSparsify" : "1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 142.22741103172302,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 142.445
+} {
+  "r-rc" : {
+    "@rc-id" : 21,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 57.700599016036094,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 21,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "332733790",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "652794554",
+        "Cuts" : "2",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "647714526",
+        "Heuristics" : "0.09871674108146056",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "2",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "22",
+        "PrePasses" : "799944686",
+        "PreSparsify" : "0",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 58.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 58.257
+} {
+  "r-rc" : {
+    "@rc-id" : 22,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 149.2900079101056,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 22,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1997612804",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "2",
+        "CutPasses" : "1144713774",
+        "Cuts" : "3",
+        "DegenMoves" : "272624674",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1678468936",
+        "Heuristics" : "0.2775391459324935",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "11",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 150.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 150.289
+} {
+  "r-rc" : {
+    "@rc-id" : 23,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 57.700599016036094,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 23,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1951883063",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "1",
+        "CutPasses" : "874727809",
+        "Cuts" : "-1",
+        "DegenMoves" : "985119013",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1307463513",
+        "Heuristics" : "0.9252709884945417",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "2",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "7",
+        "PrePasses" : "1740567184",
+        "PreSparsify" : "1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "-1",
+        "VarBranch" : "3",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 58.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 58.264
+} {
+  "r-rc" : {
+    "@rc-id" : 24,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 57.700599016036094,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 24,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1144713774",
+        "Cuts" : "-1",
+        "DegenMoves" : "272624674",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "572160155",
+        "Heuristics" : "0.13110479451337853",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 40.84230375289917,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 41.007
+} {
+  "r-rc" : {
+    "@rc-id" : 25,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2330.2349018709465,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 24
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 86.98277974128723,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 87.181
+} {
+  "r-rc" : {
+    "@rc-id" : 26,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 2217.157288238752,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 24
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 480.32818603515625,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 480.546
+} {
+  "r-rc" : {
+    "@rc-id" : 27,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 27,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "92206227",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1234230163",
+        "Cuts" : "3",
+        "DegenMoves" : "592955782",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1636944562",
+        "Heuristics" : "0.9807021337686956",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "25",
+        "PrePasses" : "1451219983",
+        "PreSparsify" : "1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "-1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.266
+} {
+  "r-rc" : {
+    "@rc-id" : 28,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 28,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1144713774",
+        "Cuts" : "-1",
+        "DegenMoves" : "3917661",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "572160155",
+        "Heuristics" : "0.13110479451337853",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.207
+} {
+  "r-rc" : {
+    "@rc-id" : 29,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 29,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1968152328",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1387609108",
+        "Cuts" : "3",
+        "DegenMoves" : "1072288318",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "288227403",
+        "Heuristics" : "0.698473667373455",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1276136538",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "2",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.195
+} {
+  "r-rc" : {
+    "@rc-id" : 30,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 30,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "652794554",
+        "Cuts" : "2",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.09871674108146056",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "22",
+        "PrePasses" : "799944686",
+        "PreSparsify" : "0",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.22
+} {
+  "r-rc" : {
+    "@rc-id" : 31,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 31,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "960919178",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "1",
+        "CutPasses" : "788089234",
+        "Cuts" : "-1",
+        "DegenMoves" : "921608375",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "795438790",
+        "Heuristics" : "0.7147136683949126",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "7",
+        "PrePasses" : "935611876",
+        "PreSparsify" : "0",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.21
+} {
+  "r-rc" : {
+    "@rc-id" : 32,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 32,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "523462239",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1144713774",
+        "Cuts" : "-1",
+        "DegenMoves" : "272624674",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "572160155",
+        "Heuristics" : "0.2775391459324935",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.282
+} {
+  "r-rc" : {
+    "@rc-id" : 33,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 33,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1764343122",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1408192040",
+        "Cuts" : "3",
+        "DegenMoves" : "81410115",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "1506141188",
+        "Heuristics" : "0.5732196431282927",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "24",
+        "PrePasses" : "1382144862",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.241
+} {
+  "r-rc" : {
+    "@rc-id" : 34,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 34,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1765501340",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "832300782",
+        "Cuts" : "-1",
+        "DegenMoves" : "45268796",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "503228142",
+        "Heuristics" : "0.13110479451337853",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "18",
+        "PrePasses" : "667565069",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 57.88445258140564,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 58.101
+} {
+  "r-rc" : {
+    "@rc-id" : 35,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 716.3546624857664,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 34
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 36.0333993434906,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 36.203
+} {
+  "r-rc" : {
+    "@rc-id" : 36,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 669.5112430801347,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 34
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 670.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 670.234
+} {
+  "r-rc" : {
+    "@rc-id" : 37,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 37,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "207628438",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "2",
+        "CutPasses" : "1315512700",
+        "Cuts" : "-1",
+        "DegenMoves" : "1894163260",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "669749561",
+        "Heuristics" : "0.8247886033179676",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "27",
+        "PrePasses" : "3869873",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "-1",
+        "VarBranch" : "2",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 115.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 115.206
+} {
+  "r-rc" : {
+    "@rc-id" : 38,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 38,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "-1",
+        "Cuts" : "-1",
+        "DegenMoves" : "-1",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "668259337",
+        "Heuristics" : "0.05",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "15",
+        "PrePasses" : "-1",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 115.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 115.266
+} {
+  "r-rc" : {
+    "@rc-id" : 39,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 39,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "289155404",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "0",
+        "CutPasses" : "1185135202",
+        "Cuts" : "0",
+        "DegenMoves" : "1621023123",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "559097694",
+        "Heuristics" : "0.7565618781341739",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "18",
+        "PrePasses" : "325753714",
+        "PreSparsify" : "0",
+        "Presolve" : "0",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.189
+} {
+  "r-rc" : {
+    "@rc-id" : 40,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 40,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1483620907",
+        "Cuts" : "2",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.09871674108146056",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "22",
+        "PrePasses" : "254184978",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 53.06517672538757,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 53.277
+} {
+  "r-rc" : {
+    "@rc-id" : 41,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 41,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "931775485",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "2",
+        "CutPasses" : "581048792",
+        "Cuts" : "1",
+        "DegenMoves" : "1586870258",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "469094940",
+        "Heuristics" : "0.3881288630558173",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "22",
+        "PrePasses" : "821691395",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "2",
+        "VarBranch" : "2",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.212
+} {
+  "r-rc" : {
+    "@rc-id" : 42,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 42,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1483620907",
+        "Cuts" : "1",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.09871674108146056",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "22",
+        "PrePasses" : "254184978",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 91.5765950679779,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 91.792
+} {
+  "r-rc" : {
+    "@rc-id" : 43,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 43,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1999864514",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "2",
+        "CutPasses" : "1368089243",
+        "Cuts" : "3",
+        "DegenMoves" : "1514712552",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1681089104",
+        "Heuristics" : "0.9325865341780288",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "25",
+        "PrePasses" : "984520143",
+        "PreSparsify" : "-1",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "2",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.208
+} {
+  "r-rc" : {
+    "@rc-id" : 44,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 44,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1765501340",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "832300782",
+        "Cuts" : "-1",
+        "DegenMoves" : "255660949",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "590080713",
+        "Heuristics" : "0.13110479451337853",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "11",
+        "PrePasses" : "580741493",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 52.88883423805237,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 53.073
+} {
+  "r-rc" : {
+    "@rc-id" : 45,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 722.8489660270244,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 44
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 623.6759803295135,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 623.872
+} {
+  "r-rc" : {
+    "@rc-id" : 46,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 46,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "244616866",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "1",
+        "CutPasses" : "472418262",
+        "Cuts" : "0",
+        "DegenMoves" : "652430035",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1577241392",
+        "Heuristics" : "0.23517791718865666",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "22",
+        "PrePasses" : "1281390339",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.216
+} {
+  "r-rc" : {
+    "@rc-id" : 47,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 47,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "933255321",
+        "Cuts" : "-1",
+        "DegenMoves" : "684302663",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "-1",
+        "Heuristics" : "0.12854830939404766",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "23",
+        "PrePasses" : "645390098",
+        "PreSparsify" : "1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "-1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.189
+} {
+  "r-rc" : {
+    "@rc-id" : 48,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 48,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1502397750",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "2",
+        "CutPasses" : "666607176",
+        "Cuts" : "1",
+        "DegenMoves" : "378087518",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "1212054139",
+        "Heuristics" : "0.6792763344565899",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "2",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "7",
+        "PrePasses" : "1057464159",
+        "PreSparsify" : "1",
+        "Presolve" : "0",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 115.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 115.247
+} {
+  "r-rc" : {
+    "@rc-id" : 49,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 49,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "652794554",
+        "Cuts" : "2",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.16181132474919785",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "18",
+        "PrePasses" : "144429370",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 115.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 115.222
+} {
+  "r-rc" : {
+    "@rc-id" : 50,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 50,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "571747858",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "0",
+        "CutPasses" : "1675133889",
+        "Cuts" : "0",
+        "DegenMoves" : "135775679",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "682304854",
+        "Heuristics" : "0.8122523273487375",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "0",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "14",
+        "PrePasses" : "1290592889",
+        "PreSparsify" : "-1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "0",
+        "VarBranch" : "3",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.229
+} {
+  "r-rc" : {
+    "@rc-id" : 51,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 51,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "0",
+        "CutPasses" : "1447334047",
+        "Cuts" : "2",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.11136681713156538",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "18",
+        "PrePasses" : "988108238",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.204
+} {
+  "r-rc" : {
+    "@rc-id" : 52,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 114.08021370262952,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 52,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "746611238",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "0",
+        "CutPasses" : "1149239653",
+        "Cuts" : "2",
+        "DegenMoves" : "940511170",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1290192325",
+        "Heuristics" : "0.7266586635790916",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "0",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "531845059",
+        "PreSparsify" : "0",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 115.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 115.197
+} {
+  "r-rc" : {
+    "@rc-id" : 53,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 53,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1483620907",
+        "Cuts" : "1",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.007996229209577072",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "15",
+        "PrePasses" : "254184978",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.195
+} {
+  "r-rc" : {
+    "@rc-id" : 54,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 54,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1425098075",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "1",
+        "CutPasses" : "784076546",
+        "Cuts" : "2",
+        "DegenMoves" : "410022028",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "48437491",
+        "Heuristics" : "0.2315158142480096",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "27",
+        "PrePasses" : "1742921229",
+        "PreSparsify" : "0",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "2",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 626.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 626.234
+} {
+  "r-rc" : {
+    "@rc-id" : 55,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 55,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1185538806",
+        "Cuts" : "-1",
+        "DegenMoves" : "3917661",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.013355684158302059",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 51.46064877510071,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 51.666
+} {
+  "r-rc" : {
+    "@rc-id" : 56,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 54.097595460127295,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 56,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1908374060",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "0",
+        "CutPasses" : "1013396864",
+        "Cuts" : "2",
+        "DegenMoves" : "702297057",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "1562960899",
+        "Heuristics" : "0.9109412017244519",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "0",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "3",
+        "PrePasses" : "1114622105",
+        "PreSparsify" : "1",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "2",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 55.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.192
+} {
+  "r-rc" : {
+    "@rc-id" : 57,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 625.4292425311834,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 57,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1185538806",
+        "Cuts" : "-1",
+        "DegenMoves" : "1537284805",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.013355684158302059",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "12",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 446.4403166770935,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 446.622
+} {
+  "r-rc" : {
+    "@rc-id" : 58,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 211.23203927033694,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 57
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 33.497594118118286,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 33.682
+} {
+  "r-rc" : {
+    "@rc-id" : 59,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 167.68516644218118,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 57
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 55.69646191596985,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 55.869
+} {
+  "r-rc" : {
+    "@rc-id" : 60,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 60,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "408860767",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "350342239",
+        "Cuts" : "3",
+        "DegenMoves" : "639659182",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "1755998495",
+        "Heuristics" : "0.19669041963983458",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "2",
+        "PrePasses" : "1585227123",
+        "PreSparsify" : "1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.22
+} {
+  "r-rc" : {
+    "@rc-id" : 61,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 61,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1185538806",
+        "Cuts" : "-1",
+        "DegenMoves" : "1537284805",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.013355684158302059",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.186
+} {
+  "r-rc" : {
+    "@rc-id" : 62,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 62,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1558846274",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "0",
+        "CutPasses" : "1788440724",
+        "Cuts" : "1",
+        "DegenMoves" : "664085075",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "1806584485",
+        "Heuristics" : "0.4505011101569286",
+        "ImpliedCuts" : "-1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "8",
+        "PrePasses" : "90111606",
+        "PreSparsify" : "0",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "-1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 45.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 45.189
+} {
+  "r-rc" : {
+    "@rc-id" : 63,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 63,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1185538806",
+        "Cuts" : "-1",
+        "DegenMoves" : "3917661",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.013355684158302059",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.214
+} {
+  "r-rc" : {
+    "@rc-id" : 64,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 64,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1443271562",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "0",
+        "CoverCuts" : "0",
+        "CutPasses" : "1859695109",
+        "Cuts" : "0",
+        "DegenMoves" : "1063900755",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "2",
+        "GomoryPasses" : "336586534",
+        "Heuristics" : "0.5341416180692035",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "2",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "24",
+        "PrePasses" : "44122988",
+        "PreSparsify" : "0",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "0",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.192
+} {
+  "r-rc" : {
+    "@rc-id" : 65,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 65,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "112853472",
+        "Aggregate" : "0",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1483620907",
+        "Cuts" : "2",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.09871674108146056",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "22",
+        "PrePasses" : "254184978",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 45.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 45.189
+} {
+  "r-rc" : {
+    "@rc-id" : 66,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 66,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1158328546",
+        "Aggregate" : "0",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1756143773",
+        "Cuts" : "2",
+        "DegenMoves" : "1639837037",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1236236229",
+        "Heuristics" : "0.09233116077867731",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "10",
+        "PrePasses" : "686045007",
+        "PreSparsify" : "-1",
+        "Presolve" : "0",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "2",
+        "VarBranch" : "2",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 45.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 45.2
+} {
+  "r-rc" : {
+    "@rc-id" : 67,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 67,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "47422217",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "1483620907",
+        "Cuts" : "-1",
+        "DegenMoves" : "1974499056",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "528341177",
+        "Heuristics" : "0.007996229209577072",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "13",
+        "PrePasses" : "254184978",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "0",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 514.2192115783691,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 514.393
+} {
+  "r-rc" : {
+    "@rc-id" : 68,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 68,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1870342315",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "2",
+        "CoverCuts" : "2",
+        "CutPasses" : "405736253",
+        "Cuts" : "3",
+        "DegenMoves" : "539908523",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "1",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1868660913",
+        "Heuristics" : "0.8661362079666901",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "2",
+        "NodeMethod" : "2",
+        "PartitionPlace" : "22",
+        "PrePasses" : "1457937363",
+        "PreSparsify" : "0",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "0",
+        "VarBranch" : "1",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.204
+} {
+  "r-rc" : {
+    "@rc-id" : 69,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 73.4080012174055,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 69,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "-1",
+        "Cuts" : "-1",
+        "DegenMoves" : "309659198",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "330024920",
+        "Heuristics" : "0.003848461913263282",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "15",
+        "PrePasses" : "442777537",
+        "PreSparsify" : "1",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 74.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 74.235
+} {
+  "r-rc" : {
+    "@rc-id" : 70,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 70,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1268499406",
+        "Aggregate" : "0",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "1",
+        "CutPasses" : "166444888",
+        "Cuts" : "2",
+        "DegenMoves" : "1846494710",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "2",
+        "FlowPathCuts" : "-1",
+        "GUBCoverCuts" : "0",
+        "GomoryPasses" : "762938206",
+        "Heuristics" : "0.5014158264053022",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "2",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "19",
+        "PrePasses" : "425837373",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "2",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.183
+} {
+  "r-rc" : {
+    "@rc-id" : 71,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 73.4080012174055,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 71,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "726281264",
+        "Cuts" : "-1",
+        "DegenMoves" : "1537284805",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.21226765619046456",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "2",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "12",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "0"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 54.07293367385864,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 54.27
+} {
+  "r-rc" : {
+    "@rc-id" : 72,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 627.0350711172179,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 71
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 628.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 628.149
+} {
+  "r-rc" : {
+    "@rc-id" : 73,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 73,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1086076801",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "1",
+        "CutPasses" : "474909480",
+        "Cuts" : "2",
+        "DegenMoves" : "1993161788",
+        "Disconnected" : "0",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "1580787901",
+        "Heuristics" : "0.4791411310267727",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "2",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "17",
+        "PrePasses" : "69589701",
+        "PreSparsify" : "1",
+        "Presolve" : "2",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "2",
+        "Symmetry" : "2",
+        "VarBranch" : "3",
+        "ZeroHalfCuts" : "2"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 45.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 45.185
+} {
+  "r-rc" : {
+    "@rc-id" : 74,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 74,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1765501340",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "832300782",
+        "Cuts" : "-1",
+        "DegenMoves" : "45268796",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "203361347",
+        "Heuristics" : "0.13110479451337853",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "0",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "13",
+        "PrePasses" : "667565069",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.187
+} {
+  "r-rc" : {
+    "@rc-id" : 75,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 75,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "764926760",
+        "Aggregate" : "1",
+        "BranchDir" : "-1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "0",
+        "CutPasses" : "1948481758",
+        "Cuts" : "2",
+        "DegenMoves" : "286818370",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "899899131",
+        "Heuristics" : "0.23012751993593494",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "0",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "1",
+        "PrePasses" : "1175701002",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "1",
+        "Symmetry" : "2",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 45.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 45.194
+} {
+  "r-rc" : {
+    "@rc-id" : 76,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 76,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "-1",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "-1",
+        "CutPasses" : "563787142",
+        "Cuts" : "-1",
+        "DegenMoves" : "309659198",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "0",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "691289469",
+        "Heuristics" : "0.003848461913263282",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "11",
+        "PrePasses" : "442777537",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "2",
+        "VarBranch" : "-1",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 45.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 45.209
+} {
+  "r-rc" : {
+    "@rc-id" : 77,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 73.4080012174055,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 77,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1643121173",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "2",
+        "CutPasses" : "8055182",
+        "Cuts" : "3",
+        "DegenMoves" : "1518358721",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "1",
+        "GomoryPasses" : "306853478",
+        "Heuristics" : "0.6407022855240349",
+        "ImpliedCuts" : "1",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "-1",
+        "MIRCuts" : "1",
+        "ModKCuts" : "2",
+        "NetworkCuts" : "0",
+        "NodeMethod" : "0",
+        "PartitionPlace" : "4",
+        "PrePasses" : "158095505",
+        "PreSparsify" : "-1",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "-1",
+        "StrongCGCuts" : "1",
+        "SubMIPCuts" : "0",
+        "Symmetry" : "-1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 74.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 74.186
+} {
+  "r-rc" : {
+    "@rc-id" : 78,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 73.4080012174055,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 78,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "1185538806",
+        "Cuts" : "-1",
+        "DegenMoves" : "181992808",
+        "Disconnected" : "1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "1",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.013355684158302059",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "1",
+        "MIPSepCuts" : "1",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "0",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "12",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "1",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "1",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 74.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 74.194
+} {
+  "r-rc" : {
+    "@rc-id" : 79,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 581.3750117070705,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 79,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1138153383",
+        "Aggregate" : "1",
+        "BranchDir" : "1",
+        "CliqueCuts" : "-1",
+        "CoverCuts" : "0",
+        "CutPasses" : "1908264515",
+        "Cuts" : "1",
+        "DegenMoves" : "803653970",
+        "Disconnected" : "-1",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "2",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "1252484740",
+        "Heuristics" : "0.1946761461093326",
+        "ImpliedCuts" : "0",
+        "InfProofCuts" : "-1",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "1",
+        "ModKCuts" : "-1",
+        "NetworkCuts" : "1",
+        "NodeMethod" : "-1",
+        "PartitionPlace" : "7",
+        "PrePasses" : "982030592",
+        "PreSparsify" : "0",
+        "Presolve" : "-1",
+        "ProjImpliedCuts" : "2",
+        "StrongCGCuts" : "2",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 582.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 582.158
+} {
+  "r-rc" : {
+    "@rc-id" : 80,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 44.549472898590565,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 80,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "AggFill" : "1911333526",
+        "Aggregate" : "1",
+        "BranchDir" : "0",
+        "CliqueCuts" : "1",
+        "CoverCuts" : "1",
+        "CutPasses" : "467661491",
+        "Cuts" : "-1",
+        "DegenMoves" : "1537284805",
+        "Disconnected" : "2",
+        "FlowCoverCuts" : "-1",
+        "FlowPathCuts" : "0",
+        "GUBCoverCuts" : "-1",
+        "GomoryPasses" : "310798092",
+        "Heuristics" : "0.013355684158302059",
+        "ImpliedCuts" : "2",
+        "InfProofCuts" : "2",
+        "MIPSepCuts" : "0",
+        "MIRCuts" : "-1",
+        "ModKCuts" : "1",
+        "NetworkCuts" : "-1",
+        "NodeMethod" : "1",
+        "PartitionPlace" : "12",
+        "PrePasses" : "1091410048",
+        "PreSparsify" : "0",
+        "Presolve" : "1",
+        "ProjImpliedCuts" : "0",
+        "StrongCGCuts" : "-1",
+        "SubMIPCuts" : "-1",
+        "Symmetry" : "0",
+        "VarBranch" : "0",
+        "ZeroHalfCuts" : "-1"
+      },
+      "pc-active-parameters" : [ "AggFill", "Aggregate", "BranchDir", "CliqueCuts", "CoverCuts", "CutPasses", "Cuts", "DegenMoves", "Disconnected", "FlowCoverCuts", "FlowPathCuts", "GUBCoverCuts", "GomoryPasses", "Heuristics", "ImpliedCuts", "InfProofCuts", "MIPSepCuts", "MIRCuts", "ModKCuts", "NetworkCuts", "NodeMethod", "PartitionPlace", "PrePasses", "PreSparsify", "Presolve", "ProjImpliedCuts", "StrongCGCuts", "SubMIPCuts", "Symmetry", "VarBranch", "ZeroHalfCuts" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 30.146149158477783,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 30.348
+} {
+  "r-rc" : {
+    "@rc-id" : 81,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 658.1398913528502,
+    "rc-pisp" : {
+      "@pisp-id" : 5
+    },
+    "rc-pc" : {
+      "@pc-id" : 80
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 659.0,
+  "r-run-length" : 2.147483647E9,
+  "r-quality" : 99999.0,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 659.184
+}

@@ -5,7 +5,6 @@ set DIR=%~dp0
 IF EXIST "%DIR%\lib\" GOTO USE_LIB
 set DIR=%DIR%\..\
 :USE_LIB
-
 set EXEC=ca.ubc.cs.beta.smac.executors.SMACExecutor
 set jarconcat=
 SETLOCAL ENABLEDELAYEDEXPANSION

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Fri Dec  7 16:05:40 2018
@@ -5,10 +6,8 @@ Created on Fri Dec  7 16:05:40 2018
 @author: czcz2
 """
 
-import sys, re, os ,argparse
+import argparse,signal, inspect
 from pcsConverter import *
-import psutil
-from subprocess import Popen
 from initializer import *
 from tunning import *
 
@@ -123,7 +122,7 @@ def argparser():
     -pcs to see our suggestion for time limit.
                         ''')
     
-    parser.add_argument('--cplex-dll',type=str,metavar='/opt/ibm/....',\
+    parser.add_argument('--cplex-dll',default=None,type=str,metavar='/opt/ibm/....',\
                         help='''\
     You need to give the path of cplex  dll file if you want to use cplex
     as solve.
@@ -133,7 +132,34 @@ def argparser():
                         help='''\
     Display more information for debugging.
                         ''')
-    
+    parser.add_argument('--bench-mode',type=str, metavar='5:-1',\
+                        default=None,help='''\
+    Benchmark mode. Specify for every configuration, how many times it will be runed
+    for average time. Default is 5 times. Also specify for every output file, how many
+    last configuration will be test. Default is last 1. Format 'times:last'. last must 
+    smaller than 0.
+                        ''')
+    parser.add_argument('--skip-bench',default = False, action='store_true'\
+                        ,help='''\
+    Some times bench mark may take a very long time. If you don't want spend time on it,
+    just skip it. System will output the best configuration reported by SMAC. No value needed,
+    skip bench when this option exist.
+                        ''')
+
+    parser.add_argument('--tune-threads', default=False, action='store_true' \
+                        , help=''''\
+    With this argument, the program will treat threads as a parameter for tuning. -p will be treat
+    as the maximum available threads for minizinc.  
+                            ''')
+    parser.add_argument('--obj-mode', default=False, action='store_true' \
+                    , help=''''\
+    With this argument, the program will try to optimize objective within limited time. 
+                            ''')
+    parser.add_argument('--maximize', default=False, action='store_true' \
+                        , help=''''\
+        define the model is a maximize problem.
+                                ''')
+
     args = parser.parse_args() #parse arguments
     
     #print(args)
@@ -178,9 +204,9 @@ def main():
     args = argparser()
 
     #check does user provide cplex-dll when using cplex
-    if args.solver == "cplex":
-        if args.cplex_dll == None:
-            raise Exception('You must specify the path of cplex dll file when using cplex.')
+    # if args.solver == "cplex":
+    #     if args.cplex_dll == None:
+    #         raise Exception('You must specify the path of cplex dll file when using cplex.')
     
     '''
     Parameter file pre check.
@@ -190,7 +216,11 @@ def main():
     initialCwd = os.getcwd()
     filename = inspect.getframeinfo(inspect.currentframe()).filename
     programPath = os.path.dirname(os.path.abspath(filename))
-    pcsFile = converter.jsonToPcs(args.pcsJson_file,sys.path[0]+"/cache/temppcs.pcs")
+    if args.tune_threads:
+        pcsFile = converter.jsonToPcs(args.pcsJson_file, sys.path[0] + "/cache/temppcs.pcs", args.p)
+    else:
+        pcsFile = converter.jsonToPcs(args.pcsJson_file, sys.path[0] + "/cache/temppcs.pcs")
+
     
     '''
     Instances pre check
@@ -204,9 +234,24 @@ def main():
             
         else:
             print("Instances from arguments: ",' '.join(args.instances))
+    
+    '''
+    Benchmark mode setting check
+    '''
+    if args.bench_mode is not None:
+        try:
+            benchMode = args.bench_mode.split(':')
+            times = int(benchMode[0])
+            last = int(benchMode[1])
+            if last >= 0:
+                raise Exception('[Benchmark Mode Error] last must smaller than 0')
+        except Exception as e:
+            raise Exception('[Benchmark Mode Error] please read -h for help')
+
 
     print("=" * 50)
     print("threads: ", args.p)
+    print("Tune threads: ", args.tune_threads)
     print("solver: ",args.solver)
     print("PSMAC mode: ","result from last step")
     print("Cuts time: ", args.cut)
@@ -222,13 +267,13 @@ def main():
     '''
     if args.solver == "osicbc":
         initializer = CbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                 args.cplex_dll, programPath, args.psmac, initialCwd)
+                                 args.cplex_dll, programPath, args.psmac, initialCwd, args.obj_mode)
     elif args.solver == "cplex":
         initializer = CplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                   args.cplex_dll, programPath, args.psmac, initialCwd)
+                                   args.cplex_dll, programPath, args.psmac, initialCwd, args.obj_mode)
     elif args.solver == "gurobi":
         initializer = GurobiInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                    args.cplex_dll, programPath, args.psmac, initialCwd)
+                                    args.cplex_dll, programPath, args.psmac, initialCwd, args.obj_mode)
     else:
         raise Exception("Do not support solver: ", args.solver)
 
@@ -246,13 +291,16 @@ def main():
         initializer.cut_off_time_calculation()
 
         # generate wrapper and smac scenario
-        initializer.pSMAC_wrapper_generator(args.solver)
+        initializer.pSMAC_wrapper_generator(args.solver,args.maximize)
         initializer.pSMAC_scenario_generator(args.solver)
 
         '''
         Start Tunning
         '''
-        smacPath = "../smac-v2/smac"
+        if os.name == 'nt':
+            smacPath = os.path.abspath("../smac-v2/smac.bat")
+        else:
+            smacPath = os.path.abspath("../smac-v2/smac")
         print("smac path: ",smacPath)
         tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath)
 
@@ -260,17 +308,36 @@ def main():
 
     except KeyboardInterrupt:
         print("\nKeyboardInterrupt has been caught.")
-        for process in psutil.process_iter():      
-            if set(['java', '-Xmx1024m', '-cp']).issubset(set(process.cmdline())):
-                print(' '.join(process.cmdline()))
-                print('Process found. Terminating it.')
-                process.terminate()
+
     finally:
+        #use following code to ensure all miniinc process are killed.
+        files = glob.glob('pid*')
+        for f in files:
+            with open(f) as content:
+                pid = content.read()
+                if pid is None:
+                    pass
+                else:
+                    try:
+                        os.kill(int(pid), signal.SIGTERM)
+                    except Exception as e:
+                        print('[Exception] ', e)
+        '''
+        Benchmark and output result to file
+        '''
         try:
-            if args.psmac > 1:
-                initializer.benchmark_main(5,-1) # run benchmark for last 1 configuration of each output file. Each run 5 times.
+            if args.skip_bench or args.obj_mode:
+                initializer.noBnechOutput()
+            elif args.bench_mode is None:
+                if args.psmac > 1:
+                    initializer.benchmark_main(5,-1) # run benchmark for last 1 configuration of each output file. Each run 5 times.
+                else:
+                    initializer.benchmark_main(5,-3) # run benchmark for last 3 configuration of the output file. Each run 5 times.
             else:
-                initializer.benchmark_main(5,-3) # run benchmark for last 3 configuration of the output file. Each run 5 times.
+                try:
+                    initializer.benchmark_main(times,last)
+                except Exception as e:
+                    print('[Benchmark Mode Error] ', e)
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")

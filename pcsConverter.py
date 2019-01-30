@@ -45,13 +45,13 @@ class pcsConverter():
                 
         if outputFile == None:
             outputFile = pcsFile.split('.')[0] + ".json"
-        
+        pcsDic = {"name":pcsFile.split('.')[0],"description":"","parameters":pcsDic}
         
         with open(outputFile, 'w') as f:
             f.write(json.dumps(pcsDic, indent=4))
         print(pcsDic)
     
-    def jsonToPcs(self,pcsFile,outputFile=None):
+    def jsonToPcs(self,pcsFile,outputFile=None,threads=None):
         """
         Convert Json parameter file to SMAC's pcs file
         """
@@ -62,15 +62,19 @@ class pcsConverter():
             outputFile = pcsFile.split('.')[0] + ".pcs"
         
         with open(outputFile, 'w') as f:
-            for param in jsonData.keys():
+            if threads is not None:
+                line = 'MinizincThreads integer [1,'+str(threads)+'] ['+str(threads)+']\n'
+                f.write(line)
+            parameters = jsonData["parameters"]
+            for param in parameters.keys():
                 paramName = param
-                paramType = jsonData[param]["type"]
+                paramType = parameters[param]["type"]
                 if paramType == "integer" or paramType == "real":
-                    paramRange = str(jsonData[param]["range"]).replace("'","")
+                    paramRange = str(parameters[param]["range"]).replace("'","")
                 else:
-                    paramRange = str(jsonData[param]["range"]).replace("'","")[1:-1]
+                    paramRange = str(parameters[param]["range"]).replace("'","")[1:-1]
                     paramRange = "{"+paramRange+"}"
-                default = "["+str(jsonData[param]["default"])+"]"
+                default = "["+str(parameters[param]["default"])+"]"
                 line = paramName+" "+paramType+" "+paramRange+" "+default+"\n"
                 f.write(line)
         return outputFile

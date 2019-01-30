@@ -1,0 +1,1174 @@
+[ {
+  "@pi-id" : 2,
+  "pi-name" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/test/mapping.mzn|/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/test/full2x2_mp3.dzn",
+  "pi-instance-specific-info" : "0",
+  "pi-features" : { },
+  "pi-instance-id(deprecated)" : 1
+}, {
+  "@pi-id" : 3,
+  "pi-name" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/test/mapping.mzn|/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/test/mesh3x3_mp3_2.dzn",
+  "pi-instance-specific-info" : "0",
+  "pi-features" : { },
+  "pi-instance-id(deprecated)" : 2
+} ] {
+  "r-rc" : {
+    "@rc-id" : 2,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2,
+      "algo-exec" : "/home/czcz213/anaconda3/bin/python -u ./osicbc_.py",
+      "algo-exec-dir" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/Minizinc-Tuning/cache/.",
+      "algo-pcs" : {
+        "@pcs-id" : 2,
+        "pcs-filename" : "/mnt/c/Users/czcz2/Google Drive/MIT/Summer Research/TuningPorgram/Minizinc-Tuning/cache/temppcs.pcs",
+        "pcs-text" : "gomory categorical {ifmove, on, off, root, forceon} [ifmove]\ncuts categorical {on, off, root, ifmove, forceon} [on]\ntwo categorical {root, on, off, ifmove, forceon} [root]\nheur categorical {on, off} [on]\npresolve categorical {on, off} [on]\nflow categorical {ifmove, on, off, root, forceon} [ifmove]\nreduce categorical {off, on, root, ifmove, forceon} [off]\nknapsack categorical {ifmove, on, off, root, forceon} [ifmove]\nprobing categorical {off, on, root, ifmove, forceOn, onglobal, forceonglobal, forceOnBut, forceOnStrong, forceOnButStrong, strongRoot} [on]\ndins categorical {off, on, before, both} [off]\nlocal categorical {on, off} [off]\ncombine categorical {on, off, before, both} [off]\nconstraint categorical {on, off} [off]\nmixed categorical {ifmove, on, off, root, forceon} [ifmove]\nreduce2 categorical {off, root, longRoot} [off]\nNode categorical {hybrid, fewest, upfewest, downfewest, updepth} [fewest]\nrins categorical {off, on, before, both} [off]\nzero categorical {ifmove, on, off, root, forceon} [ifmove]\ndivings categorical {off, before} [off]\npreprocess categorical {sos, on, equal, aggregate, save} [sos]\nlagomory categorical {off, endonlyroot, endcleanroot, endonly, endclean, endboth} [off]\nclique categorical {ifmove, on, off, root, forceon} [ifmove]\nlift categorical {off, root, ifmove, forceon} [off]\nresidual categorical {off, on, root, ifmove, forceon} [off]\nround categorical {on, off, before, both} [on]\nfeas categorical {on, off, before, both} [on]\ncombine2 categorical {off, on, before, both} [off]\nproximity categorical {off, on, before, both} [off]\nrens categorical {off, on, before, both} [off]\nvnd categorical {off, on, before, both} [off]\ndivingg categorical {off, on, before, both} [off]\ndivingp categorical {off, on, before, both} [off]\ndivingf categorical {off, on, before, both} [off]\ncutl ordinal {-1, 1000, 10000, 100000, 1000000, 5000000, 20000000} [-1]\ndives integer [0, 200] [100]\nexpensive integer [0, 20] [5]\nintegert real [1e-10, 0.01] [1e-06]\npassp integer [0, 10] [5]\npret real [1e-10, 0.01] [1e-08]\nstrong integer [0, 20] [5]\ntrust integer [0, 20] [5]\ncutd ordinal {-1, 1000, 10000, 100000, 1000000, 5000000, 20000000} [-1]\npassc integer [-1, 200] [-1]\ndiveo integer [-1, 25] [-1]\nfraction ordinal {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9} [0.5]\n",
+        "pcs-subspace" : { }
+      },
+      "algo-cutoff" : 5.0,
+      "algo-deterministic" : true,
+      "algo-tae-context" : { }
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2,
+      "pisp-pi" : {
+        "@pi-id" : 3
+      },
+      "pisp-seed" : -1
+    },
+    "rc-pc" : {
+      "@pc-id" : 2,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "fewest",
+        "clique" : "ifmove",
+        "combine" : "off",
+        "combine2" : "off",
+        "constraint" : "off",
+        "cutd" : "-1",
+        "cutl" : "-1",
+        "cuts" : "on",
+        "dins" : "off",
+        "diveo" : "-1",
+        "dives" : "100",
+        "divingf" : "off",
+        "divingg" : "off",
+        "divingp" : "off",
+        "divings" : "off",
+        "expensive" : "5",
+        "feas" : "on",
+        "flow" : "ifmove",
+        "fraction" : "0.5",
+        "gomory" : "ifmove",
+        "heur" : "on",
+        "integert" : "1.0E-6",
+        "knapsack" : "ifmove",
+        "lagomory" : "off",
+        "lift" : "off",
+        "local" : "off",
+        "mixed" : "ifmove",
+        "passc" : "-1",
+        "passp" : "5",
+        "preprocess" : "sos",
+        "presolve" : "on",
+        "pret" : "1.0000000000000002E-8",
+        "probing" : "on",
+        "proximity" : "off",
+        "reduce" : "off",
+        "reduce2" : "off",
+        "rens" : "off",
+        "residual" : "off",
+        "rins" : "off",
+        "round" : "on",
+        "strong" : "5",
+        "trust" : "5",
+        "two" : "root",
+        "vnd" : "off",
+        "zero" : "ifmove"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : true
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 3.3475801944732666,
+  "r-run-length" : 1122.0,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 3.511
+} {
+  "r-rc" : {
+    "@rc-id" : 3,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3,
+      "pisp-pi" : {
+        "@pi-id" : 2
+      },
+      "pisp-seed" : -1
+    },
+    "rc-pc" : {
+      "@pc-id" : 3,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "downfewest",
+        "clique" : "root",
+        "combine" : "both",
+        "combine2" : "off",
+        "constraint" : "on",
+        "cutd" : "-1",
+        "cutl" : "-1",
+        "cuts" : "root",
+        "dins" : "off",
+        "diveo" : "2",
+        "dives" : "98",
+        "divingf" : "on",
+        "divingg" : "on",
+        "divingp" : "on",
+        "divings" : "off",
+        "expensive" : "4",
+        "feas" : "on",
+        "flow" : "off",
+        "fraction" : "0.5",
+        "gomory" : "forceon",
+        "heur" : "on",
+        "integert" : "0.007523706610714327",
+        "knapsack" : "on",
+        "lagomory" : "endonly",
+        "lift" : "root",
+        "local" : "on",
+        "mixed" : "ifmove",
+        "passc" : "126",
+        "passp" : "3",
+        "preprocess" : "sos",
+        "presolve" : "off",
+        "pret" : "0.001967316552247498",
+        "probing" : "off",
+        "proximity" : "on",
+        "reduce" : "on",
+        "reduce2" : "longRoot",
+        "rens" : "before",
+        "residual" : "ifmove",
+        "rins" : "on",
+        "round" : "before",
+        "strong" : "13",
+        "trust" : "12",
+        "two" : "ifmove",
+        "vnd" : "off",
+        "zero" : "on"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 10.646982908248901,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 10.737
+} {
+  "r-rc" : {
+    "@rc-id" : 4,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 3
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 10.707484483718872,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 10.795
+} {
+  "r-rc" : {
+    "@rc-id" : 5,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 5,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "updepth",
+        "clique" : "off",
+        "combine" : "on",
+        "combine2" : "off",
+        "constraint" : "off",
+        "cutd" : "100000",
+        "cutl" : "10000",
+        "cuts" : "ifmove",
+        "dins" : "before",
+        "diveo" : "14",
+        "dives" : "102",
+        "divingf" : "both",
+        "divingg" : "off",
+        "divingp" : "on",
+        "divings" : "off",
+        "expensive" : "16",
+        "feas" : "off",
+        "flow" : "forceon",
+        "fraction" : "0.5",
+        "gomory" : "off",
+        "heur" : "off",
+        "integert" : "1.5894604520584415E-4",
+        "knapsack" : "ifmove",
+        "lagomory" : "endcleanroot",
+        "lift" : "ifmove",
+        "local" : "on",
+        "mixed" : "off",
+        "passc" : "198",
+        "passp" : "6",
+        "preprocess" : "equal",
+        "presolve" : "off",
+        "pret" : "0.009782774551968904",
+        "probing" : "root",
+        "proximity" : "off",
+        "reduce" : "ifmove",
+        "reduce2" : "off",
+        "rens" : "both",
+        "residual" : "forceon",
+        "rins" : "on",
+        "round" : "off",
+        "strong" : "1",
+        "trust" : "7",
+        "two" : "forceon",
+        "vnd" : "both",
+        "zero" : "forceon"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 0.7273497581481934,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 0.828
+} {
+  "r-rc" : {
+    "@rc-id" : 6,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 5
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 4.16341757774353,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 4.243
+} {
+  "r-rc" : {
+    "@rc-id" : 7,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 7,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "hybrid",
+        "clique" : "ifmove",
+        "combine" : "both",
+        "combine2" : "both",
+        "constraint" : "off",
+        "cutd" : "-1",
+        "cutl" : "1000",
+        "cuts" : "root",
+        "dins" : "off",
+        "diveo" : "8",
+        "dives" : "114",
+        "divingf" : "before",
+        "divingg" : "off",
+        "divingp" : "before",
+        "divings" : "before",
+        "expensive" : "8",
+        "feas" : "on",
+        "flow" : "root",
+        "fraction" : "0.2",
+        "gomory" : "ifmove",
+        "heur" : "off",
+        "integert" : "0.007325468280781422",
+        "knapsack" : "ifmove",
+        "lagomory" : "endboth",
+        "lift" : "root",
+        "local" : "off",
+        "mixed" : "on",
+        "passc" : "195",
+        "passp" : "2",
+        "preprocess" : "aggregate",
+        "presolve" : "on",
+        "pret" : "0.00797733320901554",
+        "probing" : "forceOnBut",
+        "proximity" : "off",
+        "reduce" : "root",
+        "reduce2" : "off",
+        "rens" : "both",
+        "residual" : "ifmove",
+        "rins" : "off",
+        "round" : "both",
+        "strong" : "14",
+        "trust" : "13",
+        "two" : "root",
+        "vnd" : "both",
+        "zero" : "forceon"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 4.92494535446167,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 5.017
+} {
+  "r-rc" : {
+    "@rc-id" : 8,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 7
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 13.077456712722778,
+  "r-run-length" : 1100.0,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 13.193
+} {
+  "r-rc" : {
+    "@rc-id" : 9,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 9,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "updepth",
+        "clique" : "off",
+        "combine" : "on",
+        "combine2" : "on",
+        "constraint" : "on",
+        "cutd" : "10000",
+        "cutl" : "-1",
+        "cuts" : "on",
+        "dins" : "off",
+        "diveo" : "1",
+        "dives" : "14",
+        "divingf" : "before",
+        "divingg" : "off",
+        "divingp" : "off",
+        "divings" : "off",
+        "expensive" : "6",
+        "feas" : "both",
+        "flow" : "on",
+        "fraction" : "0.4",
+        "gomory" : "off",
+        "heur" : "off",
+        "integert" : "0.003310002230000689",
+        "knapsack" : "off",
+        "lagomory" : "endonly",
+        "lift" : "root",
+        "local" : "on",
+        "mixed" : "ifmove",
+        "passc" : "112",
+        "passp" : "0",
+        "preprocess" : "on",
+        "presolve" : "on",
+        "pret" : "7.589781394517016E-4",
+        "probing" : "forceOnButStrong",
+        "proximity" : "off",
+        "reduce" : "off",
+        "reduce2" : "root",
+        "rens" : "both",
+        "residual" : "ifmove",
+        "rins" : "on",
+        "round" : "on",
+        "strong" : "13",
+        "trust" : "3",
+        "two" : "on",
+        "vnd" : "on",
+        "zero" : "on"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 0.676159143447876,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 0.771
+} {
+  "r-rc" : {
+    "@rc-id" : 10,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 9
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 3.8066282272338867,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 3.941
+} {
+  "r-rc" : {
+    "@rc-id" : 11,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 11,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "fewest",
+        "clique" : "ifmove",
+        "combine" : "off",
+        "combine2" : "both",
+        "constraint" : "off",
+        "cutd" : "1000000",
+        "cutl" : "10000",
+        "cuts" : "on",
+        "dins" : "off",
+        "diveo" : "12",
+        "dives" : "168",
+        "divingf" : "both",
+        "divingg" : "before",
+        "divingp" : "before",
+        "divings" : "before",
+        "expensive" : "10",
+        "feas" : "off",
+        "flow" : "off",
+        "fraction" : "0.2",
+        "gomory" : "forceon",
+        "heur" : "off",
+        "integert" : "0.003102917193999406",
+        "knapsack" : "on",
+        "lagomory" : "endcleanroot",
+        "lift" : "forceon",
+        "local" : "on",
+        "mixed" : "on",
+        "passc" : "128",
+        "passp" : "2",
+        "preprocess" : "sos",
+        "presolve" : "off",
+        "pret" : "0.003998368441734735",
+        "probing" : "forceonglobal",
+        "proximity" : "both",
+        "reduce" : "ifmove",
+        "reduce2" : "longRoot",
+        "rens" : "on",
+        "residual" : "on",
+        "rins" : "on",
+        "round" : "off",
+        "strong" : "12",
+        "trust" : "20",
+        "two" : "off",
+        "vnd" : "on",
+        "zero" : "forceon"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 1.7940294742584229,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 1.873
+} {
+  "r-rc" : {
+    "@rc-id" : 12,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 11
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 8.85922646522522,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 8.932
+} {
+  "r-rc" : {
+    "@rc-id" : 13,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 13,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "updepth",
+        "clique" : "root",
+        "combine" : "on",
+        "combine2" : "both",
+        "constraint" : "off",
+        "cutd" : "100000",
+        "cutl" : "10000",
+        "cuts" : "ifmove",
+        "dins" : "both",
+        "diveo" : "4",
+        "dives" : "191",
+        "divingf" : "both",
+        "divingg" : "on",
+        "divingp" : "before",
+        "divings" : "off",
+        "expensive" : "1",
+        "feas" : "on",
+        "flow" : "off",
+        "fraction" : "0.4",
+        "gomory" : "forceon",
+        "heur" : "on",
+        "integert" : "0.007417476904820091",
+        "knapsack" : "root",
+        "lagomory" : "endonlyroot",
+        "lift" : "forceon",
+        "local" : "on",
+        "mixed" : "ifmove",
+        "passc" : "184",
+        "passp" : "2",
+        "preprocess" : "on",
+        "presolve" : "off",
+        "pret" : "0.0012453608854833319",
+        "probing" : "off",
+        "proximity" : "off",
+        "reduce" : "on",
+        "reduce2" : "off",
+        "rens" : "both",
+        "residual" : "root",
+        "rins" : "off",
+        "round" : "on",
+        "strong" : "6",
+        "trust" : "5",
+        "two" : "ifmove",
+        "vnd" : "off",
+        "zero" : "ifmove"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 7.7739808559417725,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 7.868
+} {
+  "r-rc" : {
+    "@rc-id" : 14,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 13
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 4.071898460388184,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 4.154
+} {
+  "r-rc" : {
+    "@rc-id" : 15,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 15,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "fewest",
+        "clique" : "off",
+        "combine" : "before",
+        "combine2" : "both",
+        "constraint" : "on",
+        "cutd" : "20000000",
+        "cutl" : "100000",
+        "cuts" : "ifmove",
+        "dins" : "both",
+        "diveo" : "8",
+        "dives" : "15",
+        "divingf" : "off",
+        "divingg" : "off",
+        "divingp" : "both",
+        "divings" : "off",
+        "expensive" : "20",
+        "feas" : "off",
+        "flow" : "root",
+        "fraction" : "0.8",
+        "gomory" : "off",
+        "heur" : "off",
+        "integert" : "0.0043650065932787484",
+        "knapsack" : "forceon",
+        "lagomory" : "endboth",
+        "lift" : "root",
+        "local" : "off",
+        "mixed" : "on",
+        "passc" : "192",
+        "passp" : "7",
+        "preprocess" : "sos",
+        "presolve" : "off",
+        "pret" : "0.001425169081419177",
+        "probing" : "forceOnButStrong",
+        "proximity" : "before",
+        "reduce" : "forceon",
+        "reduce2" : "longRoot",
+        "rens" : "before",
+        "residual" : "forceon",
+        "rins" : "off",
+        "round" : "off",
+        "strong" : "4",
+        "trust" : "4",
+        "two" : "on",
+        "vnd" : "before",
+        "zero" : "on"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 3.437134265899658,
+  "r-run-length" : 1100.0,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 3.527
+} {
+  "r-rc" : {
+    "@rc-id" : 16,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 15
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 9.031571626663208,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 9.123
+} {
+  "r-rc" : {
+    "@rc-id" : 17,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 17,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "fewest",
+        "clique" : "off",
+        "combine" : "before",
+        "combine2" : "before",
+        "constraint" : "off",
+        "cutd" : "1000000",
+        "cutl" : "10000",
+        "cuts" : "forceon",
+        "dins" : "on",
+        "diveo" : "8",
+        "dives" : "114",
+        "divingf" : "on",
+        "divingg" : "both",
+        "divingp" : "on",
+        "divings" : "before",
+        "expensive" : "12",
+        "feas" : "on",
+        "flow" : "off",
+        "fraction" : "0.8",
+        "gomory" : "root",
+        "heur" : "off",
+        "integert" : "0.007667892901406325",
+        "knapsack" : "off",
+        "lagomory" : "endclean",
+        "lift" : "off",
+        "local" : "on",
+        "mixed" : "on",
+        "passc" : "189",
+        "passp" : "7",
+        "preprocess" : "save",
+        "presolve" : "on",
+        "pret" : "0.005235577875074275",
+        "probing" : "forceOnStrong",
+        "proximity" : "both",
+        "reduce" : "forceon",
+        "reduce2" : "off",
+        "rens" : "both",
+        "residual" : "root",
+        "rins" : "on",
+        "round" : "both",
+        "strong" : "0",
+        "trust" : "7",
+        "two" : "forceon",
+        "vnd" : "before",
+        "zero" : "forceon"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 0.4645357131958008,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 0.548
+} {
+  "r-rc" : {
+    "@rc-id" : 18,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 17
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 1.7538213729858398,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 1.837
+} {
+  "r-rc" : {
+    "@rc-id" : 19,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 19,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "updepth",
+        "clique" : "on",
+        "combine" : "before",
+        "combine2" : "on",
+        "constraint" : "off",
+        "cutd" : "100000",
+        "cutl" : "5000000",
+        "cuts" : "root",
+        "dins" : "on",
+        "diveo" : "20",
+        "dives" : "153",
+        "divingf" : "off",
+        "divingg" : "both",
+        "divingp" : "off",
+        "divings" : "off",
+        "expensive" : "0",
+        "feas" : "off",
+        "flow" : "forceon",
+        "fraction" : "0.4",
+        "gomory" : "root",
+        "heur" : "off",
+        "integert" : "0.00606000507895852",
+        "knapsack" : "on",
+        "lagomory" : "endonlyroot",
+        "lift" : "off",
+        "local" : "off",
+        "mixed" : "root",
+        "passc" : "183",
+        "passp" : "6",
+        "preprocess" : "equal",
+        "presolve" : "off",
+        "pret" : "0.007466875313771758",
+        "probing" : "forceOnBut",
+        "proximity" : "both",
+        "reduce" : "root",
+        "reduce2" : "longRoot",
+        "rens" : "off",
+        "residual" : "forceon",
+        "rins" : "off",
+        "round" : "both",
+        "strong" : "4",
+        "trust" : "8",
+        "two" : "ifmove",
+        "vnd" : "on",
+        "zero" : "ifmove"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "SAT",
+  "r-runtime" : 3.9915595054626465,
+  "r-run-length" : 1100.0,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 4.076
+} {
+  "r-rc" : {
+    "@rc-id" : 20,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 19
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "TIMEOUT",
+  "r-runtime" : 8.614696979522705,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 8.717
+} {
+  "r-rc" : {
+    "@rc-id" : 21,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 21,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "fewest",
+        "clique" : "off",
+        "combine" : "on",
+        "combine2" : "before",
+        "constraint" : "on",
+        "cutd" : "5000000",
+        "cutl" : "20000000",
+        "cuts" : "root",
+        "dins" : "on",
+        "diveo" : "7",
+        "dives" : "175",
+        "divingf" : "before",
+        "divingg" : "on",
+        "divingp" : "both",
+        "divings" : "off",
+        "expensive" : "3",
+        "feas" : "before",
+        "flow" : "forceon",
+        "fraction" : "0.7",
+        "gomory" : "off",
+        "heur" : "off",
+        "integert" : "0.008884712116588334",
+        "knapsack" : "on",
+        "lagomory" : "endonlyroot",
+        "lift" : "root",
+        "local" : "on",
+        "mixed" : "ifmove",
+        "passc" : "18",
+        "passp" : "1",
+        "preprocess" : "aggregate",
+        "presolve" : "off",
+        "pret" : "0.008638084114376254",
+        "probing" : "forceOnStrong",
+        "proximity" : "off",
+        "reduce" : "off",
+        "reduce2" : "root",
+        "rens" : "both",
+        "residual" : "root",
+        "rins" : "both",
+        "round" : "before",
+        "strong" : "12",
+        "trust" : "0",
+        "two" : "root",
+        "vnd" : "before",
+        "zero" : "ifmove"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 1.4307334423065186,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 1.579
+} {
+  "r-rc" : {
+    "@rc-id" : 22,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 21
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 4.05106520652771,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 4.163
+} {
+  "r-rc" : {
+    "@rc-id" : 23,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 3
+    },
+    "rc-pc" : {
+      "@pc-id" : 23,
+      "pc-pcs" : {
+        "@pcs-id" : 2
+      },
+      "pc-settings" : {
+        "Node" : "updepth",
+        "clique" : "off",
+        "combine" : "both",
+        "combine2" : "before",
+        "constraint" : "off",
+        "cutd" : "10000",
+        "cutl" : "1000",
+        "cuts" : "on",
+        "dins" : "off",
+        "diveo" : "7",
+        "dives" : "83",
+        "divingf" : "before",
+        "divingg" : "before",
+        "divingp" : "both",
+        "divings" : "off",
+        "expensive" : "19",
+        "feas" : "off",
+        "flow" : "ifmove",
+        "fraction" : "0.8",
+        "gomory" : "on",
+        "heur" : "off",
+        "integert" : "0.0013337996870894284",
+        "knapsack" : "off",
+        "lagomory" : "endclean",
+        "lift" : "forceon",
+        "local" : "on",
+        "mixed" : "on",
+        "passc" : "180",
+        "passp" : "3",
+        "preprocess" : "save",
+        "presolve" : "off",
+        "pret" : "0.0023334726780936455",
+        "probing" : "strongRoot",
+        "proximity" : "off",
+        "reduce" : "on",
+        "reduce2" : "longRoot",
+        "rens" : "before",
+        "residual" : "ifmove",
+        "rins" : "before",
+        "round" : "on",
+        "strong" : "17",
+        "trust" : "10",
+        "two" : "on",
+        "vnd" : "before",
+        "zero" : "off"
+      },
+      "pc-active-parameters" : [ "Node", "clique", "combine", "combine2", "constraint", "cutd", "cutl", "cuts", "dins", "diveo", "dives", "divingf", "divingg", "divingp", "divings", "expensive", "feas", "flow", "fraction", "gomory", "heur", "integert", "knapsack", "lagomory", "lift", "local", "mixed", "passc", "passp", "preprocess", "presolve", "pret", "probing", "proximity", "reduce", "reduce2", "rens", "residual", "rins", "round", "strong", "trust", "two", "vnd", "zero" ],
+      "pc-forbidden" : false,
+      "pc-default" : false
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 2.4512152671813965,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 2.561
+} {
+  "r-rc" : {
+    "@rc-id" : 24,
+    "rc-algo-exec-config" : {
+      "@algo-exec-config-id" : 2
+    },
+    "rc-cutoff" : 5.0,
+    "rc-pisp" : {
+      "@pisp-id" : 2
+    },
+    "rc-pc" : {
+      "@pc-id" : 23
+    },
+    "rc-sample-idx" : 0
+  },
+  "r-run-result" : "CRASHED",
+  "r-runtime" : 9.426710605621338,
+  "r-run-length" : 9.999999999E9,
+  "r-quality" : 2.147483647E9,
+  "r-result-seed" : -1,
+  "r-addl-run-data" : "0",
+  "r-wallclock-time" : 9.537
+}
