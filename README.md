@@ -5,7 +5,7 @@ This is a Automatic parameter tunning program for Minizinc solvers.
 Currently support cplex, gurobi and osicbc and able to perform parameter tunning on multiple instances. The program use [SMAC v2.10.03](http://www.cs.ubc.ca/labs/beta/Projects/SMAC/) to perform parameter tunning.
 
 
-# Requirement
+## Requirement
 
 1. Java (Tested on 8, not sure does it working on 9 or 10)
 
@@ -19,7 +19,7 @@ Currently support cplex, gurobi and osicbc and able to perform parameter tunning
    
 4. Working on linux, mac and windows
 
-# Basic Usage
+## Basic Usage
 1. On default, the program will try to minimize the time cost ot obtain optimal solution. 
 
 2. Go to the directory of your model files and data files
