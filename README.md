@@ -56,32 +56,32 @@ python Path/to/your/tuning program/Minizinc-Tunning.py --solver cplex -p 2 -t 36
 
 ### Optimize objective within limited time
 
---obj-mode
+**--obj-mode**
 
-If your model is hard to achieve a optimal solution in reasonable time. You can use this argument to optimize the objective of solution within limited time. **Remember to use -c \[cut off time] to set time limit**
+If your model is hard to achieve a optimal solution in reasonable time. You can use this argument to optimize the objective of solution within limited time. *Remember to use -c \[cut off time] to set time limit*
 
 On default it try to minimize objective
 
 For maximization problem, use
 
---maximize 
+**--maximize** 
 
 to indeticate that this is a maximization problem
 
 ### Parallel Tuning
 
--psmac \[No. of smac]
+**-psmac \[No. of smac]**
 
 SMAC support parallel search and tunning. SMACs will share their data to biuld model. If your computer have enough CPU resource, use this to achieve better solution. For cpu with 8 threads, if you run minizinc with -p 1, you can use -psmac 6. If minizinc use -p 2 , you can try -psmac 3. Do not use all aviable threads, as cpus are not only used by minizinc and smac. 
 
 ### Tuning threads
 
---tune-threads
+**--tune-threads**
 
 With this argument, the program will treat threads as one of parameter for tunning. -p \[No. of threads] will be treat as maximum threats available and default threats setting.
 
 ## Other option
 
--c
+**-c**
 
 Set cut off time for each minizinc run manualy
