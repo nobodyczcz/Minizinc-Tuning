@@ -6,7 +6,7 @@ Created on Fri Dec  7 16:05:40 2018
 @author: czcz2
 """
 
-import argparse,signal, inspect
+import argparse,signal, inspect, shutil
 from pcsConverter import *
 from initializer import *
 from tunning import *
@@ -160,6 +160,11 @@ def argparser():
         define the model is a maximize problem.
                                 ''')
 
+    parser.add_argument('--obj-cut', type=int, default=None \
+                        , help=''''\
+        Terminate minizinc when reach a certain bound.
+                                ''')
+
     args = parser.parse_args() #parse arguments
     
     #print(args)
@@ -225,19 +230,19 @@ def main():
     '''
     Instances pre check
     '''
-    if args.instances_file != None:
+    if args.instances_file is not None:
         print("Read instances list file: ",args.instances_file)
-
     else:
-        if args.instances == None:
+        if args.instances is None:
             raise Exception('You need either specify a instances list file or give instances by commandline arguments. Use -h for help')
-            
         else:
-            print("Instances from arguments: ",' '.join(args.instances))
+            print("Instances from arguments: " ,' '.join(args.instances))
     
     '''
     Benchmark mode setting check
     '''
+    if args.obj_cut is not None:
+        args.skip_bench = True
     if args.bench_mode is not None:
         try:
             benchMode = args.bench_mode.split(':')
@@ -288,11 +293,14 @@ def main():
         os.chdir(sys.path[0]+"/cache") 
         
         # Calculate cut off time if use didn't specify
-        initializer.cut_off_time_calculation()
+        initializer.cut_off_time_calculation(args.obj_cut,args.maximize)
 
         # generate wrapper and smac scenario
-        initializer.pSMAC_wrapper_generator(args.solver,args.maximize)
+        initializer.pSMAC_wrapper_generator(args.solver,args.maximize,args.obj_cut)
         initializer.pSMAC_scenario_generator(args.solver)
+        tempOut = open('temp.txt','w')
+        tempOut.write('')
+        tempOut.close()
 
         '''
         Start Tunning
@@ -313,15 +321,18 @@ def main():
         #use following code to ensure all miniinc process are killed.
         files = glob.glob('pid*')
         for f in files:
-            with open(f) as content:
-                pid = content.read()
-                if pid is None:
-                    pass
-                else:
-                    try:
-                        os.kill(int(pid), signal.SIGTERM)
-                    except Exception as e:
-                        print('[Exception] ', e)
+            try:
+                with open(f) as content:
+                    pid = content.read()
+                    if pid is None:
+                        pass
+                    else:
+                        try:
+                            os.kill(int(pid), signal.SIGTERM)
+                        except Exception as e:
+                            print('[Exception] ', e)
+            except:
+                pass
         '''
         Benchmark and output result to file
         '''
@@ -343,7 +354,10 @@ def main():
         print("\nCleaning up...")
         initializer.remove_tmp_files()
 
-    
+def enviromentCheck():
+    minizinc = shutil.which('minizinc')
+    python3 = shutil.which('python3')
+
 if __name__=="__main__":
     main()
 

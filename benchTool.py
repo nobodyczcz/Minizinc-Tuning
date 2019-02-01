@@ -29,6 +29,12 @@ parser.add_argument('--cplex-dll',type=str,\
 parser.add_argument('-skip',default = False, action='store_true',\
                         help='''\
                         ''')
+parser.add_argument('-a',default = False, action='store_true',\
+                        help='''\
+                        ''')
+parser.add_argument('-row',default = -1, type=int,\
+                        help='''\
+                        ''')
 args = parser.parse_args() 
 
 solver = args.solver
@@ -54,7 +60,7 @@ initializer.outputdir = outputDir
 print(cutOffTime)
 
 if args.skip:
-    initializer.noBnechOutput(-2)
+    initializer.noBnechOutput(-2,args.a)
 else:
     initializer.benchmark_main(1,-1)
 

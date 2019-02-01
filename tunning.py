@@ -58,7 +58,7 @@ class Tunning():
                    + ' --shared-model-mode ' + self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir\
                    + ' --cli-listen-for-updates false --validation false'
             if self.verboseOnOff:
-                tmp += ' --console-log-level DEBUG'
+                tmp += ' --console-log-level TRACE'
             cmd.append(tmp)
 
         return cmd

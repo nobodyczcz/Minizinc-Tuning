@@ -32,7 +32,7 @@ def seperateInstance(instance):
         instance = instance + i
     return instance
 
-def runMinizinc(cmd,cutoff,maximize,obj_mode):
+def runMinizinc(cmd,cutoff,maximize,obj_mode,obj_bound=None):
     """
     The function will execute the command line and return running result.
     :param cmd: the command line will be executed
@@ -41,35 +41,76 @@ def runMinizinc(cmd,cutoff,maximize,obj_mode):
     """
     t = time.time()
     print('[Wraper out]', cmd)
+    if obj_bound is not None:
+        cmd.append('-a')
     io = Popen(cmd, stdout=PIPE, stderr=PIPE)
     pidFile = "pid"+str(io.pid)
     with open(pidFile, 'w') as f:
         f.write(str(io.pid))
-
-    status = "CRASHED"
-    quality = 9999999999
     try:
-        (stdout_, stderr_) = io.communicate(timeout=cutoff)
+        tempOut = open('temp.txt','w')
+    except:
+        pass
+    status = "CRASHED"
+    quality = 9999999
+    runtime = cutoff
+    try:
+        if obj_bound is not None:
+            while io.poll() is None and time.time()-t<=cutoff:
+                line = io.stdout.readline().decode('utf-8')
+                try:
+                    tempOut.append(line)
+                except:
+                    pass
 
-        print('[MiniZinc out] ', stdout_)
-        runtime = time.time() - t
+                try:
+                    quality = float(re.search('(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', line).group(1))
+                    if maximize:
+                        quality = -quality
+                    runtime = time.time() - t
+                    status = 'SUCCESS'
+                except:
+                    pass
+                if maximize:
+                    if quality >= obj_bound:
+                        break
+                else:
+                    if quality <= obj_bound:
+                        break
+            io.terminate()
+            if quality == 9999999:
+                status = 'TIMEOUT'
+        else:
+            (stdout_, stderr_) = io.communicate(timeout=cutoff)
 
-        if re.search(b'time elapsed:', stdout_):
-            status = "SUCCESS"
-            quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
-            if maximize:
-                quality = -quality
-        elif re.search(b'=====UNKNOWN=====', stdout_):
-            eprint('[MiniZinc Warn] ', stderr_)
-            if obj_mode:
-                status = "TIMEOUT"
-            else:
+            eprint('[MiniZinc out] ', stdout_.decode('utf-8'))
+            tempOut.append(stdout_.decode('utf-8'))
+            runtime = time.time() - t
+
+            if re.search(b'time elapsed:', stdout_):
+                status = "SUCCESS"
+                quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
+                if maximize:
+                    quality = -quality
+                if obj_mode:
+                    runtime = cutoff/3
+            elif re.search(b'=====UNKNOWN=====', stdout_):
+                eprint('[MiniZinc Warn][UNKNOWN] ', stderr_.decode('utf-8'))
+                if obj_mode:
+                    try:
+                        quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
+                    except:
+                        pass
+                    runtime = cutoff/3
                 status = "CRASHED"
+            else:
+                eprint('[MiniZinc error] ', stderr_.decode('utf-8'))
+
     except TimeoutExpired:
         io.terminate()
         status = "TIMEOUT"
         runtime = cutoff
-        quality = 9999999999
+        quality = 9999999
     finally:
         try:
             os.remove(pidFile)
@@ -90,7 +131,7 @@ def preProcess(obj_mode):
         cutoff = 3*cutoff
     return instance, specifics,cutoff,runlength,seed,params,time_limit
 
-def cplex(n_thread, cplex_dll,maximize,obj_mode=False):
+def cplex(n_thread, cplex_dll,maximize,obj_mode=False, obj_bound=None):
     """
     The wrapper for cplex. generate command and print run result.
     :param n_thread: how many threads minizinc use
@@ -120,9 +161,11 @@ def cplex(n_thread, cplex_dll,maximize,obj_mode=False):
         if cplex_dll != 'None':
             eprint(cplex_dll)
             cmd = cmd + ' --cplex-dll ' + cplex_dll
+        if obj_bound:
+            cmd += ' -a'
         cmd = shlex.split(cmd)
 
-        status, runtime, quality = runMinizinc(cmd,cutoff,maximize,obj_mode)
+        status, runtime, quality = runMinizinc(cmd,cutoff,maximize,obj_mode,obj_bound)
         
         try:
             os.remove(tempParam)
@@ -137,7 +180,7 @@ def cplex(n_thread, cplex_dll,maximize,obj_mode=False):
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
 
 
-def osicbc(n_thread,empty,maximize,obj_mode=False):
+def osicbc(n_thread,empty,maximize,obj_mode=False, obj_bound=None):
     """
     The wrapper for osicbc. generate command and print run result.
     :param n_thread: how many threads minizinc use
@@ -160,9 +203,12 @@ def osicbc(n_thread,empty,maximize,obj_mode=False):
         if obj_mode:
             cmd += ' --solver-time-limit ' + str(time_limit)
         cmd += ' --cbcArgs "' + args + '"'
+
+        if obj_bound:
+            cmd += ' -a'
         cmd = shlex.split(cmd)
         
-        status, runtime, quality = runMinizinc(cmd, cutoff,maximize,obj_mode)
+        status, runtime, quality = runMinizinc(cmd, cutoff,maximize,obj_mode,obj_bound)
 
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, quality, runlength, seed, specifics))
     except Exception as e:
@@ -173,7 +219,7 @@ def osicbc(n_thread,empty,maximize,obj_mode=False):
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
 
 
-def gurobi(n_thread, dll,maximize,obj_mode=False):
+def gurobi(n_thread, dll,maximize,obj_mode=False, obj_bound=None):
     """
     The wrapper for gurobi. generate command and print run result.
     :param n_thread: how many threads minizinc use
@@ -198,8 +244,12 @@ def gurobi(n_thread, dll,maximize,obj_mode=False):
             n_thread) + ' -s --output-time --solver gurobi ' + instance + ' --readParam ' + tempParam
         if obj_mode:
             cmd += ' --solver-time-limit ' + str(time_limit)
+        if dll != 'None':
+            cmd = cmd + ' --gurobi-dll ' + dll
+        if obj_bound:
+            cmd += ' -a'
         cmd = shlex.split(cmd)
-        status, runtime, quality = runMinizinc(cmd, cutoff,maximize,obj_mode)
+        status, runtime, quality = runMinizinc(cmd, cutoff,maximize,obj_mode,obj_bound)
         
         try:
             os.remove(tempParam)
@@ -213,3 +263,11 @@ def gurobi(n_thread, dll,maximize,obj_mode=False):
         runtime = 99999
         quality = 99999
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
+
+# def main():
+#     solver = sys.argv[1]
+#     if solver == 'cplex':
+#
+#     elif solver == 'osicbc':
+#
+#     elif solver == 'gurobi':
