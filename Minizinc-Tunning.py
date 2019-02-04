@@ -296,8 +296,8 @@ def main():
         initializer.cut_off_time_calculation(args.obj_cut,args.maximize)
 
         # generate wrapper and smac scenario
-        initializer.pSMAC_wrapper_generator(args.solver,args.maximize,args.obj_cut)
-        initializer.pSMAC_scenario_generator(args.solver)
+        initializer.wrapper_setting_generator(args.solver,args.maximize,args.obj_cut)
+        initializer.pSMAC_scenario_generator()
         tempOut = open('temp.txt','w')
         tempOut.write('')
         tempOut.close()
@@ -330,7 +330,7 @@ def main():
                         try:
                             os.kill(int(pid), signal.SIGTERM)
                         except Exception as e:
-                            print('[Exception] ', e)
+                            pass
             except:
                 pass
         '''
@@ -352,11 +352,13 @@ def main():
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")
-        initializer.remove_tmp_files()
+        #initializer.remove_tmp_files()
 
-def enviromentCheck():
-    minizinc = shutil.which('minizinc')
-    python3 = shutil.which('python3')
+def EnvironmentCheck():
+    envDic = {}
+    envDic['minizinc'] = shutil.which('minizinc')
+    envDic['python3'] = shutil.which('python3')
+
 
 if __name__=="__main__":
     main()

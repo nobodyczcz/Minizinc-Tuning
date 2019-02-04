@@ -1,5 +1,5 @@
 from random import randint
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, run
 import time, shlex
 
 
@@ -29,14 +29,15 @@ class Tunning():
         for arg in args:
             print(arg)
             cmd = shlex.split(arg)
+            time.sleep(5)
             print('{} SMAC optimization starts'.format(self.get_current_timestamp()))
             io = Popen(cmd, stdout=PIPE, stderr=PIPE)
             child_processes.append(io)
 
-        while child_processes[0].poll() is None:
+        while child_processes[-1].poll() is None:
             for process in child_processes:
                 line = process.stdout.readline()
-                print(line.decode('utf-8'), end ="")
+                print('[',str(process.pid),']', line.decode('utf-8'), end ="")
 
         stdout_,stderr_=io.communicate()
         print(stdout_,stderr_)
@@ -58,7 +59,7 @@ class Tunning():
                    + ' --shared-model-mode ' + self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir\
                    + ' --cli-listen-for-updates false --validation false'
             if self.verboseOnOff:
-                tmp += ' --console-log-level TRACE'
+                tmp += ' --console-log-level DEBUG'
             cmd.append(tmp)
 
         return cmd

@@ -1,4 +1,4 @@
-import sys, os, re, time, shlex
+import sys, os, re, time, json
 from subprocess import Popen, PIPE, TimeoutExpired
 from random import randint
 
@@ -7,267 +7,327 @@ This file store the wrapper of solvers which will be directly called by SMAC.
 '''
 
 
-
-def get_current_timestamp():
-    '''
-    Get current timestamp
-    '''
-    return time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))    
-
-
-def eprint(*args, **kwargs):
+def eprint( *args, **kwargs):
     """
     A help funtion that print to stderr
     """
     print(*args, file=sys.stderr, **kwargs)
 
-def seperateInstance(instance):
-    '''
-    Handle the instance input from argument
-    '''
-    temp = instance.split('|')
-    instance = ''
-    for i in temp:
-        i = '"'+i+'" '
-        instance = instance + i
-    return instance
+class Wrapper():
+    def __init__(self, solver, threads, verbose):
+        self.instance = self.seperateInstance(sys.argv[1])
+        self.specifics = sys.argv[2]
+        self.cutoff = int(float(sys.argv[3]) + 1)  # runsolver only rounds down to integer
+        self.runlength = int(sys.argv[4])
+        self.seed = int(sys.argv[5])
+        self.params = sys.argv[6:]
+        self.time_limit = 0
+        self.solver = solver
+        self.threads = threads
+        self.basicCmd = ['minizinc', '-s', '--output-time', '--solver', solver] + self.instance
+        self.verbose = verbose
 
-def runMinizinc(cmd,cutoff,maximize,obj_mode,obj_bound=None):
-    """
-    The function will execute the command line and return running result.
-    :param cmd: the command line will be executed
-    :param cutoff: cut off time of each run
-    :return: status, runtime, quality
-    """
-    t = time.time()
-    print('[Wraper out]', cmd)
-    if obj_bound is not None:
-        cmd.append('-a')
-    io = Popen(cmd, stdout=PIPE, stderr=PIPE)
-    pidFile = "pid"+str(io.pid)
-    with open(pidFile, 'w') as f:
-        f.write(str(io.pid))
-    try:
-        tempOut = open('temp.txt','w')
-    except:
-        pass
-    status = "CRASHED"
-    quality = 9999999
-    runtime = cutoff
-    try:
-        if obj_bound is not None:
-            while io.poll() is None and time.time()-t<=cutoff:
+    def vprint(self,*args, **kwargs):
+        if self.verbose:
+            print('[Wrapper Debug]',*args, file=sys.stderr, **kwargs)
+    def get_current_timestamp(self):
+        '''
+        Get current timestamp
+        '''
+        return time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
+
+    def seperateInstance(self,instance):
+        '''
+        Handle the instance input from argument
+        '''
+        temp = instance.split('|')
+        instance = []
+        for i in temp:
+            instance.append(i)
+        return instance
+
+    def runMinizinc_obj_cut(self,cmd,maximize,obj_bound=None):
+        """
+        The function will execute the command line and return running result.
+        :param cmd: the command line will be executed
+        :param cutoff: cut off time of each run
+        :return: status, runtime, quality
+        """
+        t = time.time()
+
+        cmd += ['--time-limit', str(self.cutoff*1000), '-a']
+        self.vprint('[Wraper out]', cmd)
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+
+        try:
+            pidFile = "pid"+str(io.pid)
+            with open(pidFile, 'w') as f:
+                f.write(str(io.pid))
+        except:
+            pass
+
+        status = None
+        quality = None
+        runtime = self.cutoff
+        try:
+            while io.poll() is None:
                 line = io.stdout.readline().decode('utf-8')
                 try:
-                    tempOut.append(line)
-                except:
-                    pass
+                    quality = float(re.search('(?:%%mzn-stat objective=)((\d+\.\d+)|(\d+))', line).group(1))
+                    self.vprint('[Minizinc Out] Find mzn-stat objective=', str(quality))
+                    self.vprint('[Minizinc Out] the line', str(line))
 
-                try:
-                    quality = float(re.search('(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', line).group(1))
-                    if maximize:
-                        quality = -quality
                     runtime = time.time() - t
-                    status = 'SUCCESS'
                 except:
                     pass
-                if maximize:
-                    if quality >= obj_bound:
-                        break
-                else:
-                    if quality <= obj_bound:
-                        break
+                if obj_bound is not None:
+                    if maximize and quality is not None:
+                        if quality >= obj_bound:
+                            status = 'SUCCESS'
+                            self.vprint('[Wrapper] Reach Obj bound:', str(quality))
+                            break
+                    elif quality is not None:
+                        if quality <= obj_bound:
+                            status = 'SUCCESS'
+                            self.vprint('[Wrapper] Reach Obj bound:', str(quality))
+                            break
             io.terminate()
-            if quality == 9999999:
+            (stdout_, stderr_) = io.communicate()
+            if status == 'SUCCESS':
+                if maximize:
+                    quality = -quality
+            else:
                 status = 'TIMEOUT'
-        else:
-            (stdout_, stderr_) = io.communicate(timeout=cutoff)
+                quality = 1.0E9
+                runtime = self.cutoff
 
-            eprint('[MiniZinc out] ', stdout_.decode('utf-8'))
-            tempOut.append(stdout_.decode('utf-8'))
+        except:
+            io.terminate()
+            status = "CRASHED"
+            runtime = self.cutoff
+            quality = 1.0E9
+        finally:
+            try:
+                os.remove(pidFile)
+            except:
+                pass
+        return status, runtime, quality
+
+    def runMinizinc_time(self,cmd,maximize):
+        t = time.time()
+        self.vprint('[Wraper out]', cmd)
+
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+
+        try:
+            pidFile = "pid" + str(io.pid)
+            with open(pidFile, 'w') as f:
+                f.write(str(io.pid))
+        except:
+            pass
+
+        status = None
+        quality = None
+        runtime = self.cutoff
+
+        try:
+            (stdout_, stderr_) = io.communicate(timeout=self.cutoff)
+
+            self.vprint('[MiniZinc out] ', stdout_.decode('utf-8'))
             runtime = time.time() - t
 
             if re.search(b'time elapsed:', stdout_):
                 status = "SUCCESS"
-                quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
+                quality = float(re.search(b'(?:%%mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
+                self.vprint('[Wrapper] Run success')
+                self.vprint('[Wrapper] run time ', str(runtime))
+
                 if maximize:
                     quality = -quality
-                if obj_mode:
-                    runtime = cutoff/3
-            elif re.search(b'=====UNKNOWN=====', stdout_):
-                eprint('[MiniZinc Warn][UNKNOWN] ', stderr_.decode('utf-8'))
-                if obj_mode:
-                    try:
-                        quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
-                    except:
-                        pass
-                    runtime = cutoff/3
-                status = "CRASHED"
-            else:
-                eprint('[MiniZinc error] ', stderr_.decode('utf-8'))
 
-    except TimeoutExpired:
-        io.terminate()
-        status = "TIMEOUT"
-        runtime = cutoff
-        quality = 9999999
-    finally:
+            elif re.search(b'=====UNKNOWN=====', stdout_):
+                self.vprint('[MiniZinc Warn][UNKNOWN][stderr]', stderr_.decode('utf-8'))
+                status = "CRASHED"
+                quality = 1.0E9
+                runtime = self.cutoff
+
+        except TimeoutExpired as e:
+            self.vprint('[Wrapper Err] Timeout')
+            io.terminate()
+            status = "TIMEOUT"
+            runtime = self.cutoff
+            quality = 1.0E9
+        finally:
+            try:
+                os.remove(pidFile)
+            except:
+                pass
+        return status, runtime, quality
+
+    def runMinizinc_obj_mode(self,cmd,maximize):
+        t = time.time()
+        cmd += ['--time-limit', str(self.cutoff * 1000)]
+        self.vprint('[Wraper out]', cmd)
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+
         try:
-            os.remove(pidFile)
+            pidFile = "pid" + str(io.pid)
+            with open(pidFile, 'w') as f:
+                f.write(str(io.pid))
         except:
             pass
-    return status, runtime, quality
-    
-def preProcess(obj_mode):
-    instance = sys.argv[1]
-    specifics = sys.argv[2]
-    cutoff = int(float(sys.argv[3]) + 1) # runsolver only rounds down to integer
-    runlength = int(sys.argv[4])
-    seed = int(sys.argv[5])
-    params = sys.argv[6:]
-    time_limit = 0
-    if obj_mode:
-        time_limit = cutoff*1000
-        cutoff = 3*cutoff
-    return instance, specifics,cutoff,runlength,seed,params,time_limit
 
-def cplex(n_thread, cplex_dll,maximize,obj_mode=False, obj_bound=None):
-    """
-    The wrapper for cplex. generate command and print run result.
-    :param n_thread: how many threads minizinc use
-    :param cplex_dll: the dll file of minizinc if need to use
-    :return: none. print to stdout
-    """
-    try:
-        instance, specifics,cutoff,runlength,seed,params,time_limit = preProcess(obj_mode)
+        status = None
+        quality = None
+        runtime = self.cutoff
 
-        instance = seperateInstance(instance)
-        
+        try:
+            (stdout_, stderr_) = io.communicate()
+            self.vprint('[MiniZinc out] ', stdout_.decode('utf-8'))
+
+            if re.search(b'time elapsed:', stdout_):
+                status = "SUCCESS"
+                runtime = float(re.search(b'(?:mzn-stat time=)((\d+\.\d+)|(\d+))', stdout_).group(1))
+                quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
+                self.vprint('[Wrapper] Run success')
+                self.vprint('[Wrapper] run time ', str(runtime))
+                self.vprint('[Wrapper] quality ', str(quality))
+
+                if maximize:
+                    quality = -quality
+
+            elif re.search(b'=====UNKNOWN=====', stdout_):
+                eprint('[MiniZinc Warn][UNKNOWN] ', stderr_.decode('utf-8'))
+                status = "TIMEOUT"
+                quality = 1.0E9
+                runtime = self.cutoff
+
+        except Exception as e:
+            self.vprint('[Wrapper Exception] ', e)
+            io.terminate()
+            status = "Crashed"
+            runtime = self.cutoff
+            quality = 1.0E9
+        finally:
+            try:
+                os.remove(pidFile)
+            except:
+                pass
+        return status, runtime, quality
+
+
+    def process_param(self):
+        raise Exception('Must override this method')
+
+    def generate_cmd(self, tempParam, cplex_dll=None):
+        cmd = self.basicCmd + ['-p', str(self.threads)]
+        cmd += ['--readParam', tempParam]
+        if cplex_dll is not None:
+            cmd += ['--cplex-dll', cplex_dll]
+        return cmd
+
+class CplexWrapper(Wrapper):
+    def __init__(self, solver, threads):
+        Wrapper.__init__(self, solver, threads)
+
+    def process_param(self):
         # Prepare temp parameter file
         paramfile = 'CPLEX Parameter File Version 12.6\n'
-        for name, value in zip(params[::2], params[1::2]):
+        for name, value in zip(self.params[::2], self.params[1::2]):
             if name == '-MinizincThreads':
-                n_thread = value
+                self.threads = value
             else:
                 paramfile += name.strip('-') + '\t' + value + '\n'
-        tempParam = get_current_timestamp() + str(randint(1, 999999))
-        with open(tempParam , 'w') as f:
-            f.write(paramfile)
-
-        cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time --solver cplex ' + instance
-        if obj_mode:
-            cmd += ' --solver-time-limit ' + str(time_limit)
-        cmd += ' --readParam ' + tempParam
-        if cplex_dll != 'None':
-            eprint(cplex_dll)
-            cmd = cmd + ' --cplex-dll ' + cplex_dll
-        if obj_bound:
-            cmd += ' -a'
-        cmd = shlex.split(cmd)
-
-        status, runtime, quality = runMinizinc(cmd,cutoff,maximize,obj_mode,obj_bound)
-        
-        try:
-            os.remove(tempParam)
-        except:
-            eprint('[Wrapper Warn] remove temp param file failed')
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, runlength, quality, seed, specifics))
-    except Exception as e:
-        eprint('[Wrapper Exception] ', e)
-        status = "CRASHED"
-        runtime = 99999
-        quality = 99999
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
-
-
-def osicbc(n_thread,empty,maximize,obj_mode=False, obj_bound=None):
-    """
-    The wrapper for osicbc. generate command and print run result.
-    :param n_thread: how many threads minizinc use
-    :param cplex_dll: the dll file of minizinc if need to use
-    :return: none. print to stdout
-    """
-    try:
-        instance, specifics,cutoff,runlength,seed,params,time_limit = preProcess(obj_mode)
-        instance = seperateInstance(instance)
-
-        args = ''
-        for name, value in zip(params[::2], params[1::2]):
-            if name == '-MinizincThreads':
-                n_thread = value
-            else:
-                args += ' ' + name + ' ' + value
-
-        cmd = 'minizinc -p' + str(n_thread) + ' -s --output-time' \
-              + ' --solver osicbc ' + instance
-        if obj_mode:
-            cmd += ' --solver-time-limit ' + str(time_limit)
-        cmd += ' --cbcArgs "' + args + '"'
-
-        if obj_bound:
-            cmd += ' -a'
-        cmd = shlex.split(cmd)
-        
-        status, runtime, quality = runMinizinc(cmd, cutoff,maximize,obj_mode,obj_bound)
-
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, quality, runlength, seed, specifics))
-    except Exception as e:
-        eprint('[Wrapper Exception] ', e)
-        status = "CRASHED"
-        runtime = 99999
-        quality = 99999
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
-
-
-def gurobi(n_thread, dll,maximize,obj_mode=False, obj_bound=None):
-    """
-    The wrapper for gurobi. generate command and print run result.
-    :param n_thread: how many threads minizinc use
-    :param cplex_dll: the dll file of minizinc if need to use
-    :return: none. print to stdout
-    """
-    try:
-        instance, specifics,cutoff,runlength,seed,params,time_limit = preProcess(obj_mode)
-        instance = seperateInstance(instance)
-
-        paramfile = '# Parameter Setting for Gruobi\n'
-        for name, value in zip(params[::2], params[1::2]):
-            if name == '-MinizincThreads':
-                n_thread = value
-            else:
-                paramfile += name.strip('-') + '\t' + value + '\n'
-        tempParam = get_current_timestamp() + str(randint(1, 999999))
+        tempParam = self.get_current_timestamp() + str(randint(1, 999999))
         with open(tempParam, 'w') as f:
             f.write(paramfile)
+        return tempParam
 
-        cmd = 'minizinc -p' + str(
-            n_thread) + ' -s --output-time --solver gurobi ' + instance + ' --readParam ' + tempParam
+class OsicbcWrapper(Wrapper):
+    def __init__(self, solver, threads):
+        Wrapper.__init__(self, solver, threads)
+
+    def process_param(self):
+        # Prepare temp parameter file
+        args = ''
+        for name, value in zip(self.params[::2], self.params[1::2]):
+            if name == '-MinizincThreads':
+                self.threads = value
+            else:
+                args += ' ' + name + ' ' + value
+        return args
+
+class GurobiWrapper(Wrapper):
+    def __init__(self, solver, threads):
+        Wrapper.__init__(self, solver, threads)
+
+    def process_param(self):
+        # Prepare temp parameter file
+        paramfile = '# Parameter Setting for Gruobi\n'
+        for name, value in zip(self.params[::2], self.params[1::2]):
+            if name == '-MinizincThreads':
+                self.threads = value
+            else:
+                paramfile += name.strip('-') + '\t' + value + '\n'
+        tempParam = self.get_current_timestamp() + str(randint(1, 999999))
+        with open(tempParam, 'w') as f:
+            f.write(paramfile)
+        return tempParam
+
+
+
+if __name__=="__main__":
+    try:
+        with open('wrapperSetting.json') as file:
+            jsonData = json.load(file)
+
+        solver = jsonData['solver']
+        threads = jsonData['threads']
+        dll = jsonData['cplex_dll']
+        maximize = jsonData['maximize']
+        obj_mode = jsonData['obj_mode']
+        obj_bound = jsonData['obj_bond']
+        verbose = jsonData['verbose']
+
+        if solver == 'cplex':
+            wrapper = CplexWrapper(solver, threads,verbose)
+        elif solver == 'osicbc':
+            wrapper = OsicbcWrapper(solver, threads,verbose)
+        elif solver == 'gurobi':
+            wrapper = GurobiWrapper(solver, threads,verbose)
+        else:
+            raise Exception('[Wrapper Error] Solver do not exist')
+        wrapper.vprint('[Wrapper Debug] Read Wrapper setting',jsonData)
+        tempParam = wrapper.process_param()
+        cmd = wrapper.generate_cmd(tempParam,dll)
+
         if obj_mode:
-            cmd += ' --solver-time-limit ' + str(time_limit)
-        if dll != 'None':
-            cmd = cmd + ' --gurobi-dll ' + dll
-        if obj_bound:
-            cmd += ' -a'
-        cmd = shlex.split(cmd)
-        status, runtime, quality = runMinizinc(cmd, cutoff,maximize,obj_mode,obj_bound)
-        
+            status, runtime, quality = wrapper.runMinizinc_obj_mode(cmd, maximize)
+        elif obj_bound is not None:
+            status, runtime, quality = wrapper.runMinizinc_obj_cut(cmd, maximize, obj_bound)
+        else:
+            status, runtime, quality = wrapper.runMinizinc_time(cmd, maximize)
+
         try:
             os.remove(tempParam)
         except:
-            eprint('[Wrapper warn] remove temp param file failed')
-            
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, runlength, quality, seed, specifics))
-    except Exception as e:
-        eprint('[Wrapper Exception] ', e)
+            pass
+        wrapper.vprint('[Wrapper Debug] Run Finish ',status,' ', runtime,' ', quality)
+        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, wrapper.runlength, quality, wrapper.seed,
+                                                                            wrapper.specifics))
+
+    except FileNotFoundError as e:
+        eprint('[Wrapper Error] Failed when loading wrapperSetting', e)
         status = "CRASHED"
         runtime = 99999
-        quality = 99999
+        quality = 1.0E9
+        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
+    except Exception as e:
+        eprint('[Wrapper Error]',e)
+        status = "CRASHED"
+        runtime = 99999
+        quality = 1.0E9
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
 
-# def main():
-#     solver = sys.argv[1]
-#     if solver == 'cplex':
-#
-#     elif solver == 'osicbc':
-#
-#     elif solver == 'gurobi':
+
+
