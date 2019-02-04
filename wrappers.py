@@ -24,12 +24,33 @@ class Wrapper():
         self.time_limit = 0
         self.solver = solver
         self.threads = threads
-        self.basicCmd = ['minizinc', '-s', '--output-time', '--solver', solver] + self.instance
+        self.basicCmd = ['minizinc', '--output-mode', 'json', '--output-objective', '--solver', solver] + self.instance
         self.verbose = verbose
 
     def vprint(self,*args, **kwargs):
         if self.verbose:
             print('[Wrapper Debug]',*args, file=sys.stderr, **kwargs)
+
+    def extract_json_objects(self,text, decoder=json.JSONDecoder()):
+        """Find JSON objects in text, and yield the decoded JSON data
+
+        Does not attempt to look for JSON arrays, text, or other JSON types outside
+        of a parent JSON object.
+
+        """
+        pos = 0
+        while True:
+            match = text.find('{', pos)
+            if match == -1:
+                break
+            try:
+                result, index = decoder.raw_decode(text[match:])
+                if len(result) >= 1:
+                    yield result
+                pos = match + index
+            except ValueError:
+                pos = match + 1
+
     def get_current_timestamp(self):
         '''
         Get current timestamp
@@ -69,17 +90,28 @@ class Wrapper():
         status = None
         quality = None
         runtime = self.cutoff
+        delims = {'----------\n'}
+        term = {"=====UNSATISFIABLE=====\n", "=====UNSATorUNBOUNDED=====\n", "=====UNBOUNDED=====\n", \
+                "=====UNKNOWN=====\n", "=====ERROR=====\n", "==========\n"}
+        tmp=''
         try:
-            while io.poll() is None:
-                line = io.stdout.readline().decode('utf-8')
-                try:
-                    quality = float(re.search('(?:%%mzn-stat objective=)((\d+\.\d+)|(\d+))', line).group(1))
-                    self.vprint('[Minizinc Out] Find mzn-stat objective=', str(quality))
-                    self.vprint('[Minizinc Out] the line', str(line))
+            for ch in iter(lambda: io.stdout.readline().decode('utf-8'), ""):
+                if ch in delims:
+                    for result in self.extract_json_objects(tmp):
+                        try:
+                            quality = result['_objective']
+                            runtime = time.time()-t
+                            self.vprint('[Minizinc Out] Find objective=', str(quality))
+                            self.vprint('[Minizinc Out] full output', str(result))
+                        except:
+                            pass
+                    tmp = ""
+                elif ch in term:
+                    self.vprint('[Minizinc Out] Complete: ', ch)
+                    break
+                else:
+                    tmp += ch
 
-                    runtime = time.time() - t
-                except:
-                    pass
                 if obj_bound is not None:
                     if maximize and quality is not None:
                         if quality >= obj_bound:
@@ -91,6 +123,28 @@ class Wrapper():
                             status = 'SUCCESS'
                             self.vprint('[Wrapper] Reach Obj bound:', str(quality))
                             break
+
+            # while io.poll() is None:
+            #     line = io.stdout.readline().decode('utf-8')
+            #     try:
+            #         quality = float(re.search('(?:%%mzn-stat objective=)((\d+\.\d+)|(\d+))', line).group(1))
+            #         self.vprint('[Minizinc Out] Find mzn-stat objective=', str(quality))
+            #         self.vprint('[Minizinc Out] the line', str(line))
+            #
+            #         runtime = time.time() - t
+            #     except:
+            #         pass
+            #     if obj_bound is not None:
+            #         if maximize and quality is not None:
+            #             if quality >= obj_bound:
+            #                 status = 'SUCCESS'
+            #                 self.vprint('[Wrapper] Reach Obj bound:', str(quality))
+            #                 break
+            #         elif quality is not None:
+            #             if quality <= obj_bound:
+            #                 status = 'SUCCESS'
+            #                 self.vprint('[Wrapper] Reach Obj bound:', str(quality))
+            #                 break
             io.terminate()
             (stdout_, stderr_) = io.communicate()
             if status == 'SUCCESS':
@@ -132,21 +186,28 @@ class Wrapper():
 
         try:
             (stdout_, stderr_) = io.communicate(timeout=self.cutoff)
-
-            self.vprint('[MiniZinc out] ', stdout_.decode('utf-8'))
+            output = stdout_.decode('utf-8')
+            self.vprint('[MiniZinc out] ', output)
             runtime = time.time() - t
 
-            if re.search(b'time elapsed:', stdout_):
+
+
+            if re.search('==========', output):
                 status = "SUCCESS"
-                quality = float(re.search(b'(?:%%mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
-                self.vprint('[Wrapper] Run success')
-                self.vprint('[Wrapper] run time ', str(runtime))
+                for result in self.extract_json_objects(output):
+                    try:
+                        quality = result['_objective']
+                        self.vprint('[Minizinc Out] Find objective=', str(quality))
+                        self.vprint('[Minizinc Out] full output', str(result))
+                    except:
+                        pass
 
                 if maximize:
                     quality = -quality
 
-            elif re.search(b'=====UNKNOWN=====', stdout_):
-                self.vprint('[MiniZinc Warn][UNKNOWN][stderr]', stderr_.decode('utf-8'))
+            else:
+                self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
+                self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 status = "CRASHED"
                 quality = 1.0E9
                 runtime = self.cutoff
@@ -183,22 +244,27 @@ class Wrapper():
 
         try:
             (stdout_, stderr_) = io.communicate()
-            self.vprint('[MiniZinc out] ', stdout_.decode('utf-8'))
+            output = stdout_.decode('utf-8')
+            self.vprint('[MiniZinc out] ', output)
 
-            if re.search(b'time elapsed:', stdout_):
+
+            for result in self.extract_json_objects(output):
+                try:
+                    quality = result['_objective']
+                    self.vprint('[Minizinc Out] Find objective=', str(quality))
+                    self.vprint('[Minizinc Out] full output', str(result))
+                except:
+                    pass
+
+
+            if quality is not None:
                 status = "SUCCESS"
-                runtime = float(re.search(b'(?:mzn-stat time=)((\d+\.\d+)|(\d+))', stdout_).group(1))
-                quality = float(re.search(b'(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', stdout_).group(1))
-                self.vprint('[Wrapper] Run success')
-                self.vprint('[Wrapper] run time ', str(runtime))
-                self.vprint('[Wrapper] quality ', str(quality))
-
                 if maximize:
                     quality = -quality
-
-            elif re.search(b'=====UNKNOWN=====', stdout_):
-                eprint('[MiniZinc Warn][UNKNOWN] ', stderr_.decode('utf-8'))
-                status = "TIMEOUT"
+            else:
+                self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
+                self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
+                status = "CRASHED"
                 quality = 1.0E9
                 runtime = self.cutoff
 
@@ -227,8 +293,8 @@ class Wrapper():
         return cmd
 
 class CplexWrapper(Wrapper):
-    def __init__(self, solver, threads):
-        Wrapper.__init__(self, solver, threads)
+    def __init__(self, solver, threads,verbose):
+        Wrapper.__init__(self, solver, threads,verbose)
 
     def process_param(self):
         # Prepare temp parameter file
@@ -244,8 +310,8 @@ class CplexWrapper(Wrapper):
         return tempParam
 
 class OsicbcWrapper(Wrapper):
-    def __init__(self, solver, threads):
-        Wrapper.__init__(self, solver, threads)
+    def __init__(self, solver, threads,verbose):
+        Wrapper.__init__(self, solver, threads,verbose)
 
     def process_param(self):
         # Prepare temp parameter file
@@ -258,8 +324,8 @@ class OsicbcWrapper(Wrapper):
         return args
 
 class GurobiWrapper(Wrapper):
-    def __init__(self, solver, threads):
-        Wrapper.__init__(self, solver, threads)
+    def __init__(self, solver, threads,verbose):
+        Wrapper.__init__(self, solver, threads,verbose)
 
     def process_param(self):
         # Prepare temp parameter file
@@ -302,10 +368,13 @@ if __name__=="__main__":
         cmd = wrapper.generate_cmd(tempParam,dll)
 
         if obj_mode:
+            wrapper.vprint('Run in obj mode')
             status, runtime, quality = wrapper.runMinizinc_obj_mode(cmd, maximize)
         elif obj_bound is not None:
+            wrapper.vprint('Run in obj cut mode')
             status, runtime, quality = wrapper.runMinizinc_obj_cut(cmd, maximize, obj_bound)
         else:
+            wrapper.vprint('Run in time mode')
             status, runtime, quality = wrapper.runMinizinc_time(cmd, maximize)
 
         try:

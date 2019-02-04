@@ -25,8 +25,31 @@ class Initializer():
         self.instanceList = None
         self.initialCwd = initialCwd
         self.obj_mode = obj_mode
-        self.basicCmd = ['minizinc','--output-time','-s']
-    
+        self.basicCmd = ['minizinc','--output-mode', 'json', '--output-objective']
+
+    def extract_json_objects(self,text, decoder=json.JSONDecoder()):
+        """Find JSON objects in text, and yield the decoded JSON data
+
+        Does not attempt to look for JSON arrays, text, or other JSON types outside
+        of a parent JSON object.
+
+        """
+        pos = 0
+        while True:
+            match = text.find('{', pos)
+            if match == -1:
+                break
+            try:
+                result, index = decoder.raw_decode(text[match:])
+                if len(result) >= 1:
+                    yield result
+                pos = match + index
+            except ValueError:
+                pos = match + 1
+
+    def vprint(self,*args, **kwargs):
+        if self.verboseOnOff:
+            print('[Wrapper Debug]',*args, file=sys.stderr, **kwargs)
 
     def get_current_timestamp(self):
         '''
@@ -62,21 +85,39 @@ class Initializer():
         quality = None
         runtime = 0
         print('Minizinc start running')
-        while io.poll() is None:
-            line = io.stdout.readline().decode('utf-8')
-            try:
-                quality = float(re.search('(?:mzn-stat objective=)((\d+\.\d+)|(\d+))', line).group(1))
-                runtime = time.time() - t
-            except:
-                pass
-            if maximize and quality is not None:
-                if quality >= obj_bound:
-                    success = True
-                    break
-            elif quality is not None:
-                if quality <= obj_bound:
-                    success = True
-                    break
+        delims = {'----------\n'}
+        term = {"=====UNSATISFIABLE=====\n", "=====UNSATorUNBOUNDED=====\n", "=====UNBOUNDED=====\n", \
+                "=====UNKNOWN=====\n", "=====ERROR=====\n", "==========\n"}
+        tmp=''
+        for ch in iter(lambda: io.stdout.readline().decode('utf-8'), ""):
+            if ch in delims:
+                for result in self.extract_json_objects(tmp):
+                    try:
+                        quality = result['_objective']
+                        runtime = time.time() - t
+                        print(quality)
+                        self.vprint('[Minizinc Out] Find objective=', str(quality))
+                        self.vprint('[Minizinc Out] full output', str(result))
+                    except:
+                        pass
+                tmp = ""
+            elif ch in term:
+                self.vprint('[Minizinc Out] Complete: ', ch)
+                break
+            else:
+                tmp += ch
+
+            if obj_bound is not None:
+                if maximize and quality is not None:
+                    if quality >= obj_bound:
+                        success = True
+                        self.vprint('[Wrapper] Reach Obj bound:', str(quality))
+                        break
+                elif quality is not None:
+                    if quality <= obj_bound:
+                        success = True
+                        self.vprint('[Wrapper] Reach Obj bound:', str(quality))
+                        break
         print('Minizinc End')
         io.terminate()
 
@@ -313,8 +354,7 @@ class Initializer():
         for j in range(batch):            
             t=time.time()
             stdout_, stderr_ = self.run_cmd(cmd,cutOffTime)
-            if re.search(b'time elapsed:', stdout_):
-                
+            if re.search('==========', stdout_.decode('utf-8')):
                 avgtime += time.time()-t
             else:
                 print(stderr_)
