@@ -153,16 +153,17 @@ def argparser():
                             ''')
     parser.add_argument('--obj-mode', default=False, action='store_true' \
                     , help=''''\
-    With this argument, the program will try to optimize objective within limited time. 
+    With this argument, the program will try to optimize objective within limited time. You must specify
+    a cut off time when using this mode. 
                             ''')
     parser.add_argument('--maximize', default=False, action='store_true' \
                         , help=''''\
-        define the model is a maximize problem.
+    Let the program know that these model are maximize problems.
                                 ''')
 
     parser.add_argument('--obj-cut', type=int, default=None \
                         , help=''''\
-        Terminate minizinc when reach a certain bound.
+    Terminate minizinc when reach a certain bound.
                                 ''')
 
     args = parser.parse_args() #parse arguments
@@ -243,6 +244,9 @@ def main():
     '''
     if args.obj_cut is not None:
         args.skip_bench = True
+    if args.obj_mode:
+        if args.c == 0:
+            raise Exception('[Setting error] You must specify a -c (cut off time) for objective optimizing mode')
     if args.bench_mode is not None:
         try:
             benchMode = args.bench_mode.split(':')
@@ -352,12 +356,20 @@ def main():
         except KeyboardInterrupt:
             pass
         print("\nCleaning up...")
-        #initializer.remove_tmp_files()
+        initializer.remove_tmp_files()
 
 def EnvironmentCheck():
     envDic = {}
-    envDic['minizinc'] = shutil.which('minizinc')
-    envDic['python3'] = shutil.which('python3')
+    if shutil.which('minizinc') is None:
+        raise Exception("Must Add Minizinc to Path Enviroment")
+    else:
+        envDic['minizinc'] = shutil.which('minizinc')
+
+    if sys.version_info[0] < 3:
+        raise Exception("Must be using Python 3")
+    else:
+        envDic['python'] = sys.executable
+
 
 
 if __name__=="__main__":

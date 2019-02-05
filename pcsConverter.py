@@ -81,6 +81,7 @@ class pcsConverter():
                                 mini = 1
                             else:
                                 mini = 10 * mini
+                        newRange.append(maxi)
                         paramRange = str(newRange).replace("'", "")[1:-1]
                         paramRange = "{" + paramRange + "}"
                     else:

@@ -186,19 +186,16 @@ class Wrapper():
 
         try:
             (stdout_, stderr_) = io.communicate(timeout=self.cutoff)
-            output = stdout_.decode('utf-8')
-            self.vprint('[MiniZinc out] ', output)
             runtime = time.time() - t
-
-
-
+            output = stdout_.decode('utf-8')
+            # self.vprint('[MiniZinc out] ', output)
+            self.vprint('[Wrapper out] Minizinc Finish')
             if re.search('==========', output):
                 status = "SUCCESS"
                 for result in self.extract_json_objects(output):
                     try:
                         quality = result['_objective']
                         self.vprint('[Minizinc Out] Find objective=', str(quality))
-                        self.vprint('[Minizinc Out] full output', str(result))
                     except:
                         pass
 
@@ -206,7 +203,6 @@ class Wrapper():
                     quality = -quality
 
             else:
-                self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 status = "CRASHED"
                 quality = 1.0E9
@@ -245,14 +241,14 @@ class Wrapper():
         try:
             (stdout_, stderr_) = io.communicate(timeout=self.cutoff*2)
             output = stdout_.decode('utf-8')
-            self.vprint('[MiniZinc out] ', output)
+            #self.vprint('[MiniZinc out] ', output)
+            self.vprint('[Wrapper out] Minizinc Finish')
 
 
             for result in self.extract_json_objects(output):
                 try:
                     quality = result['_objective']
                     self.vprint('[Minizinc Out] Find objective=', str(quality))
-                    self.vprint('[Minizinc Out] full output', str(result))
                 except:
                     pass
 
@@ -262,14 +258,14 @@ class Wrapper():
                 if maximize:
                     quality = -quality
             else:
-                self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 status = "TIMEOUT"
                 quality = 1.0E9
                 runtime = self.cutoff
 
         except TimeoutExpired as e:
-            self.vprint('[Wrapper Exception] ', 'Minizinc did not stop on timelimit killed by wrapper')
+            io.terminate()
+            self.vprint('[Wrapper Exception] ', 'Minizinc did not stop on timelimit, killed by wrapper')
             status = "Crashed"
             runtime = self.cutoff
             quality = 1.0E9

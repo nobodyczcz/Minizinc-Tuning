@@ -31,16 +31,17 @@ class Tunning():
             cmd = shlex.split(arg)
             time.sleep(5)
             print('{} SMAC optimization starts'.format(self.get_current_timestamp()))
-            io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+            io = Popen(cmd)
             child_processes.append(io)
 
         # while child_processes[-1].poll() is None:
         #     for process in child_processes:
         #         line = process.stdout.readline()
         #         print('[',str(process.pid),']', line.decode('utf-8'), end ="")
+        for process in child_processes:
+            process.communicate()
 
-        stdout_,stderr_=io.communicate()
-        print(stdout_,stderr_)
+
 
     def psmac_args(self):
         '''
