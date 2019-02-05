@@ -34,10 +34,10 @@ class Tunning():
             io = Popen(cmd, stdout=PIPE, stderr=PIPE)
             child_processes.append(io)
 
-        while child_processes[-1].poll() is None:
-            for process in child_processes:
-                line = process.stdout.readline()
-                print('[',str(process.pid),']', line.decode('utf-8'), end ="")
+        # while child_processes[-1].poll() is None:
+        #     for process in child_processes:
+        #         line = process.stdout.readline()
+        #         print('[',str(process.pid),']', line.decode('utf-8'), end ="")
 
         stdout_,stderr_=io.communicate()
         print(stdout_,stderr_)

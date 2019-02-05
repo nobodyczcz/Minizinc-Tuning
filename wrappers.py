@@ -243,7 +243,7 @@ class Wrapper():
         runtime = self.cutoff
 
         try:
-            (stdout_, stderr_) = io.communicate()
+            (stdout_, stderr_) = io.communicate(timeout=self.cutoff*1.5)
             output = stdout_.decode('utf-8')
             self.vprint('[MiniZinc out] ', output)
 
@@ -267,6 +267,9 @@ class Wrapper():
                 status = "CRASHED"
                 quality = 1.0E9
                 runtime = self.cutoff
+
+        except TimeoutExpired as e:
+            (stdout_, stderr_) = io.communicate()
 
         except Exception as e:
             self.vprint('[Wrapper Exception] ', e)
