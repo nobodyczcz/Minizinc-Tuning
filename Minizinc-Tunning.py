@@ -386,6 +386,11 @@ def environmentCheck(args):
     else:
         envdic['minizinc'] = shutil.which('minizinc')
 
+    if shutil.which('java') is None:
+        raise Exception("Must install java and add it pt your PATH")
+    else:
+        envdic['java'] = shutil.which('java')
+
     if getattr(sys, 'frozen', False):
         # we are running in a bundle
         pass
