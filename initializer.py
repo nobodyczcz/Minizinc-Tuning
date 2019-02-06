@@ -243,11 +243,11 @@ class Initializer():
         writeToFile = []
         if getattr(sys, 'frozen', False):
             # we are running in a bundle
-            python = ''
+            python = '../wrappers/wrappers'
         else:
             # we are running in a normal Python environment
-            python = str(sys.executable) + ' -u '
-        writeToFile.append('algo = {}../wrappers/wrappers.py'.format(python))
+            python = str(sys.executable) + ' -u ../wrappers/wrappers.py'
+        writeToFile.append('algo = {}'.format(python))
         writeToFile.append('pcs-file = {}'.format(self.pcsFile))
         writeToFile.append('execdir = .')
         writeToFile.append('deterministic = 1')
