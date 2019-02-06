@@ -239,9 +239,15 @@ class Initializer():
         Generate scenario file for running the smac.
         '''
         print('{} Generating scenario for SMAC'.format(self.get_current_timestamp()))
-        python = sys.executable
+
         writeToFile = []
-        writeToFile.append('algo = {} -u ../wrappers.py'.format(python))
+        if getattr(sys, 'frozen', False):
+            # we are running in a bundle
+            python = ''
+        else:
+            # we are running in a normal Python environment
+            python = str(sys.executable) + ' -u '
+        writeToFile.append('algo = {}../wrappers/wrappers.py'.format(python))
         writeToFile.append('pcs-file = {}'.format(self.pcsFile))
         writeToFile.append('execdir = .')
         writeToFile.append('deterministic = 1')

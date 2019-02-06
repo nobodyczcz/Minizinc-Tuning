@@ -1,6 +1,6 @@
 from random import randint
-from subprocess import Popen, PIPE, run
-import time, shlex
+from subprocess import Popen
+import time
 
 
 class Tunning():
@@ -28,7 +28,7 @@ class Tunning():
         child_processes=[]
         for arg in args:
             print(arg)
-            cmd = shlex.split(arg)
+            cmd = arg
             time.sleep(1)
             print('{} SMAC optimization starts'.format(self.get_current_timestamp()))
             io = Popen(cmd, env = env)
@@ -55,12 +55,11 @@ class Tunning():
         #    self.smac_path = stdout_.decode('utf-8').strip('\n')
 
         for i in range(self.nSMAC):
-            tmp = ''
-            tmp += '"' + self.smac_path + '" --scenario-file scenario_.txt --seed ' + str(randint(1, 999999)) \
-                   + ' --shared-model-mode ' + self.psmac + ' --shared-model-mode-frequency 100 --rungroup ' + self.outputdir\
-                   + ' --cli-listen-for-updates false --validation false'
+            tmp = [self.smac_path, '--scenario-file', 'scenario_.txt', '--seed', str(randint(1, 999999)), \
+                   '--shared-model-mode', str(self.psmac), '--shared-model-mode-frequency', '100', \
+                   '--rungroup', self.outputdir, '--cli-listen-for-updates', 'false', '--validation', 'false']
             if self.verboseOnOff:
-                tmp += ' --console-log-level DEBUG'
+                tmp += ['--console-log-level', 'DEBUG']
             cmd.append(tmp)
 
         return cmd

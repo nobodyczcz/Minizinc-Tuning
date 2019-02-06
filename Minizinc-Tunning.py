@@ -224,8 +224,14 @@ def main():
     '''
     converter = pcsConverter()
     initialCwd = os.getcwd()
-    filename = inspect.getframeinfo(inspect.currentframe()).filename
-    programPath = os.path.dirname(os.path.abspath(filename))
+
+    if getattr(sys, 'frozen', False):
+        # we are running in a bundle
+        programPath = sys._MEIPASS
+    else:
+        # we are running in a normal Python environment
+        programPath = os.path.dirname(os.path.abspath(__file__))
+
     if args.pcsJson_file is None:
         try:
             args.pcsJson_file = os.path.abspath(programPath+'/pcsFiles/' + args.solver + '.json')
@@ -233,9 +239,9 @@ def main():
             raise Exception('Cannot find parameter configuration json file for ' + args.solver +\
                             ' under Minizinc-Tuning/pcsFiles/ . Please specify one with -pcsJson argument')
     if args.tune_threads:
-        pcsFile = converter.jsonToPcs(args.pcsJson_file, sys.path[0] + "/cache/temppcs.pcs", args.p)
+        pcsFile = converter.jsonToPcs(args.pcsJson_file, programPath + "/cache/temppcs.pcs", args.p)
     else:
-        pcsFile = converter.jsonToPcs(args.pcsJson_file, sys.path[0] + "/cache/temppcs.pcs")
+        pcsFile = converter.jsonToPcs(args.pcsJson_file, programPath + "/cache/temppcs.pcs")
 
     
     '''
@@ -308,7 +314,7 @@ def main():
         initializer.process_thread()
 
         # change working directory to /cache
-        os.chdir(sys.path[0]+"/cache") 
+        os.chdir(programPath+"/cache")
         
         # Calculate cut off time if use didn't specify
         initializer.cut_off_time_calculation(args.obj_cut,args.maximize)
@@ -380,10 +386,17 @@ def environmentCheck(args):
     else:
         envdic['minizinc'] = shutil.which('minizinc')
 
-    if sys.version_info[0] < 3:
-        raise Exception("Must be using Python 3")
+    if getattr(sys, 'frozen', False):
+        # we are running in a bundle
+        pass
     else:
-        envdic['python'] = sys.executable
+        # we are running in a normal Python environment
+        if sys.version_info[0] < 3:
+            raise Exception("Must be using Python 3")
+        else:
+            envdic['python'] = sys.executable
+
+
 
     if args.solver == 'gurobi':
         try:
