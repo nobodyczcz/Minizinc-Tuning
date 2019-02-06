@@ -20,14 +20,14 @@ Currently support cplex, gurobi and osicbc and able to perform parameter tunning
 4. Working on linux, mac and windows
 
 ## Basic Usage
-1. On default, the program will try to minimize the time cost ot obtain optimal solution. 
+1. On default, the program will try to minimize the time cost ot obtain optimal solution and use the parameter space configuration files in pcsFiles/ folder.
 
 2. Go to the directory of your model files and data files
 
 3. Use a command in following format to start tunning:
 
 ```
-python Path/to/Minizinc-Tunning.py --solver [1.solver] -p [2.No.of threads] -t [3.time limit] -pcsJson [4.pcsfile path] [5.model and data] 
+python Path/to/Minizinc-Tunning.py --solver [1.solver] -p [2.No.of threads] -t [3.time limit] [4.model and data] 
 ```
 \[1]: Solver you want to use: cplex / gurobi / osicbc
 
@@ -39,18 +39,16 @@ Attention the prameter configration for certain amount processors may not work w
 
 The time limit should be enough for runing the model for at leat 80 times. If your models needs 300 seconds to solve the problem, it is suggested to tuning for more than 6 hours (21600 seconds). If you only tunning for 3 hours, it will also give you a improved parameter configuration, but may not as good as 6 hour result. It is suggested to make it run as long as possible. 
 
-\[4]: The path to json parameter configuration space file. We provide two (osicbc.json, cplex.json) in our program folder.
+\[4]: models and datas: "Model1.mzn data1.dzn data2.dzn" "Model2.mzn data21.dzn" "Model3.mzn data31.dzn data32.dzn data33.dzn ..." ....
 
-\[5]: models and datas: "Model1.mzn data1.dzn data2.dzn" "Model2.mzn data21.dzn" "Model3.mzn data31.dzn data32.dzn data33.dzn ..." ....
-
-If you are using cplex on linux， or minizinc don't known where is cplex, add --cplex-dll \[6.dll file path] to the end of command. \[6.dll file path] is the path of cplex dll/so file. Remove it if you are using osicbc or gurobi
+\[5]: If you are using cplex on linux， or minizinc don't known where is cplex, add --cplex-dll \[5.dll file path] to the end of command. \[5.dll file path] is the path of cplex dll/so file. Remove it if you are using osicbc or gurobi
 
 
 ### For example:
 
 #### For the mapping.mzn model in example directory
 ```
-python Path/to/your/tuning program/Minizinc-Tunning.py --solver cplex -p 2 -t 3600 -pcsJson path/to/cplex.json "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn"  --cplex-dll path/to/libcplexXXXX.so
+python ../Minizinc-Tunning.py --solver cplex -p 2 -t 3600 "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn"  --cplex-dll path/to/libcplexXXXX.so
 ```
 ## Advanced
 
@@ -58,15 +56,20 @@ python Path/to/your/tuning program/Minizinc-Tunning.py --solver cplex -p 2 -t 36
 
 **--obj-mode**
 
-If your model is hard to achieve a optimal solution in reasonable time. You can use this argument to optimize the objective of solution within limited time. *Remember to use -c \[cut off time] to set time limit*
+If your model is hard to achieve a optimal solution in reasonable time or your want to improve the optimal solution. You can use this argument to optimize the objective of solution within limited time. *Remember to use -c \[cut off time] to set time limit*
 
 On default it try to minimize objective
 
-For maximization problem, use
+For maximization problem, **must add**
 
 **--maximize** 
 
 to indeticate that this is a maximization problem
+
+and **must add**
+
+**-c**
+to specify a cutoff time.
 
 ### Parallel Tuning
 
@@ -82,10 +85,18 @@ With this argument, the program will treat threads as one of parameter for tunni
 
 ## Other option
 
+**-pcsJson**
+
+If you have your own parameter space configuration file, you can use this argument to provide the path of it.
+
 **-c**
 
 Set cut off time for each minizinc run manualy
 
 **-v**
 
-Enable verbose
+Enable verbose/debug mode
+
+**--skip-bench**
+
+Skip final benchmark, use smac-output to judge and output best configuration.
