@@ -86,7 +86,7 @@ def argparser():
     given by command-line arguments. 
                         ''')
     
-    parser.add_argument('-pcsJson','--pcsJson-file',required=True, default= None ,metavar='your-pcsJson-file-name',\
+    parser.add_argument('-pcsJson','--pcsJson-file', default= None ,metavar='your-pcsJson-file-name',\
                         help='''\
     Specify the path of parameter configuratoin json file.
                         ''')
@@ -108,7 +108,7 @@ def argparser():
     should be smaller than total aviable threads of your cpu.
                         ''')
     
-    parser.add_argument('-c','--cut',type=int,default=0,metavar='cut-off-time-by-seconds',\
+    parser.add_argument('-c','--cut',type=float,default=0,metavar='cut-off-time-by-seconds',\
                         help='''\
     Specify a cut off time for minizinc solve the problem. It is suggested 
     to use a time that can make most runs pass it. If you don't specify a
@@ -122,7 +122,7 @@ def argparser():
     -pcs to see our suggestion for time limit.
                         ''')
     
-    parser.add_argument('--cplex-dll',default=None,type=str,metavar='/opt/ibm/....',\
+    parser.add_argument('-dll','--cplex-dll',default=None,type=str,metavar='/opt/ibm/....',\
                         help='''\
     You need to give the path of cplex  dll file if you want to use cplex
     as solve.
@@ -213,7 +213,11 @@ def main():
     # if args.solver == "cplex":
     #     if args.cplex_dll == None:
     #         raise Exception('You must specify the path of cplex dll file when using cplex.')
-    
+    '''
+    Enviroment pre check
+    '''
+    envdic = environmentCheck(args)
+
     '''
     Parameter file pre check.
     Convert json pcs file to Smac pcs file format
@@ -222,6 +226,12 @@ def main():
     initialCwd = os.getcwd()
     filename = inspect.getframeinfo(inspect.currentframe()).filename
     programPath = os.path.dirname(os.path.abspath(filename))
+    if args.pcsJson_file is None:
+        try:
+            args.pcsJson_file = os.path.abspath(programPath+'/pcsFiles/' + args.solver + '.json')
+        except:
+            raise Exception('Cannot find parameter configuration json file for ' + args.solver +\
+                            ' under Minizinc-Tuning/pcsFiles/ . Please specify one with -pcsJson argument')
     if args.tune_threads:
         pcsFile = converter.jsonToPcs(args.pcsJson_file, sys.path[0] + "/cache/temppcs.pcs", args.p)
     else:
@@ -245,7 +255,7 @@ def main():
     if args.obj_cut is not None:
         args.skip_bench = True
     if args.obj_mode:
-        if args.c == 0:
+        if args.cut == 0:
             raise Exception('[Setting error] You must specify a -c (cut off time) for objective optimizing mode')
     if args.bench_mode is not None:
         try:
@@ -259,15 +269,19 @@ def main():
 
 
     print("=" * 50)
+    print("solver: ",args.solver)
     print("threads: ", args.p)
     print("Tune threads: ", args.tune_threads)
-    print("solver: ",args.solver)
-    print("PSMAC mode: ","result from last step")
+    print("PSMAC mode: ",args.psmac)
+    print("Optimize objective mode: ", args.obj_mode)
+    if args.obj_mode:
+        print("Maximization problem: ", args.maximize)
     print("Cuts time: ", args.cut)
     print("Tuning time limit: ", args.t)
-    print("Parameter space file: ", pcsFile)
+    print("Parameter space file: ", args.pcsJson_file)
     print("cplex dll: ", args.cplex_dll)
-    print("verbose: ", args.v)
+    print("Verbose: ", args.v)
+    print("Skip Benchmark", args.skip_bench)
     print("=" * 50)
 
     '''
@@ -300,7 +314,7 @@ def main():
         initializer.cut_off_time_calculation(args.obj_cut,args.maximize)
 
         # generate wrapper and smac scenario
-        initializer.wrapper_setting_generator(args.solver,args.maximize,args.obj_cut)
+        initializer.wrapper_setting_generator(args.solver,args.maximize,args.obj_cut,envdic)
         initializer.pSMAC_scenario_generator()
         tempOut = open('temp.txt','w')
         tempOut.write('')
@@ -316,7 +330,7 @@ def main():
         print("smac path: ",smacPath)
         tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath)
 
-        tunning.runSmac()
+        tunning.runSmac(env = envdic['osenv'])
 
     except KeyboardInterrupt:
         print("\nKeyboardInterrupt has been caught.")
@@ -358,17 +372,35 @@ def main():
         print("\nCleaning up...")
         initializer.remove_tmp_files()
 
-def EnvironmentCheck():
-    envDic = {}
+def environmentCheck(args):
+    envdic = {}
+    osenv = os.environ
     if shutil.which('minizinc') is None:
         raise Exception("Must Add Minizinc to Path Enviroment")
     else:
-        envDic['minizinc'] = shutil.which('minizinc')
+        envdic['minizinc'] = shutil.which('minizinc')
 
     if sys.version_info[0] < 3:
         raise Exception("Must be using Python 3")
     else:
-        envDic['python'] = sys.executable
+        envdic['python'] = sys.executable
+
+    if args.solver == 'gurobi':
+        try:
+            envdic['GUROBI_HOME'] = osenv['GUROBI_HOME']
+        except:
+            raise Exception('Gurobi must be installed and add to PATH environment')
+
+    elif args.solver == 'cplex':
+        if 'cplex' not in os.environ['PATH']:
+            raise Exception('You must install cplex.')
+    envdic['osenv'] = osenv.copy()
+    return envdic
+
+
+
+
+
 
 
 

@@ -14,6 +14,10 @@ def eprint( *args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 class Wrapper():
+    '''
+    This Wrapper is used for SMAC run minizinc. When SMAC create a configuration, it will try to run minizinc through
+    this wrapper
+    '''
     def __init__(self, solver, threads, verbose):
         self.instance = self.seperateInstance(sys.argv[1])
         self.specifics = sys.argv[2]
@@ -28,6 +32,12 @@ class Wrapper():
         self.verbose = verbose
 
     def vprint(self,*args, **kwargs):
+        '''
+        Print to stderr when -v (verbose mode) is on.
+        :param args: anything
+        :param kwargs: anything
+        :return: None
+        '''
         if self.verbose:
             print('[Wrapper Debug]',*args, file=sys.stderr, **kwargs)
 
@@ -67,9 +77,9 @@ class Wrapper():
             instance.append(i)
         return instance
 
-    def runMinizinc_obj_cut(self,cmd,maximize,obj_bound=None):
+    def runMinizinc_obj_cut(self,cmd,maximize,obj_bound=None,env = None):
         """
-        The function will execute the command line and return running result.
+        The function will execute the command line, shut down the program when meet certain objective and return running result.
         :param cmd: the command line will be executed
         :param cutoff: cut off time of each run
         :return: status, runtime, quality
@@ -78,7 +88,7 @@ class Wrapper():
 
         cmd += ['--time-limit', str(self.cutoff*1000), '-a']
         self.vprint('[Wraper out]', cmd)
-        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE, env = env)
 
         try:
             pidFile = "pid"+str(io.pid)
@@ -167,11 +177,11 @@ class Wrapper():
                 pass
         return status, runtime, quality
 
-    def runMinizinc_time(self,cmd,maximize):
+    def runMinizinc_time(self,cmd,maximize,env = None):
         t = time.time()
         self.vprint('[Wraper out]', cmd)
 
-        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE, env = env)
 
         try:
             pidFile = "pid" + str(io.pid)
@@ -204,6 +214,8 @@ class Wrapper():
 
             else:
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
+                self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
+
                 status = "CRASHED"
                 quality = 1.0E9
                 runtime = self.cutoff
@@ -221,11 +233,11 @@ class Wrapper():
                 pass
         return status, runtime, quality
 
-    def runMinizinc_obj_mode(self,cmd,maximize):
+    def runMinizinc_obj_mode(self,cmd,maximize, env = None):
         t = time.time()
         cmd += ['--time-limit', str(self.cutoff * 1000)]
         self.vprint('[Wraper out]', cmd)
-        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE,env = env)
 
         try:
             pidFile = "pid" + str(io.pid)
@@ -259,6 +271,7 @@ class Wrapper():
                     quality = -quality
             else:
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
+                self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
                 status = "TIMEOUT"
                 quality = 1.0E9
                 runtime = self.cutoff
@@ -346,7 +359,10 @@ class GurobiWrapper(Wrapper):
 
 if __name__=="__main__":
     try:
-        with open('wrapperSetting.json') as file:
+        '''
+        Try to read wrapper setting file.
+        '''
+        with open('wrapperSetting.json','r') as file:
             jsonData = json.load(file)
 
         solver = jsonData['solver']
@@ -356,7 +372,12 @@ if __name__=="__main__":
         obj_mode = jsonData['obj_mode']
         obj_bound = jsonData['obj_bond']
         verbose = jsonData['verbose']
+        envdic = jsonData['envdic']
+        osenv = envdic['osenv']
 
+        '''
+        Create wrapper, generate parameters and generate commands.
+        '''
         if solver == 'cplex':
             wrapper = CplexWrapper(solver, threads,verbose)
         elif solver == 'osicbc':
@@ -369,16 +390,22 @@ if __name__=="__main__":
         tempParam = wrapper.process_param()
         cmd = wrapper.generate_cmd(tempParam,dll)
 
+        '''
+        Run minizinc in suitable mode.
+        '''
         if obj_mode:
             wrapper.vprint('Run in obj mode')
-            status, runtime, quality = wrapper.runMinizinc_obj_mode(cmd, maximize)
+            status, runtime, quality = wrapper.runMinizinc_obj_mode(cmd, maximize, env = osenv)
         elif obj_bound is not None:
             wrapper.vprint('Run in obj cut mode')
-            status, runtime, quality = wrapper.runMinizinc_obj_cut(cmd, maximize, obj_bound)
+            status, runtime, quality = wrapper.runMinizinc_obj_cut(cmd, maximize, obj_bound, env = osenv)
         else:
             wrapper.vprint('Run in time mode')
-            status, runtime, quality = wrapper.runMinizinc_time(cmd, maximize)
+            status, runtime, quality = wrapper.runMinizinc_time(cmd, maximize, env = osenv)
 
+        '''
+        Clean temp parameter file and output results.
+        '''
         try:
             os.remove(tempParam)
         except:

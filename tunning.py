@@ -20,7 +20,7 @@ class Tunning():
         '''
         return time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime(time.time()))
 
-    def runSmac(self):
+    def runSmac(self,env=None):
         '''
         Run SMAC
         '''
@@ -29,9 +29,9 @@ class Tunning():
         for arg in args:
             print(arg)
             cmd = shlex.split(arg)
-            time.sleep(5)
+            time.sleep(1)
             print('{} SMAC optimization starts'.format(self.get_current_timestamp()))
-            io = Popen(cmd)
+            io = Popen(cmd, env = env)
             child_processes.append(io)
 
         # while child_processes[-1].poll() is None:
