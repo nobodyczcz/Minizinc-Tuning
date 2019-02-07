@@ -9,7 +9,7 @@ class Initializer():
     which include prepare all required files under cache directory.
     '''
 
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd,obj_mode):
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode):
         self.cutOffTime = cutOffTime # cutoff time for Minizinc per run
         self.tuneTimeLimit = tuneTimeLimit # total time budget for optimization
         self.verboseOnOff = verboseOnOff # specifies the logging-verbisity
@@ -17,7 +17,7 @@ class Initializer():
         self.nThreadMinizinc = nThreadMinizinc # number of threads allocated to per Minizinc
         self.insPath = insPath # path for file listing all instances for optimization
         self.insList = insList # list of instances
-        self.cplex_dll = cplex_dll # path for cplex-dll
+        self.dll = dll # path for cplex-dll
         self.timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())) + '_' + str(randint(1, 999999)) # timestamp for careation of output directory
         self.outputdir = 'runs_' + self.timestamp # output directory naming convention
         self.programPath = programPath
@@ -228,7 +228,7 @@ class Initializer():
         '''
         print('{}Wrapper setting Generating {} for SMAC'.format(self.get_current_timestamp(),wrapper))
         settingDic = {'solver':wrapper,'threads':self.nThreadMinizinc,\
-                      'cplex_dll':self.cplex_dll,'maximize':maximize, \
+                      'dll':self.dll,'maximize':maximize, \
                       'obj_mode':self.obj_mode, 'obj_bond':obj_bound,\
                       'verbose':self.verboseOnOff, 'envdic':envdic}
         with open('wrapperSetting.json', 'w') as f:
@@ -426,8 +426,8 @@ class Initializer():
 
 
 class CbcInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd,obj_mode):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd,obj_mode)
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode):
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode)
     
     def param_generate(self,setting,output=None):
         '''
@@ -474,8 +474,8 @@ class CbcInitial(Initializer):
         return ' '.join(paramList)
 
 class CplexInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd,obj_mode):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,programPath,psmac,initialCwd,obj_mode)
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode):
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode)
     
     def param_generate(self,setting,output=None):
         '''
@@ -507,8 +507,8 @@ class CplexInitial(Initializer):
         for i in temp:
             instance.append(i)
         cmd = self.basicCmd + ['-p',str(self.nThreadMinizinc)] + ['--solver', 'cplex'] + instance
-        if self.cplex_dll is not None:
-            cmd = cmd + ['--cplex-dll',self.cplex_dll]
+        if self.dll is not None:
+            cmd = cmd + ['--cplex-dll',self.dll]
         if runmode == 1:
             cmd = cmd + ['--readParam',params]
         return cmd
@@ -533,10 +533,10 @@ class CplexInitial(Initializer):
 
 
 class GurobiInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, cplex_dll,
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,
                  programPath, psmac, initialCwd,obj_mode):
         Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList,
-                             cplex_dll, programPath, psmac, initialCwd,obj_mode)
+                             dll, programPath, psmac, initialCwd,obj_mode)
 
     def param_generate(self, setting, output=None):
         '''
@@ -569,6 +569,8 @@ class GurobiInitial(Initializer):
         for i in temp:
             instance.append(i)
         cmd = self.basicCmd + ['-p', str(self.nThreadMinizinc)] + ['--solver', 'gurobi'] + instance
+        if self.dll is not None:
+            cmd = cmd + ['--gurobi-dll',self.dll]
         if runmode == 1:
             cmd = cmd + ['--readParam',params]
         return cmd
