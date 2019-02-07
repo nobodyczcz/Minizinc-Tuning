@@ -216,14 +216,17 @@ class Wrapper():
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
 
-                status = "CRASHED"
+                if runtime < self.cutoff:
+                    status = 'CRASHED'
+                else:
+                    status = "TIMEOUT"
                 quality = 1.0E9
                 runtime = self.cutoff
 
         except TimeoutExpired as e:
             self.vprint('[Wrapper Err] Timeout')
             io.terminate()
-            status = "TIMEOUT"
+            status = 'TIMEOUT'
             runtime = self.cutoff
             quality = 1.0E9
         finally:
@@ -252,6 +255,7 @@ class Wrapper():
 
         try:
             (stdout_, stderr_) = io.communicate(timeout=self.cutoff*2)
+            runtime = time.time()-t
             output = stdout_.decode('utf-8')
             #self.vprint('[MiniZinc out] ', output)
             self.vprint('[Wrapper out] Minizinc Finish')
@@ -272,7 +276,10 @@ class Wrapper():
             else:
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
-                status = "TIMEOUT"
+                if runtime < self.cutoff:
+                    status = 'CRASHED'
+                else:
+                    status = "TIMEOUT"
                 quality = 1.0E9
                 runtime = self.cutoff
 
@@ -300,11 +307,11 @@ class Wrapper():
     def process_param(self):
         raise Exception('Must override this method')
 
-    def generate_cmd(self, tempParam, cplex_dll=None):
+    def generate_cmd(self, tempParam,solver,dll=None):
         cmd = self.basicCmd + ['-p', str(self.threads)]
         cmd += ['--readParam', tempParam]
-        if cplex_dll is not None:
-            cmd += ['--cplex-dll', cplex_dll]
+        if dll is not None:
+            cmd += ['--'+solver+'-dll', dll]
         return cmd
 
 class CplexWrapper(Wrapper):
@@ -367,7 +374,7 @@ if __name__=="__main__":
 
         solver = jsonData['solver']
         threads = jsonData['threads']
-        dll = jsonData['cplex_dll']
+        dll = jsonData['dll']
         maximize = jsonData['maximize']
         obj_mode = jsonData['obj_mode']
         obj_bound = jsonData['obj_bond']
@@ -388,7 +395,7 @@ if __name__=="__main__":
             raise Exception('[Wrapper Error] Solver do not exist')
         wrapper.vprint('[Wrapper Debug] Read Wrapper setting',jsonData)
         tempParam = wrapper.process_param()
-        cmd = wrapper.generate_cmd(tempParam,dll)
+        cmd = wrapper.generate_cmd(tempParam,solver,dll)
 
         '''
         Run minizinc in suitable mode.
