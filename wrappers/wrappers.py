@@ -18,7 +18,7 @@ class Wrapper():
     This Wrapper is used for SMAC run minizinc. When SMAC create a configuration, it will try to run minizinc through
     this wrapper
     '''
-    def __init__(self, solver, threads, verbose):
+    def __init__(self, solver, threads, verbose,minizinc_exe):
         self.instance = self.seperateInstance(sys.argv[1])
         self.specifics = sys.argv[2]
         self.cutoff = int(float(sys.argv[3]) + 1)  # runsolver only rounds down to integer
@@ -27,8 +27,9 @@ class Wrapper():
         self.params = sys.argv[6:]
         self.time_limit = 0
         self.solver = solver
-        self.threads = threads
-        self.basicCmd = ['minizinc', '--output-mode', 'json', '--output-objective', '--solver', solver] + self.instance
+        self.threads = threadss
+        self.minizinc_exe = minizinc_exe
+        self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective', '--solver', solver] + self.instance
         self.verbose = verbose
 
     def vprint(self,*args, **kwargs):
@@ -315,8 +316,8 @@ class Wrapper():
         return cmd
 
 class CplexWrapper(Wrapper):
-    def __init__(self, solver, threads,verbose):
-        Wrapper.__init__(self, solver, threads,verbose)
+    def __init__(self, solver, threads,verbose,minizinc_exe):
+        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe)
 
     def process_param(self):
         # Prepare temp parameter file
@@ -332,8 +333,8 @@ class CplexWrapper(Wrapper):
         return tempParam
 
 class OsicbcWrapper(Wrapper):
-    def __init__(self, solver, threads,verbose):
-        Wrapper.__init__(self, solver, threads,verbose)
+    def __init__(self, solver, threads,verbose,minizinc_exe):
+        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe)
 
     def process_param(self):
         # Prepare temp parameter file
@@ -346,8 +347,8 @@ class OsicbcWrapper(Wrapper):
         return args
 
 class GurobiWrapper(Wrapper):
-    def __init__(self, solver, threads,verbose):
-        Wrapper.__init__(self, solver, threads,verbose)
+    def __init__(self, solver, threads,verbose,minizinc_exe):
+        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe)
 
     def process_param(self):
         # Prepare temp parameter file
@@ -380,17 +381,20 @@ if __name__=="__main__":
         obj_bound = jsonData['obj_bond']
         verbose = jsonData['verbose']
         envdic = jsonData['envdic']
+        minizinc_exe = jsonData['minizinc_exe']
+
         osenv = envdic['osenv']
+
 
         '''
         Create wrapper, generate parameters and generate commands.
         '''
         if solver == 'cplex':
-            wrapper = CplexWrapper(solver, threads,verbose)
+            wrapper = CplexWrapper(solver, threads,verbose,minizinc_exe)
         elif solver == 'osicbc':
-            wrapper = OsicbcWrapper(solver, threads,verbose)
+            wrapper = OsicbcWrapper(solver, threads,verbose,minizinc_exe)
         elif solver == 'gurobi':
-            wrapper = GurobiWrapper(solver, threads,verbose)
+            wrapper = GurobiWrapper(solver, threads,verbose,minizinc_exe)
         else:
             raise Exception('[Wrapper Error] Solver do not exist')
         wrapper.vprint('[Wrapper Debug] Read Wrapper setting',jsonData)
