@@ -9,7 +9,7 @@ class Initializer():
     which include prepare all required files under cache directory.
     '''
 
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode):
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe):
         self.cutOffTime = cutOffTime # cutoff time for Minizinc per run
         self.tuneTimeLimit = tuneTimeLimit # total time budget for optimization
         self.verboseOnOff = verboseOnOff # specifies the logging-verbisity
@@ -25,7 +25,8 @@ class Initializer():
         self.instanceList = None
         self.initialCwd = initialCwd
         self.obj_mode = obj_mode
-        self.basicCmd = ['minizinc','--output-mode', 'json', '--output-objective']
+        self.minizinc_exe = minizinc_exe
+        self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective']
 
     def extract_json_objects(self,text, decoder=json.JSONDecoder()):
         """Find JSON objects in text, and yield the decoded JSON data
@@ -169,11 +170,11 @@ class Initializer():
         if n_cores < (self.psmac*self.nThreadMinizinc):
             raise Exception("{} threads found in the system. However {} threads will be used for parallel search.".format(n_cores, (self.psmac*self.nThreadMinizinc)))
 
-    def process_instance(self):
+    def process_instance(self,isminizinc=False):
         '''
         Process instance list or path to combine the model file with instance file(s) and write to a txt file with standard format for SMAC.
         '''
-        
+
         if len(self.insList) != 0: # If list of instance is provided
             
             instance = self.insList
@@ -192,26 +193,44 @@ class Initializer():
             raise Exception("instance list is empty!")
         instanceList = []
 
-        for i in instance:
-            if len(re.findall('([^\.\s]+\.mzn)(?:\s)', i)) > 1: # Require one model file in each line
-                raise Exception('More than one model file found in the same line.')
-            elif len(re.findall('^[^\.\s]+\.mzn', i)) == 0: # Require model file at first of each line
-                raise Exception('Model file must come first in each line.')
+        if isminizinc:
+            model = ''
+            datas = []
+            for i in instance:
+                if re.findall('.mzn', i):
+                    model = i
+                else:
+                    datas.append(i)
 
-            model = i.split()[0]
-            data = i.split()[1:]
-            model = os.path.expanduser(model)
-            model = os.path.abspath(model)
-
-            if len(data) > 0:
-                for j in data:
-                    dataPath = os.path.expanduser(j)
-                    dataPath = os.path.abspath(dataPath)
-                    theInstance = model+'|'+dataPath
-                    instanceList.append('"'+theInstance+'"')
+            if len(datas) > 0:
+                for data in datas:
+                    theInstance = model + '|' + data
+                    instanceList.append('"' + theInstance + '"')
             else:
                 theInstance = model
-                instanceList.append('"'+theInstance+'"')
+                instanceList.append('"' + theInstance + '"')
+
+        else:
+            for i in instance:
+                if len(re.findall('([^\.\s]+\.mzn)(?:\s)', i)) > 1: # Require one model file in each line
+                    raise Exception('More than one model file found in the same line.')
+                elif len(re.findall('^[^\.\s]+\.mzn', i)) == 0: # Require model file at first of each line
+                    raise Exception('Model file must come first in each line.')
+
+                model = i.split()[0]
+                data = i.split()[1:]
+                model = os.path.expanduser(model)
+                model = os.path.abspath(model)
+
+                if len(data) > 0:
+                    for j in data:
+                        dataPath = os.path.expanduser(j)
+                        dataPath = os.path.abspath(dataPath)
+                        theInstance = model+'|'+dataPath
+                        instanceList.append('"'+theInstance+'"')
+                else:
+                    theInstance = model
+                    instanceList.append('"'+theInstance+'"')
 
         with open(self.programPath+'/cache/'+'instances.txt', 'w') as f:
             strings = '\n'.join(instanceList)
@@ -230,7 +249,8 @@ class Initializer():
         settingDic = {'solver':wrapper,'threads':self.nThreadMinizinc,\
                       'dll':self.dll,'maximize':maximize, \
                       'obj_mode':self.obj_mode, 'obj_bond':obj_bound,\
-                      'verbose':self.verboseOnOff, 'envdic':envdic}
+                      'verbose':self.verboseOnOff, 'envdic':envdic,\
+                      'minizinc_exe':self.minizinc_exe}
         with open('wrapperSetting.json', 'w') as f:
             f.write(json.dumps(settingDic, indent=4))
     
@@ -426,8 +446,8 @@ class Initializer():
 
 
 class CbcInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode)
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe):
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe)
     
     def param_generate(self,setting,output=None):
         '''
@@ -474,8 +494,8 @@ class CbcInitial(Initializer):
         return ' '.join(paramList)
 
 class CplexInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode)
+    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe):
+        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe)
     
     def param_generate(self,setting,output=None):
         '''
@@ -534,9 +554,9 @@ class CplexInitial(Initializer):
 
 class GurobiInitial(Initializer):
     def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,
-                 programPath, psmac, initialCwd,obj_mode):
+                 programPath, psmac, initialCwd,obj_mode,minizinc_exe):
         Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList,
-                             dll, programPath, psmac, initialCwd,obj_mode)
+                             dll, programPath, psmac, initialCwd,obj_mode,minizinc_exe)
 
     def param_generate(self, setting, output=None):
         '''

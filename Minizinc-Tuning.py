@@ -86,7 +86,7 @@ def argparser():
     given by command-line arguments. 
                         ''')
     
-    parser.add_argument('-pcsJson','--pcsJson-file', default= None ,metavar='your-pcsJson-file-name',\
+    parser.add_argument('--pcs-json','--pcs-json-file', default= None ,metavar='your-pcsJson-file-name',\
                         help='''\
     Specify the path of parameter configuratoin json file.
                         ''')
@@ -101,7 +101,7 @@ def argparser():
     finding a good parameter configuration.
                         ''')
 
-    parser.add_argument('-psmac',type=int,default=1,metavar='number-of-threads',\
+    parser.add_argument('--psmac',type=int,default=1,metavar='number-of-threads',\
                         help='''\
     Enable parallel search and specify how many smac runing at same time.
     Warning: total threads use (number of threads for minizinc x number of smac)
@@ -122,7 +122,7 @@ def argparser():
     -pcs to see our suggestion for time limit.
                         ''')
     
-    parser.add_argument('-dll','--cplex-dll',default=None,type=str,metavar='/opt/ibm/....',\
+    parser.add_argument('--dll','--cplex-dll',default=None,type=str,metavar='/opt/ibm/....',\
                         help='''\
     You need to give the path of cplex  dll file if you want to use cplex
     as solve.
@@ -166,6 +166,17 @@ def argparser():
     Terminate minizinc when reach a certain bound.
                                 ''')
 
+    parser.add_argument('--minizinc', action='store_true', default=False \
+                        , help=''''\
+    Let program known that program is called by minizinc.
+                                    ''')
+
+    parser.add_argument('--minizinc-exe', type=str, default='minizinc' \
+                        , help=''''\
+    Let program known where is minizinc -executable.
+                                        ''')
+
+
     args = parser.parse_args() #parse arguments
     
     #print(args)
@@ -179,7 +190,7 @@ def main():
     Args and value explaination:
         args.solver
                         string, the name of solver
-        args.cplex_dll
+        args.dll
                         string, the path of
         args.cut
                         int, cut off time by seconds
@@ -211,7 +222,7 @@ def main():
 
     #check does user provide cplex-dll when using cplex
     # if args.solver == "cplex":
-    #     if args.cplex_dll == None:
+    #     if args.dll == None:
     #         raise Exception('You must specify the path of cplex dll file when using cplex.')
     '''
     Enviroment pre check
@@ -232,16 +243,14 @@ def main():
         # we are running in a normal Python environment
         programPath = os.path.dirname(os.path.abspath(__file__))
 
-    if args.pcsJson_file is None:
+    if args.pcs_json is None:
         try:
-            args.pcsJson_file = os.path.abspath(programPath+'/pcsFiles/' + args.solver + '.json')
+            args.pcs_json = os.path.abspath(programPath+'/pcsFiles/' + args.solver + '.json')
         except:
             raise Exception('Cannot find parameter configuration json file for ' + args.solver +\
                             ' under Minizinc-Tuning/pcsFiles/ . Please specify one with -pcsJson argument')
-    if args.tune_threads:
-        pcsFile = converter.jsonToPcs(args.pcsJson_file, programPath + "/cache/temppcs.pcs", args.p)
-    else:
-        pcsFile = converter.jsonToPcs(args.pcsJson_file, programPath + "/cache/temppcs.pcs")
+        
+    pcsFile = converter.jsonToPcs(args.pcs_json, programPath + "/cache/temppcs.pcs", args.p if args.tune_threads else None)
 
     
     '''
@@ -275,7 +284,8 @@ def main():
 
 
     print("=" * 50)
-    print("solver: ",args.solver)
+    print("Minizinc Executable: ",args.minizinc_exe)
+    print("Solver: ",args.solver)
     print("threads: ", args.p)
     print("Tune threads: ", args.tune_threads)
     print("PSMAC mode: ",args.psmac)
@@ -284,8 +294,8 @@ def main():
         print("Maximization problem: ", args.maximize)
     print("Cuts time: ", args.cut)
     print("Tuning time limit: ", args.t)
-    print("Parameter space file: ", args.pcsJson_file)
-    print("cplex dll: ", args.cplex_dll)
+    print("Parameter space file: ", args.pcs_json)
+    print("cplex dll: ", args.dll)
     print("Verbose: ", args.v)
     print("Skip Benchmark", args.skip_bench)
     print("=" * 50)
@@ -296,19 +306,19 @@ def main():
     '''
     if args.solver == "osicbc":
         initializer = CbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                 args.cplex_dll, programPath, args.psmac, initialCwd, args.obj_mode)
+                                 args.dll, programPath, args.psmac, initialCwd, args.obj_mode,args.minizinc_exe)
     elif args.solver == "cplex":
         initializer = CplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                   args.cplex_dll, programPath, args.psmac, initialCwd, args.obj_mode)
+                                   args.dll, programPath, args.psmac, initialCwd, args.obj_mode,args.minizinc_exe)
     elif args.solver == "gurobi":
         initializer = GurobiInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                    args.cplex_dll, programPath, args.psmac, initialCwd, args.obj_mode)
+                                    args.dll, programPath, args.psmac, initialCwd, args.obj_mode,args.minizinc_exe)
     else:
         raise Exception("Do not support solver: ", args.solver)
 
     try:
         # combine instances fils and generate relating temp files
-        initializer.process_instance()
+        initializer.process_instance(args.minizinc)
 
         # check threads settings
         initializer.process_thread()
