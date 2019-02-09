@@ -44,7 +44,7 @@ def argparser():
 
     
     #Define arguments and their help information
-    parser.add_argument('--solver',choices=['osicbc','cplex','gurobi'],required=True,metavar='osicbc/cplex',\
+    parser.add_argument('--solver','--tuning-solver',choices=['osicbc','cplex','gurobi'],required=True,metavar='osicbc/cplex',\
                         help='''\
     You can choose osicbc or cplex as solver. 
     If you choose cplex you need to specify the dll file of 
@@ -177,10 +177,10 @@ def argparser():
                                         ''')
 
 
-    args = parser.parse_args() #parse arguments
-    
+    # args = parser.parse_args() #parse arguments
+    args, unknownargs = parser.parse_known_args()
     #print(args)
-    return args
+    return args, unknownargs
     
 def main():
     """
@@ -218,7 +218,8 @@ def main():
     '''
     Parse arguments
     '''
-    args = argparser()
+    args, unknownargs = argparser()
+
 
     #check does user provide cplex-dll when using cplex
     # if args.solver == "cplex":
@@ -247,8 +248,9 @@ def main():
         try:
             args.pcs_json = os.path.abspath(programPath+'/pcsFiles/' + args.solver + '.json')
         except:
-            raise Exception('Cannot find parameter configuration json file for ' + args.solver +\
+            print('[Minizinc-Tuning error]Cannot find parameter configuration json file for ' + args.solver +\
                             ' under Minizinc-Tuning/pcsFiles/ . Please specify one with -pcsJson argument')
+            raise
         
     pcsFile = converter.jsonToPcs(args.pcs_json, programPath + "/cache/temppcs.pcs", args.p if args.tune_threads else None)
 
@@ -256,6 +258,10 @@ def main():
     '''
     Instances pre check
     '''
+    if len(unknownargs) > 0:
+        args.instances += unknownargs
+        print(args.instances)
+
     if args.instances_file is not None:
         print("Read instances list file: ",args.instances_file)
     else:
@@ -433,6 +439,7 @@ def environmentCheck(args):
 
 
 if __name__=="__main__":
+    print("[tuning start]",file=sys.stderr)
     main()
 
 
