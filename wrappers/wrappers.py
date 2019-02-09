@@ -27,7 +27,7 @@ class Wrapper():
         self.params = sys.argv[6:]
         self.time_limit = 0
         self.solver = solver
-        self.threads = threadss
+        self.threads = threads
         self.minizinc_exe = minizinc_exe
         self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective', '--solver', solver] + self.instance
         self.verbose = verbose
