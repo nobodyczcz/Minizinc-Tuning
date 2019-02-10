@@ -4,6 +4,10 @@ This is a Automatic parameter tunning program for Minizinc solvers.
 
 Currently support cplex, gurobi and osicbc and able to perform parameter tunning on multiple instances. The program use [SMAC v2.10.03](http://www.cs.ubc.ca/labs/beta/Projects/SMAC/) to perform parameter tunning.
 
+Cplex: Tested on cplex 12.8
+
+Gruobi: Tested on gurobi 8.1. Having issues when using gurobi 7.5, cannot reproduce tuning result.
+
 
 ## Requirement
 
@@ -11,7 +15,7 @@ Currently support cplex, gurobi and osicbc and able to perform parameter tunning
 
    SMAC2 is written in java.
    
-2. Python 3.x
+2. Python 3.x (Not required when using released version)
 
    This program is written in python. (At first we use SMAC3 in python, which require some dependencies only working on linux, but based on the consideration of cross-platform we move to SMAC2 in Java)
 
@@ -26,8 +30,14 @@ Currently support cplex, gurobi and osicbc and able to perform parameter tunning
 
 3. Use a command in following format to start tunning:
 
+using python souce code version:
 ```
 python Path/to/Minizinc-Tunning.py --solver [1.solver] -p [2.No.of threads] -t [3.time limit] [4.model and data] 
+```
+
+or released version (linux):
+```
+Path/to/Minizinc-Tunning --solver [1.solver] -p [2.No.of threads] -t [3.time limit] [4.model and data] 
 ```
 \[1]: Solver you want to use: cplex / gurobi / osicbc
 
@@ -49,6 +59,10 @@ The time limit should be enough for runing the model for at leat 80 times. If yo
 #### For the mapping.mzn model in example directory
 ```
 python ../Minizinc-Tunning.py --solver cplex -p 2 -t 3600 "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn"  --cplex-dll path/to/libcplexXXXX.so
+```
+released version:
+```
+../Minizinc-Tunning --solver cplex -p 2 -t 3600 "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn"  --cplex-dll path/to/libcplexXXXX.so
 ```
 ## Advanced
 
