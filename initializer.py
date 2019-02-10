@@ -262,9 +262,9 @@ class Initializer():
                     benchset[count] = setting
                     benchquality[count] = sum(avgquality)/len(avgquality)
                     if self.obj_mode:
-                        print('Average Objective:', avgquality)
+                        print('Average Objective:', benchquality[count])
                     else:
-                        print('Average time:', avgtime)
+                        print('Average time:', benchtime[count])
 
                     count+=1
 
@@ -283,9 +283,9 @@ class Initializer():
             benchtime['base'] = sum(avgtime)/len(avgtime)
             benchquality['base'] = sum(avgquality)/len(avgquality)
             if self.obj_mode:
-                print('Average Objective:', avgquality)
+                print('Average Objective:', benchquality['base'])
             else:
-                print('Average time:', avgtime)
+                print('Average time:', benchtime['base'])
         else:
             print("No optimal solution found!")
             return

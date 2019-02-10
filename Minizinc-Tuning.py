@@ -117,7 +117,7 @@ def argparser():
     time.
                         ''')
     
-    parser.add_argument('-t','-time-limit',type=int,required=True,metavar='time-limit-by-seconds',\
+    parser.add_argument('-t','--time-limit','--tuning-time',type=int,required=True,metavar='time-limit-by-seconds',\
                         help='''\
     You must specify a time limit for tunning. You can read the help for
     -pcs to see our suggestion for time limit.
@@ -194,7 +194,7 @@ def printStartMessage(args):
     if args.obj_mode:
         print("Maximization problem: ", args.maximize)
     print("Cuts time: ", args.cut)
-    print("Tuning time limit: ", args.t)
+    print("Tuning time limit: ", args.time_limit)
     print("Parameter space file: ", args.pcs_json)
     print("cplex dll: ", args.dll)
     print("Verbose: ", args.v)
@@ -326,7 +326,7 @@ def main():
 
         # generate wrapper and smac scenario
         initializer.wrapper_setting_generator(args.solver,args.obj_cut,args.obj_mode,envdic)
-        initializer.pSMAC_scenario_generator(args.obj_mode,args.t)
+        initializer.pSMAC_scenario_generator(args.obj_mode,args.time_limit)
         tempOut = open('temp.txt','w')
         tempOut.write('')
         tempOut.close()
