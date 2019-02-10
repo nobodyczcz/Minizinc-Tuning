@@ -6,10 +6,11 @@ Created on Fri Dec  7 16:05:40 2018
 @author: czcz2
 """
 
-import argparse,signal, inspect, shutil
+import argparse,signal, shutil
 from pcsConverter import *
 from initializer import *
 from tunning import *
+from run_minizinc.runtool import *
 
 def argparser():
     '''
@@ -181,7 +182,25 @@ def argparser():
     args, unknownargs = parser.parse_known_args()
     #print(args)
     return args, unknownargs
-    
+
+def printStartMessage(args):
+    print("=" * 50)
+    print("Minizinc Executable: ", args.minizinc_exe)
+    print("Solver: ", args.solver)
+    print("threads: ", args.p)
+    print("Tune threads: ", args.tune_threads)
+    print("PSMAC mode: ", args.psmac)
+    print("Optimize objective mode: ", args.obj_mode)
+    if args.obj_mode:
+        print("Maximization problem: ", args.maximize)
+    print("Cuts time: ", args.cut)
+    print("Tuning time limit: ", args.t)
+    print("Parameter space file: ", args.pcs_json)
+    print("cplex dll: ", args.dll)
+    print("Verbose: ", args.v)
+    print("Skip Benchmark", args.skip_bench)
+    print("=" * 50)
+
 def main():
     """
     This is then main framework for tunning program. The main defines arguments format,
@@ -221,10 +240,6 @@ def main():
     args, unknownargs = argparser()
 
 
-    #check does user provide cplex-dll when using cplex
-    # if args.solver == "cplex":
-    #     if args.dll == None:
-    #         raise Exception('You must specify the path of cplex dll file when using cplex.')
     '''
     Enviroment pre check
     '''
@@ -273,8 +288,7 @@ def main():
     '''
     Benchmark mode setting check
     '''
-    if args.obj_cut is not None:
-        args.skip_bench = True
+
     if args.obj_mode:
         if args.cut == 0:
             raise Exception('[Setting error] You must specify a -c (cut off time) for objective optimizing mode')
@@ -288,56 +302,31 @@ def main():
         except Exception as e:
             raise Exception('[Benchmark Mode Error] please read -h for help')
 
-
-    print("=" * 50)
-    print("Minizinc Executable: ",args.minizinc_exe)
-    print("Solver: ",args.solver)
-    print("threads: ", args.p)
-    print("Tune threads: ", args.tune_threads)
-    print("PSMAC mode: ",args.psmac)
-    print("Optimize objective mode: ", args.obj_mode)
-    if args.obj_mode:
-        print("Maximization problem: ", args.maximize)
-    print("Cuts time: ", args.cut)
-    print("Tuning time limit: ", args.t)
-    print("Parameter space file: ", args.pcs_json)
-    print("cplex dll: ", args.dll)
-    print("Verbose: ", args.v)
-    print("Skip Benchmark", args.skip_bench)
-    print("=" * 50)
-
     '''
     Tunning initialization
     In this step the program will generate related temperary files
     '''
-    if args.solver == "osicbc":
-        initializer = CbcInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                 args.dll, programPath, args.psmac, initialCwd, args.obj_mode,args.minizinc_exe)
-    elif args.solver == "cplex":
-        initializer = CplexInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                   args.dll, programPath, args.psmac, initialCwd, args.obj_mode,args.minizinc_exe)
-    elif args.solver == "gurobi":
-        initializer = GurobiInitial(args.cut, args.t, args.v, pcsFile, args.p, args.instances_file, args.instances,
-                                    args.dll, programPath, args.psmac, initialCwd, args.obj_mode,args.minizinc_exe)
-    else:
-        raise Exception("Do not support solver: ", args.solver)
+    printStartMessage(args)
+
+    initializer = Initializer(args.solver,args.cut, args.v, pcsFile, args.p, args.instances_file,
+                                 args.dll,initialCwd, args.minizinc_exe,args.maximize, args.obj_mode)
 
     try:
         # combine instances fils and generate relating temp files
-        initializer.process_instance(args.minizinc)
+        initializer.process_instance(args.instances,programPath,args.minizinc)
 
         # check threads settings
-        initializer.process_thread()
+        initializer.thread_check(args.psmac)
 
         # change working directory to /cache
         os.chdir(programPath+"/cache")
         
         # Calculate cut off time if use didn't specify
-        initializer.cut_off_time_calculation(args.obj_cut,args.maximize)
+        initializer.cut_off_time_calculation()
 
         # generate wrapper and smac scenario
-        initializer.wrapper_setting_generator(args.solver,args.maximize,args.obj_cut,envdic)
-        initializer.pSMAC_scenario_generator()
+        initializer.wrapper_setting_generator(args.solver,args.obj_cut,args.obj_mode,envdic)
+        initializer.pSMAC_scenario_generator(args.obj_mode,args.t)
         tempOut = open('temp.txt','w')
         tempOut.write('')
         tempOut.close()
@@ -377,7 +366,7 @@ def main():
         Benchmark and output result to file
         '''
         try:
-            if args.skip_bench or args.obj_mode:
+            if args.skip_bench:
                 initializer.noBnechOutput()
             elif args.bench_mode is None:
                 if args.psmac > 1:
@@ -434,12 +423,8 @@ def environmentCheck(args):
 
 
 
-
-
-
-
 if __name__=="__main__":
-    print("[tuning start]",file=sys.stderr)
+    print("[Tunning program start.]")
     main()
 
 

@@ -1,6 +1,6 @@
-import sys, os, re, multiprocessing, time, glob,json
-from subprocess import Popen, PIPE, TimeoutExpired
-from random import randint
+import multiprocessing, glob
+from run_minizinc.runtool import *
+
 
 
 class Initializer():
@@ -9,44 +9,36 @@ class Initializer():
     which include prepare all required files under cache directory.
     '''
 
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe):
+    def __init__(self,solver, cutOffTime,  verboseOnOff, pcsFile, nThreadMinizinc, insPath, dll, initialCwd, minizinc_exe,maximize, obj_mode=False):
+        self.solver = solver
         self.cutOffTime = cutOffTime # cutoff time for Minizinc per run
-        self.tuneTimeLimit = tuneTimeLimit # total time budget for optimization
         self.verboseOnOff = verboseOnOff # specifies the logging-verbisity
         self.pcsFile = pcsFile # parameter configuration space file
         self.nThreadMinizinc = nThreadMinizinc # number of threads allocated to per Minizinc
         self.insPath = insPath # path for file listing all instances for optimization
-        self.insList = insList # list of instances
         self.dll = dll # path for cplex-dll
         self.timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())) + '_' + str(randint(1, 999999)) # timestamp for careation of output directory
         self.outputdir = 'runs_' + self.timestamp # output directory naming convention
-        self.programPath = programPath
-        self.psmac = psmac
         self.instanceList = None
         self.initialCwd = initialCwd
-        self.obj_mode = obj_mode
         self.minizinc_exe = minizinc_exe
+        self.maximize = maximize
+        self.obj_mode = obj_mode
         self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective']
 
-    def extract_json_objects(self,text, decoder=json.JSONDecoder()):
-        """Find JSON objects in text, and yield the decoded JSON data
+        self.wrapper = self.createWrapper()
 
-        Does not attempt to look for JSON arrays, text, or other JSON types outside
-        of a parent JSON object.
+    def createWrapper(self):
+        if self.solver == "osicbc":
+            wrapper = OsicbcWrapper(self.solver, self.nThreadMinizinc, self.verboseOnOff, self.minizinc_exe)
+        elif self.solver == "cplex":
+            wrapper = CplexWrapper(self.solver, self.nThreadMinizinc, self.verboseOnOff, self.minizinc_exe)
+        elif self.solver == "gurobi":
+            wrapper = GurobiWrapper(self.solver, self.nThreadMinizinc, self.verboseOnOff, self.minizinc_exe)
 
-        """
-        pos = 0
-        while True:
-            match = text.find('{', pos)
-            if match == -1:
-                break
-            try:
-                result, index = decoder.raw_decode(text[match:])
-                if len(result) >= 1:
-                    yield result
-                pos = match + index
-            except ValueError:
-                pos = match + 1
+        else:
+            raise Exception("Do not support solver: ", self.solver)
+        return wrapper
 
     def vprint(self,*args, **kwargs):
         if self.verboseOnOff:
@@ -58,126 +50,52 @@ class Initializer():
         '''
         return time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime(time.time()))
 
-    def run_cmd(self, cmd,cutOffTime=None):
-        '''
-        Excecute command line arguments in the background
-        '''
-        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
-        stdout_ = ''
-        stderr_ = ''
-        try:
-            if cutOffTime is not None:
-                (stdout_, stderr_) = io.communicate(timeout=cutOffTime)
-            else:
-                (stdout_, stderr_) = io.communicate()
-        except TimeoutExpired as e:
-            io.terminate()
-            print('Time out')
-        return stdout_, stderr_
-
-    def run_cmd_obj_cut(self, cmd,obj_bound,maximize=False):
-        '''
-        Excecute command line arguments in the background
-        '''
-        cmd.append('-a')
-        t=time.time()
-        io = Popen(cmd, stdout=PIPE, stderr=PIPE)
-        success = False
-        quality = None
-        runtime = 0
-        print('Minizinc start running')
-        delims = {'----------\n'}
-        term = {"=====UNSATISFIABLE=====\n", "=====UNSATorUNBOUNDED=====\n", "=====UNBOUNDED=====\n", \
-                "=====UNKNOWN=====\n", "=====ERROR=====\n", "==========\n"}
-        tmp=''
-        for ch in iter(lambda: io.stdout.readline().decode('utf-8'), ""):
-            if ch in delims:
-                for result in self.extract_json_objects(tmp):
-                    try:
-                        quality = result['_objective']
-                        runtime = time.time() - t
-                        print(quality)
-                        self.vprint('[Minizinc Out] Find objective=', str(quality))
-                        self.vprint('[Minizinc Out] full output', str(result))
-                    except:
-                        pass
-                tmp = ""
-            elif ch in term:
-                self.vprint('[Minizinc Out] Complete: ', ch)
-                break
-            else:
-                tmp += ch
-
-            if obj_bound is not None:
-                if maximize and quality is not None:
-                    if quality >= obj_bound:
-                        success = True
-                        self.vprint('[Wrapper] Reach Obj bound:', str(quality))
-                        break
-                elif quality is not None:
-                    if quality <= obj_bound:
-                        success = True
-                        self.vprint('[Wrapper] Reach Obj bound:', str(quality))
-                        break
-        print('Minizinc End')
-        io.terminate()
-
-        if success:
-            return runtime
-        else:
-            raise Exception("Objective can't reach target")
-
-    def run_solver(self,instance):
-        '''
-        run solver is different for each solver, define it in child class.
-        '''
-        raise NotImplementedError("Must override runsolver")
-
-    def instance_runtime(self,obj_cut=None,maximize=False):
+    def instance_runtime(self):
         '''
         Run all the instances and get the running time of longgest one.
         '''
         runtime = -1
         for instance in self.instanceList:
-            #print(instance)
-            #tmp = self.run_solver(instance)
-            cmd = self.cmd_generate(instance,1,self.default_param_config_generation())
-            if obj_cut is None:
-                tmp = self.run_minizinc(1,cmd)
-            else:
-                tmp = self.run_cmd_obj_cut(cmd,obj_cut,maximize)
+            paramList = self.default_param_to_list()
+            param = self.wrapper.process_param(paramList)
+            inslist = self.wrapper.seperateInstance(instance.replace('"', ''))
+            self.vprint(inslist)
+            cmd = self.wrapper.generate_cmd(param,self.solver,inslist)
+            status,time,quality = self.wrapper.runMinizinc_time(cmd)
 
+            if status == "CRASHED":
+                raise Exception("[Wrapper error] Run failed with default parameter")
             #print(tmp)
-            if tmp > runtime:
-                runtime = tmp
+            if time > runtime:
+                runtime = time
         return runtime
 
-    def cut_off_time_calculation(self,obj_cut=None,maximize=False):
+    def cut_off_time_calculation(self):
         '''
         Get cutoff time if user does not specify
         '''
         if self.cutOffTime == 0:
             print('{} Calculating Cutoff Time'.format(self.get_current_timestamp()))
-            self.cutOffTime = self.instance_runtime(obj_cut,maximize) * 3  # Give 3 times of margin of safety for cutoff
+            self.cutOffTime = self.instance_runtime() * 3  # Give 3 times of margin of safety for cutoff
         print('{} Cutoff Time set as: {}'.format(self.get_current_timestamp(),self.cutOffTime))
 
-    def process_thread(self):
+    def thread_check(self, psmac):
         '''
         Check Setting for Psmac. Raise exception if threads that psmac use larger than total
         cpu threads avaliable  
         '''
         n_cores = multiprocessing.cpu_count() # Get number of threads available in the system
-        if n_cores < (self.psmac*self.nThreadMinizinc):
-            raise Exception("{} threads found in the system. However {} threads will be used for parallel search.".format(n_cores, (self.psmac*self.nThreadMinizinc)))
+        if n_cores < (psmac*self.nThreadMinizinc):
+            raise Exception("{} threads found in the system. However {} threads will be used for parallel search.".format(n_cores, (self.nThreadMinizincsmac*self.nThreadMinizinc)))
 
-    def process_instance(self,isminizinc=False):
+    def process_instance(self,insList,programPath,isminizinc=False):
         '''
         Process instance list or path to combine the model file with instance file(s) and write to a txt file with standard format for SMAC.
         '''
 
-        if len(self.insList) != 0: # If list of instance is provided
+        if len(insList) != 0: # If list of instance is provided
             
-            instance = self.insList
+            instance = insList
             
         elif self.insPath != None: # If instance input file is provided
             try:
@@ -193,7 +111,7 @@ class Initializer():
             raise Exception("instance list is empty!")
         instanceList = []
 
-        if isminizinc:
+        if isminizinc: # minizinc IDE use a different way to pass models and datas to tuning program
             model = ''
             datas = []
             for i in instance:
@@ -232,7 +150,7 @@ class Initializer():
                     theInstance = model
                     instanceList.append('"'+theInstance+'"')
 
-        with open(self.programPath+'/cache/'+'instances.txt', 'w') as f:
+        with open(programPath+'/cache/'+'instances.txt', 'w') as f:
             strings = '\n'.join(instanceList)
             strings = strings.replace('\\', '\\\\')
             f.write(strings) # Write the formated instance file to text for smac read in.
@@ -240,21 +158,21 @@ class Initializer():
         self.instanceList=instanceList
         return instanceList # Return the combined file list for removal after smac optimization
 
-    def wrapper_setting_generator(self,wrapper,maximize,obj_bound,envdic = None):
+    def wrapper_setting_generator(self,wrapper,obj_bound,obj_mode,envdic = None):
         '''
         The wrapper generated by this program will be directly used by SMAC.
         SMAC will run minizinc through this wrapper.
         '''
         print('{}Wrapper setting Generating {} for SMAC'.format(self.get_current_timestamp(),wrapper))
         settingDic = {'solver':wrapper,'threads':self.nThreadMinizinc,\
-                      'dll':self.dll,'maximize':maximize, \
-                      'obj_mode':self.obj_mode, 'obj_bond':obj_bound,\
+                      'dll':self.dll,'maximize':self.maximize, \
+                      'obj_mode':obj_mode, 'obj_bond':obj_bound,\
                       'verbose':self.verboseOnOff, 'envdic':envdic,\
                       'minizinc_exe':self.minizinc_exe}
         with open('wrapperSetting.json', 'w') as f:
             f.write(json.dumps(settingDic, indent=4))
     
-    def pSMAC_scenario_generator(self):
+    def pSMAC_scenario_generator(self,obj_mode,tuneTimeLimit):
         '''
         Generate scenario file for running the smac.
         '''
@@ -266,19 +184,19 @@ class Initializer():
             python = '../wrappers/wrappers'
         else:
             # we are running in a normal Python environment
-            python = str(sys.executable) + ' -u ../wrappers/wrappers.py'
+            python = str(sys.executable) + ' -u ../wrappers.py'
         writeToFile.append('algo = {}'.format(python))
         writeToFile.append('pcs-file = {}'.format(self.pcsFile))
         writeToFile.append('execdir = .')
         writeToFile.append('deterministic = 1')
-        if self.obj_mode:
+        if obj_mode:
             writeToFile.append('runObj = QUALITY')
             writeToFile.append('overall_obj = MEAN')
         else:
             writeToFile.append('runObj = runtime')
             writeToFile.append('overall_obj = MEAN10')
         writeToFile.append('target_run_cputime_limit = {}'.format(self.cutOffTime))
-        writeToFile.append('wallclock_limit = {}'.format(self.tuneTimeLimit))
+        writeToFile.append('wallclock_limit = {}'.format(tuneTimeLimit))
         writeToFile.append('instance_file = instances.txt')
         with open('scenario_' + '.txt', 'w') as f:
             f.write('\n'.join(writeToFile))
@@ -310,16 +228,17 @@ class Initializer():
         stdout_ = glob.glob('./smac-output/'+self.outputdir+'/traj-run*.txt')
         print("Output found: ",stdout_)
         
-        for instance in self.instanceList:
-            self.run_benchmark(batch, instance, stdout_,rows)
+        self.run_benchmark(batch, stdout_,rows)
 
-    def run_benchmark(self, batch, instance, stdout_,rows):
+    def run_benchmark(self, batch, stdout_,rows):
         '''
         Run benchmark for each configuration found in smac output. Choose the best one and output it to user directory.
         '''
-        benchmark = {}
+        benchtime = {}
+        benchquality = {}
         benchset = {}
         count = 1
+        self.wrapper.cutoff = self.cutOffTime
         for i in stdout_:
             if len(i) != 0:
                 print("Configuration file: ", i)
@@ -329,64 +248,82 @@ class Initializer():
                     continue
                 for setting in res[rows:]:
                     print("Average running time of current configuration {} ".format(setting.split(',')[1]))
-                    params = self.param_generate(setting)
-                    cmd = self.cmd_generate(instance, 1, params)
-                    try:
-                        avgtime = self.run_minizinc(batch,cmd,self.cutOffTime)
-                        benchmark[count] = avgtime
-                        benchset[count] = setting
-                        print('Average Result:', avgtime)
-                    except:
-                        print('No solution. Could be out of time limit.')
+                    avgtime = []
+                    avgquality = []
+                    for instance in self.instanceList:
+                        paramList = self.param_to_list(setting)
+                        param = self.wrapper.process_param(paramList)
+                        inslist = self.wrapper.seperateInstance(instance.replace('"', ''))
+                        cmd = self.wrapper.generate_cmd(param, self.solver, inslist)
+                        outputtime, quality = self.average_output(batch, cmd)
+                        avgtime.append(outputtime)
+                        avgquality.append(quality)
+                    benchtime[count] = sum(avgtime)/len(avgtime)
+                    benchset[count] = setting
+                    benchquality[count] = sum(avgquality)/len(avgquality)
+                    if self.obj_mode:
+                        print('Average Objective:', avgquality)
+                    else:
+                        print('Average time:', avgtime)
+
                     count+=1
 
-        if len(benchmark) != 0:
+        if len(benchtime) != 0:
             print("Calculting base result: ")
-            cmd = self.cmd_generate(instance,0, '')
-            avgtime = self.run_minizinc(1,cmd,self.cutOffTime) #usally base is very slow, so only run 1 time for base time.
-            benchmark['base'] = avgtime
-            print('Base Result:', avgtime)
+            avgtime=[]
+            avgquality=[]
+            for instance in self.instanceList:
+                paramList = self.default_param_to_list()
+                param = self.wrapper.process_param(paramList)
+                inslist = self.wrapper.seperateInstance(instance.replace('"', ''))
+                cmd = self.wrapper.generate_cmd(param, self.solver, inslist)
+                outputtime, quality = self.average_output(1,cmd) #usally base is very slow, so only run 1 time for base time.
+                avgtime.append(outputtime)
+                avgquality.append(quality)
+            benchtime['base'] = sum(avgtime)/len(avgtime)
+            benchquality['base'] = sum(avgquality)/len(avgquality)
+            if self.obj_mode:
+                print('Average Objective:', avgquality)
+            else:
+                print('Average time:', avgtime)
         else:
             print("No optimal solution found!")
             return
-        best_args = min(benchmark, key=benchmark.get)
-        if best_args == 'base':
+
+        if not self.obj_mode:
+            best_self = min(benchtime, key=benchtime.get)
+        elif self.maximize:
+            best_self = max(benchquality, key=benchquality.get)
+        else:
+            best_self = min(benchquality, key=benchquality.get)
+
+        if best_self == 'base':
             print("=" * 50)
             print("Default setting is best")
             print("=" * 50)
             return
-        setting = benchset[best_args]
-        try:
-            modelName = re.search("([^\\\/]+(.mzn))",instance).group(1)
-        except:
-            modelName = ''
-        try:
-            dataName = re.search("([^\\\/]+(.dzn))",instance).group(1)
-        except:
-            dataName = ''
-        fileName = modelName + dataName + time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
-        finalParam = self.param_generate(setting,self.initialCwd+'/'+fileName)
-        print("=" * 50)
-        print('Recommendation for {} :\n{}'.format(instance,finalParam))
-        print('Running in {} threads mode'.format(self.nThreadMinizinc))
-        print('Result: {}s'.format(round(benchmark[best_args], 3)))
-        print("=" * 50)
 
-    def run_minizinc(self, batch, cmd,cutOffTime=None):
+        setting = benchset[best_self]
+        self.output_result(setting,benchquality, benchtime, best_self)
+
+
+    def average_output(self, batch, cmd):
         '''
         run minizinc for batch times. calculate average runtime. Used in benchmark
         '''
         avgtime = 0
-        for j in range(batch):            
-            t=time.time()
-            stdout_, stderr_ = self.run_cmd(cmd,cutOffTime)
-            if re.search('==========', stdout_.decode('utf-8')):
-                avgtime += time.time()-t
+        avgquality = 0
+        for j in range(batch):
+            if self.obj_mode:
+                status, runtime, quality = self.wrapper.runMinizinc_obj_mode(cmd)
             else:
-                print(stderr_)
-                raise Exception("No solution")
+                status, runtime, quality = self.wrapper.runMinizinc_time(cmd)
+            avgtime += runtime
+            avgquality += quality
+
         avgtime /= batch
-        return avgtime
+        avgquality /= batch
+        return avgtime, avgquality
     
     def noBnechOutput(self,rows=-2,all=False):
         '''
@@ -397,8 +334,10 @@ class Initializer():
         stdout_ = glob.glob('./smac-output/' + self.outputdir + '/traj-run*.txt')
         print("Output found: ", stdout_)
 
-        benchmark = {}
+        benchtime = {}
         benchset = {}
+        benchquality = {}
+
         count = 1
         for i in stdout_:
             if len(i) != 0:
@@ -409,206 +348,109 @@ class Initializer():
                     continue
                 for setting in res[rows:]:
                     avgtime = float(setting.split(',')[1])
-                    benchmark[count] = avgtime
+                    benchtime[count] = avgtime
                     benchset[count] = setting
+                    benchquality[count] = avgtime
                     if all:
-                        fileName ='Seeting' + str(count) + time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
-                        finalParam = self.param_generate(setting, self.initialCwd + '/' + fileName)
+                        fileName ='Setting' + str(count) + time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
+                        outputPath = self.initialCwd+'/'+fileName
+                        paramList = self.param_to_list(setting)
+                        finalParam = self.wrapper.process_param(paramList, outputPath)
                     count += 1
 
-        if len(benchmark) == 0:
+        if len(benchtime) == 0:
             print("No optimal solution found!")
             return
 
-        best_args = min(benchmark, key=benchmark.get)
-        if best_args == 'base':
+        if not self.obj_mode:
+            best_self = min(benchtime, key=benchtime.get)
+        elif self.maximize:
+            best_self = max(benchquality, key=benchquality.get)
+        else:
+            best_self = min(benchquality, key=benchquality.get)
+
+        if best_self == 2:
             print("Default setting is best")
             return
-        setting = benchset[best_args]
-        fileName = time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
-        finalParam = self.param_generate(setting,self.initialCwd+'/'+fileName)
+
+        setting = benchset[best_self]
+
+        self.output_result(setting,benchquality, benchtime, best_self)
+
+    def output_result(self,setting,benchquality,benchtime,best_self):
+        try:
+            modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
+        except:
+            modelName = ''
+        fileName = time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))+ modelName
+        outputPath = self.initialCwd + '/' + fileName
+        outputJson = outputPath+'.json'
+        paramList = self.param_to_list(setting)
+        finalParam = self.wrapper.process_param(paramList, outputPath)
         print("=" * 50)
         print('Recommendation :\n{}'.format(finalParam))
         print('Running in {} threads mode'.format(self.nThreadMinizinc))
-        print('Result: {}s'.format(round(benchmark[best_args], 3)))
+        print('Result: {}'.format(round(benchquality[best_self] if self.obj_mode else benchtime[best_self], 3)))
+        self.param_to_json(setting,outputJson)
         print("=" * 50)
                     
 
-    def param_generate(self, res,output=None):
-        raise Exception("Must overide param_generate in child class")
-    
-    def cmd_generate(self,instance, runmode, params):
-        raise Exception("Must overide cmd_generate in child class")
-    
-    def default_param_config_generation(self):
-        raise Exception("Must overide default_param_config_generation in child class")
-
-
-
-class CbcInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe)
-    
-    def param_generate(self,setting,output=None):
+    def param_to_list(self,setting):
         '''
         Generate parameter settings for running the minizinc. Used in benchmark. Also output parameter setting.
         '''
-        arglist = ''
+        arglist = []
         for i in setting.split(',')[5:]:
             tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
             if tmp[0] == 'MinizincThreads':
                 self.nThreadMinizinc = int(tmp[1])
             else:
-                arglist += '-' + tmp[0] + ' ' + tmp[1] + ' '
-        if output is not None:
-            with open(output+'cbc_param_config','w') as f:
-                f.write(arglist)
+                arglist += ['-' + tmp[0], tmp[1]]
         return arglist
 
-    def cmd_generate(self,instance, runmode, params):
-        '''
-        Generate the commands used for run minizinc
-        '''
-        temp = instance.replace('"','').split('|')
-        instance = []
-        for i in temp:
-            instance.append(i)
-        cmd = self.basicCmd + ['-p',str(self.nThreadMinizinc)] + ['--solver', 'osicbc'] + instance
-        if runmode == 1:
-            cmd = cmd + ['--cbcArgs',params]
-        return cmd
+    def param_to_json(self,setting,outputdir):
+        modelName = []
+        dataName = []
+        for instance in self.instanceList:
+            try:
+                modelName.append(re.search("([^\\\/]+(.mzn))",instance).group(1))
+            except:
+                pass
+            try:
+                dataName.append(re.search("([^\\\/]+(.dzn))",instance).group(1))
+            except:
+                pass
 
-
-    def default_param_config_generation(self):
-        '''
-        Read SMAC pcs configration file and get default parameter settings from the parameter configuration space
-        '''
-        lines = [line.rstrip('\n') for line in open(self.pcsFile)]
-        paramList = []
-
-        for line in lines:
-            if re.search('(\[)([a-zA-Z0-9]+)(\])', line):
-                default_val = re.search('(\[)([a-zA-Z0-9]+)(\])', line).group(2)
-                paramList.append('-' + line.split()[0] + ' ' + str(default_val))
-
-        return ' '.join(paramList)
-
-class CplexInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,programPath,psmac,initialCwd,obj_mode,minizinc_exe)
-    
-    def param_generate(self,setting,output=None):
-        '''
-        Generate parameter setting files for running the minizinc. Used in benchmark.Also output parameter setting.
-        '''
-        param = 'CPLEX Parameter File Version 12.6\n'
+        paramDic = {}
+        paramDic['solver'] = self.solver
+        paramDic['threads'] = self.nThreadMinizinc
+        paramDic['models'] = modelName
+        paramDic['instances'] = dataName
+        paramDic['paramters'] = {}
         for i in setting.split(',')[5:]:
             tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
             if tmp[0] == 'MinizincThreads':
                 self.nThreadMinizinc = int(tmp[1])
+                paramDic['threads'] = int(tmp[1])
             else:
-                param += tmp[0] + '\t' + tmp[1] + '\n'
+                paramDic['paramters'][tmp[0]] = tmp[1]
+        paramJson = json.dumps(paramDic, indent=4)
+        with open(outputdir,'w') as f:
+            f.write(paramJson)
+        print('Output To Json Format: ', outputdir)
 
-        with open('benchmark_cplex_param_cfg', 'w') as f:
-            f.write(param)
 
-        if output is not None:
-            with open(output+'cplex_param_cfg','w') as f:
-                f.write(param)
-            return output+'cplex_param_cfg'
-        return 'benchmark_cplex_param_cfg'
     
-    def cmd_generate(self,instance, runmode, params):
-        '''
-        Generate the commands used for run minizinc
-        '''
-        temp = instance.replace('"','').split('|')
-        instance = []
-        for i in temp:
-            instance.append(i)
-        cmd = self.basicCmd + ['-p',str(self.nThreadMinizinc)] + ['--solver', 'cplex'] + instance
-        if self.dll is not None:
-            cmd = cmd + ['--cplex-dll',self.dll]
-        if runmode == 1:
-            cmd = cmd + ['--readParam',params]
-        return cmd
-
-    def default_param_config_generation(self):
+    def default_param_to_list(self):
         '''
         Read SMAC pcs configration file and get default parameter settings from the parameter configuration space
         '''
-
         lines = [line.rstrip('\n') for line in open(self.pcsFile)]
         paramList = []
 
         for line in lines:
             if re.search('(\[)([a-zA-Z0-9]+)(\])', line):
                 default_val = re.search('(\[)([a-zA-Z0-9]+)(\])', line).group(2)
-                paramList.append(line.split()[0] + '\t' + str(default_val))
-
-        paramList.insert(0, 'CPLEX Parameter File Version 12.6')
-        with open('pre_run_time_check', 'w') as f:
-            f.write('\n'.join(paramList))
-        return "pre_run_time_check"
-
-
-class GurobiInitial(Initializer):
-    def __init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList, dll,
-                 programPath, psmac, initialCwd,obj_mode,minizinc_exe):
-        Initializer.__init__(self, cutOffTime, tuneTimeLimit, verboseOnOff, pcsFile, nThreadMinizinc, insPath, insList,
-                             dll, programPath, psmac, initialCwd,obj_mode,minizinc_exe)
-
-    def param_generate(self, setting, output=None):
-        '''
-        Generate parameter setting files for running the minizinc. Used in Benchmark. Also output parameter setting.
-        '''
-        fileName = 'benchmark_gurobi_param_cfg'
-        param = '# Parameter Setting for Gurobi\n'
-        for i in setting.split(',')[5:]:
-            tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
-            if tmp[0] == 'MinizincThreads':
-                self.nThreadMinizinc = int(tmp[1])
-            else:
-                param += tmp[0] + '\t' + tmp[1] + '\n'
-
-        with open(fileName, 'w') as f:
-            f.write(param)
-
-        if output is not None:
-            with open(output + fileName, 'w') as f:
-                f.write(param)
-            return output + fileName
-        return fileName
-
-    def cmd_generate(self, instance, runmode, params):
-        '''
-        Generate the commands used for run minizinc
-        '''
-        temp = instance.replace('"', '').split('|')
-        instance = []
-        for i in temp:
-            instance.append(i)
-        cmd = self.basicCmd + ['-p', str(self.nThreadMinizinc)] + ['--solver', 'gurobi'] + instance
-        if self.dll is not None:
-            cmd = cmd + ['--gurobi-dll',self.dll]
-        if runmode == 1:
-            cmd = cmd + ['--readParam',params]
-        return cmd
-
-    def default_param_config_generation(self):
-        '''
-        Read SMAC pcs configration file and get default parameter settings from the parameter configuration space
-        '''
-
-        lines = [line.rstrip('\n') for line in open(self.pcsFile)]
-        paramList = []
-
-        for line in lines:
-            if re.search('(\[)([a-zA-Z0-9]+)(\])', line):
-                default_val = re.search('(\[)([a-zA-Z0-9]+)(\])', line).group(2)
-                paramList.append(line.split()[0] + '\t' + str(default_val))
-
-        paramList.insert(0, '# Parameter Setting for Gurobi')
-        with open('pre_run_time_check', 'w') as f:
-            f.write('\n'.join(paramList))
-        return "pre_run_time_check"
+                paramList.append('-' + line.split()[0])
+                paramList.append(str(default_val))
+        return paramList

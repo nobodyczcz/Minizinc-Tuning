@@ -6,30 +6,18 @@ from random import randint
 This file store the wrapper of solvers which will be directly called by SMAC.
 '''
 
-
-def eprint( *args, **kwargs):
-    """
-    A help funtion that print to stderr
-    """
-    print(*args, file=sys.stderr, **kwargs)
-
 class Wrapper():
     '''
     This Wrapper is used for SMAC run minizinc. When SMAC create a configuration, it will try to run minizinc through
     this wrapper
     '''
-    def __init__(self, solver, threads, verbose,minizinc_exe):
-        self.instance = self.seperateInstance(sys.argv[1])
-        self.specifics = sys.argv[2]
-        self.cutoff = int(float(sys.argv[3]) + 1)  # runsolver only rounds down to integer
-        self.runlength = int(sys.argv[4])
-        self.seed = int(sys.argv[5])
-        self.params = sys.argv[6:]
+    def __init__(self, solver, threads, verbose,minizinc_exe='minizinc',cutoff=None):
+        self.cutoff = cutoff
         self.time_limit = 0
         self.solver = solver
         self.threads = threads
         self.minizinc_exe = minizinc_exe
-        self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective', '--solver', solver] + self.instance
+        self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective', '--solver', solver]
         self.verbose = verbose
 
     def vprint(self,*args, **kwargs):
@@ -178,7 +166,7 @@ class Wrapper():
                 pass
         return status, runtime, quality
 
-    def runMinizinc_time(self,cmd,maximize,env = None):
+    def runMinizinc_time(self,cmd,env = None):
         t = time.time()
         self.vprint('[Wraper out]', cmd)
 
@@ -210,9 +198,6 @@ class Wrapper():
                     except:
                         pass
 
-                if maximize:
-                    quality = -quality
-
             else:
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
@@ -237,7 +222,7 @@ class Wrapper():
                 pass
         return status, runtime, quality
 
-    def runMinizinc_obj_mode(self,cmd,maximize, env = None):
+    def runMinizinc_obj_mode(self,cmd,maximize=False, env = None):
         t = time.time()
         cmd += ['--time-limit', str(self.cutoff * 1000)]
         self.vprint('[Wraper out]', cmd)
@@ -305,138 +290,73 @@ class Wrapper():
         return status, runtime, quality
 
 
-    def process_param(self):
+    def process_param(self,params,outputdir = None):
         raise Exception('Must override this method')
 
-    def generate_cmd(self, tempParam,solver,dll=None):
-        cmd = self.basicCmd + ['-p', str(self.threads)]
+    def generate_cmd(self, tempParam,solver,instance,dll=None):
+        cmd = self.basicCmd + ['-p', str(self.threads)] + instance
         cmd += ['--readParam', tempParam]
         if dll is not None:
             cmd += ['--'+solver+'-dll', dll]
         return cmd
 
 class CplexWrapper(Wrapper):
-    def __init__(self, solver, threads,verbose,minizinc_exe):
-        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe)
+    def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
+        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe,cutoff)
 
-    def process_param(self):
+    def process_param(self,params,outputdir = None):
         # Prepare temp parameter file
         paramfile = 'CPLEX Parameter File Version 12.6\n'
-        for name, value in zip(self.params[::2], self.params[1::2]):
+        for name, value in zip(params[::2], params[1::2]):
             if name == '-MinizincThreads':
                 self.threads = value
             else:
                 paramfile += name.strip('-') + '\t' + value + '\n'
-        tempParam = self.get_current_timestamp() + str(randint(1, 999999))
+        if outputdir is not None:
+            tempParam = outputdir+"cplex_cfg"
+        else:
+            tempParam = self.get_current_timestamp() + str(randint(1, 999999))
         with open(tempParam, 'w') as f:
             f.write(paramfile)
         return tempParam
 
 class OsicbcWrapper(Wrapper):
-    def __init__(self, solver, threads,verbose,minizinc_exe):
-        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe)
+    def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
+        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe,cutoff)
 
-    def process_param(self):
+    def process_param(self,params,outputdir = None):
         # Prepare temp parameter file
         args = ''
-        for name, value in zip(self.params[::2], self.params[1::2]):
+        for name, value in zip(params[::2], params[1::2]):
             if name == '-MinizincThreads':
                 self.threads = value
             else:
                 args += ' ' + name + ' ' + value
+        if outputdir is not None:
+            with open(outputdir+'cbc_cfg','w') as f:
+                f.write(args)
         return args
 
 class GurobiWrapper(Wrapper):
-    def __init__(self, solver, threads,verbose,minizinc_exe):
-        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe)
+    def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
+        Wrapper.__init__(self, solver, threads,verbose,minizinc_exe,cutoff)
 
-    def process_param(self):
+    def process_param(self,params, outputdir = None):
         # Prepare temp parameter file
         paramfile = '# Parameter Setting for Gruobi\n'
-        for name, value in zip(self.params[::2], self.params[1::2]):
+        for name, value in zip(params[::2], params[1::2]):
             if name == '-MinizincThreads':
                 self.threads = value
             else:
                 paramfile += name.strip('-') + '\t' + value + '\n'
-        tempParam = self.get_current_timestamp() + str(randint(1, 999999))
+        if outputdir is not None:
+            tempParam = outputdir+"gurobi_cfg"
+        else:
+            tempParam = self.get_current_timestamp() + str(randint(1, 999999))
         with open(tempParam, 'w') as f:
             f.write(paramfile)
         return tempParam
 
-
-
-if __name__=="__main__":
-    try:
-        '''
-        Try to read wrapper setting file.
-        '''
-        with open('wrapperSetting.json','r') as file:
-            jsonData = json.load(file)
-
-        solver = jsonData['solver']
-        threads = jsonData['threads']
-        dll = jsonData['dll']
-        maximize = jsonData['maximize']
-        obj_mode = jsonData['obj_mode']
-        obj_bound = jsonData['obj_bond']
-        verbose = jsonData['verbose']
-        envdic = jsonData['envdic']
-        minizinc_exe = jsonData['minizinc_exe']
-
-        osenv = envdic['osenv']
-
-
-        '''
-        Create wrapper, generate parameters and generate commands.
-        '''
-        if solver == 'cplex':
-            wrapper = CplexWrapper(solver, threads,verbose,minizinc_exe)
-        elif solver == 'osicbc':
-            wrapper = OsicbcWrapper(solver, threads,verbose,minizinc_exe)
-        elif solver == 'gurobi':
-            wrapper = GurobiWrapper(solver, threads,verbose,minizinc_exe)
-        else:
-            raise Exception('[Wrapper Error] Solver do not exist')
-        wrapper.vprint('[Wrapper Debug] Read Wrapper setting',jsonData)
-        tempParam = wrapper.process_param()
-        cmd = wrapper.generate_cmd(tempParam,solver,dll)
-
-        '''
-        Run minizinc in suitable mode.
-        '''
-        if obj_mode:
-            wrapper.vprint('Run in obj mode')
-            status, runtime, quality = wrapper.runMinizinc_obj_mode(cmd, maximize, env = osenv)
-        elif obj_bound is not None:
-            wrapper.vprint('Run in obj cut mode')
-            status, runtime, quality = wrapper.runMinizinc_obj_cut(cmd, maximize, obj_bound, env = osenv)
-        else:
-            wrapper.vprint('Run in time mode')
-            status, runtime, quality = wrapper.runMinizinc_time(cmd, maximize, env = osenv)
-
-        '''
-        Clean temp parameter file and output results.
-        '''
-        try:
-            os.remove(tempParam)
-        except:
-            pass
-        wrapper.vprint('[Wrapper Debug] Run Finish ',status,' ', runtime,' ', quality)
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, wrapper.runlength, quality, wrapper.seed,
-                                                                            wrapper.specifics))
-
-    except FileNotFoundError as e:
-        eprint('[Wrapper Error] Failed when loading wrapperSetting', e)
-        status = "CRASHED"
-        runtime = 99999
-        quality = 1.0E9
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
-    except Exception as e:
-        eprint('[Wrapper Error]',e)
-        status = "CRASHED"
-        runtime = 99999
-        quality = 1.0E9
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
 
 
 
