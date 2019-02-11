@@ -339,7 +339,7 @@ def main():
         else:
             smacPath = os.path.abspath("../smac-v2/smac")
         print("smac path: ",smacPath)
-        tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath)
+        tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath,initializer.rungroup)
 
         tunning.runSmac(env = envdic['osenv'])
 

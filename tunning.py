@@ -4,15 +4,16 @@ import time
 
 
 class Tunning():
-    def __init__(self,verboseOnOff,nSMAC,outputdir,smacPath):
+    def __init__(self,verboseOnOff,nSMAC,outputdir,smacPath,rungroup):
         self.smac_path = smacPath
         self.verboseOnOff = verboseOnOff
         self.nSMAC = nSMAC
         self.outputdir = outputdir
-        if nSMAC == 1:
-            self.psmac = "False"
+        self.rungroup = rungroup
+        if nSMAC > 1:
+            self.psmac = "true"
         else:
-            self.psmac = "True"
+            self.psmac = "false"
     
     def get_current_timestamp(self):
         '''
@@ -56,8 +57,8 @@ class Tunning():
 
         for i in range(self.nSMAC):
             tmp = [self.smac_path, '--scenario-file', 'scenario_.txt', '--seed', str(randint(1, 999999)), \
-                   '--shared-model-mode', str(self.psmac), '--shared-model-mode-frequency', '100', \
-                   '--rungroup', self.outputdir, '--cli-listen-for-updates', 'false', '--validation', 'false']
+                   '--shared-model-mode', str(self.psmac), '--shared-model-mode-frequency', '100', '--output-dir',\
+                   self.outputdir, '--rungroup', self.rungroup, '--cli-listen-for-updates', 'false', '--validation', 'false']
             if self.verboseOnOff:
                 tmp += ['--console-log-level', 'DEBUG']
             cmd.append(tmp)

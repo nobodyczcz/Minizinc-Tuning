@@ -18,7 +18,8 @@ class Initializer():
         self.insPath = insPath # path for file listing all instances for optimization
         self.dll = dll # path for cplex-dll
         self.timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())) + '_' + str(randint(1, 999999)) # timestamp for careation of output directory
-        self.outputdir = 'runs_' + self.timestamp # output directory naming convention
+        self.outputdir = initialCwd+'/smac-output/'  # output directory naming convention
+        self.rungroup = 'run_' + self.timestamp
         self.instanceList = None
         self.initialCwd = initialCwd
         self.minizinc_exe = minizinc_exe
