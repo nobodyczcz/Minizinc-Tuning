@@ -26,6 +26,7 @@ class Initializer():
         self.maximize = maximize
         self.obj_mode = obj_mode
         self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective']
+        self.lpList = []
 
         self.wrapper = self.createWrapper()
 
@@ -117,9 +118,9 @@ class Initializer():
             datas = []
             for i in instance:
                 if re.findall('.mzn', i):
-                    model = i
+                    model = os.path.abspath(i)
                 else:
-                    datas.append(i)
+                    datas.append(os.path.abspath(i))
 
             if len(datas) > 0:
                 for data in datas:
@@ -215,6 +216,8 @@ class Initializer():
         files.extend(glob.glob('presolved*'))
         files.extend(glob.glob('[*'))
         files.extend(glob.glob('pid*'))
+        files.extend(glob.glob('*.prm'))
+        files.extend(glob.glob('*.log'))
 
         for f in files:
             os.remove(f)
@@ -384,21 +387,21 @@ class Initializer():
         except:
             modelName = ''
         fileName = time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))+ modelName
-        outputPath = self.initialCwd + '/' + fileName
-        outputJson = outputPath+'.json'
+        outputPath = self.initialCwd + '/' + fileName+'smacTune'
+        outputJson = outputPath+'smacTune.json'
         paramList = self.param_to_list(setting)
         finalParam = self.wrapper.process_param(paramList, outputPath)
         print("=" * 50)
         print('Recommendation :\n{}'.format(finalParam))
         print('Running in {} threads mode'.format(self.nThreadMinizinc))
         print('Result: {}'.format(round(benchquality[best_self] if self.obj_mode else benchtime[best_self], 3)))
-        self.param_to_json(setting,outputJson)
+        self.param_to_json(paramList,outputJson, benchquality[best_self] if self.obj_mode else benchtime[best_self])
         print("=" * 50)
                     
 
     def param_to_list(self,setting):
         '''
-        Generate parameter settings for running the minizinc. Used in benchmark. Also output parameter setting.
+        Generate parameter settings with smac output for running the minizinc. Used in benchmark. Also output parameter setting.
         '''
         arglist = []
         for i in setting.split(',')[5:]:
@@ -409,7 +412,13 @@ class Initializer():
                 arglist += ['-' + tmp[0], tmp[1]]
         return arglist
 
-    def param_to_json(self,setting,outputdir):
+    def param_to_json(self,paramList,outputdir, performance=None, tuneTool='smac'):
+        '''
+        Convert smac-output to json format.
+        :param setting: parameter in list format
+        :param outputdir:
+        :return:
+        '''
         modelName = []
         dataName = []
         for instance in self.instanceList:
@@ -427,19 +436,21 @@ class Initializer():
         paramDic['threads'] = self.nThreadMinizinc
         paramDic['models'] = modelName
         paramDic['instances'] = dataName
+        paramDic['estimated average performance'] = performance
+        paramDic['tune tool'] = tuneTool
         paramDic['paramters'] = {}
-        for i in setting.split(',')[5:]:
-            tmp = re.findall("[a-zA-Z\_\.\+\-0-9]+", i)
-            if tmp[0] == 'MinizincThreads':
-                self.nThreadMinizinc = int(tmp[1])
-                paramDic['threads'] = int(tmp[1])
+
+        for name, value in zip(paramList[::2], paramList[1::2]):
+            if name == '-MinizincThreads':
+                self.nThreadMinizinc = value
+                paramDic['threads'] = int(value)
             else:
-                paramDic['paramters'][tmp[0]] = tmp[1]
+                paramDic['paramters'][name.strip('-')] = value
+
         paramJson = json.dumps(paramDic, indent=4)
         with open(outputdir,'w') as f:
             f.write(paramJson)
         print('Output To Json Format: ', outputdir)
-
 
     
     def default_param_to_list(self):
@@ -455,3 +466,84 @@ class Initializer():
                 paramList.append('-' + line.split()[0])
                 paramList.append(str(default_val))
         return paramList
+
+    '''
+    Functions for Gurobi Tuning Tools
+    '''
+
+    def lp_model_generate(self,env=None):
+        print('{} Start converting minizinc model to lp model'.format(self.get_current_timestamp()))
+        for instance in self.instanceList:
+            try:
+                modelName = re.search("([^\\\/]+(.mzn))",instance).group(1)
+            except:
+                modelName = ''
+            try:
+                dataName = re.search("([^\\\/]+(.dzn))",instance).group(1)
+            except:
+                dataName = ''
+            fullName = modelName+dataName+'.lp'
+            inslist = self.wrapper.seperateInstance(instance.replace('"', ''))
+            self.vprint(inslist)
+            cmd = self.wrapper.generate_cmd(None, self.solver, inslist)
+            cmd += ['--writeModel', fullName]
+            self.wrapper.output_lp(cmd,1,env)
+            print('{} lp model file generated: {}'.format(self.get_current_timestamp(),fullName))
+            self.lpList.append(fullName)
+        print('{} Output lp models done'.format(self.get_current_timestamp()))
+
+    def grbTunePrmToList(self,filePath):
+        paramList = []
+        with open(filePath) as file:
+            lines = [line.rstrip('\n') for line in file]
+
+            # Remove any blank lines from  file
+            lines = [x for x in lines if x != '']
+
+            for line in lines:
+                setting = line.split()
+                param = setting[0]
+                value = setting[1]
+                paramList += ['-'+param,value]
+        return paramList
+
+
+    def grbTuneOutput(self, outputDir = None):
+        if outputDir is None:
+            outputDir = self.initialCwd
+        file = glob.glob('tune1.prm')
+        log = glob.glob('tune1.log')
+        try:
+            modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
+        except:
+            modelName = ''
+        fileName = time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time())) + modelName
+        outputPath = outputDir + '/' + fileName+'GrbTune.prm'
+        outputPathLog = outputDir + '/' + fileName+'GrbTune.log'
+
+        if len(file) == 0:
+            print("=" * 50)
+            print('{} No improved configuration found'.format(self.get_current_timestamp()))
+            print("=" * 50)
+            return
+        for f in file:
+            os.rename("./"+f, outputPath)
+        for f in log:
+            os.rename("./"+f, outputPathLog)
+
+        paramList = self.grbTunePrmToList(outputPath)
+        outputPathJson = outputDir + '/' + fileName + 'GrbTune.json'
+
+        self.param_to_json(paramList, outputPathJson, tuneTool='Gurobi tune tool')
+        print("=" * 50)
+        print('Recommendation :\n{}'.format(outputPath))
+        print('Running in {} threads mode'.format(self.nThreadMinizinc))
+        print("=" * 50)
+
+
+
+
+
+
+
+

@@ -289,13 +289,23 @@ class Wrapper():
                 pass
         return status, runtime, quality
 
+    def output_lp(self,cmd,timelimit,env=None):
+        cmd += ['--time-limit', str(timelimit * 1000)]
+        io = Popen(cmd, stdout=PIPE, stderr=PIPE, env=env)
+        io.communicate()
+
+
+
 
     def process_param(self,params,outputdir = None):
         raise Exception('Must override this method')
 
     def generate_cmd(self, tempParam,solver,instance,dll=None):
         cmd = self.basicCmd + ['-p', str(self.threads)] + instance
-        cmd += ['--readParam', tempParam]
+
+        if tempParam is not None:
+            cmd += ['--readParam', tempParam]
+
         if dll is not None:
             cmd += ['--'+solver+'-dll', dll]
         return cmd

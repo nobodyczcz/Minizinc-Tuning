@@ -1,6 +1,6 @@
 from random import randint
 from subprocess import Popen
-import time
+import time,sys
 
 
 class Tunning():
@@ -20,6 +20,10 @@ class Tunning():
         Get current timestamp
         '''
         return time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime(time.time()))
+
+    def vprint(self,*args, **kwargs):
+        if self.verboseOnOff:
+            print('[Tuning Debug]',*args, file=sys.stderr, **kwargs)
 
     def runSmac(self,env=None):
         '''
@@ -42,8 +46,6 @@ class Tunning():
         for process in child_processes:
             process.communicate()
 
-
-
     def psmac_args(self):
         '''
         Prepare the commands for running smac
@@ -64,5 +66,44 @@ class Tunning():
             cmd.append(tmp)
 
         return cmd
+
+    '''
+    Functions for Gurobi Tuning tool.
+    '''
+
+    def grbtune_cmd(self,tuneTime,solverTimeLimit,non_determin,obj_mode,modelList,threads):
+        tuneTimeLimit = 'TuneTimeLimit='+str(tuneTime)
+        timeLimit =  'TimeLimit='+str(solverTimeLimit)
+        if self.verboseOnOff:
+            tuneOutput = 'TuneOutput=2'
+        else:
+            tuneOutput = 'TuneOutput=1'
+
+        tuneResults = 'TuneResults=1'
+        tuneThreads =  'Threads='+str(threads)
+
+        if obj_mode:
+            tuneCriterion = 'TuneCriterion=2'
+        else:
+            tuneCriterion = 'TuneCriterion=-1'
+
+        cmd = ['grbtune', tuneCriterion, tuneTimeLimit,timeLimit,tuneOutput,tuneResults,tuneThreads]
+
+        if non_determin:
+            tuneTrials='TuneTrials=5'
+            cmd.append(tuneTrials)
+        cmd += modelList
+        return cmd
+
+    def runGrbtune(self,cmd,env=None):
+        '''
+        Run SMAC
+        '''
+        time.sleep(1)
+        print('{} Gurobi Tune Tool optimization starts'.format(self.get_current_timestamp()))
+        self.vprint('Execute command: ',cmd)
+        io = Popen(cmd, env = env)
+
+        io.communicate()
 
 

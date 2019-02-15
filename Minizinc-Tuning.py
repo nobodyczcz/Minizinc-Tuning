@@ -177,6 +177,23 @@ def argparser():
     Let program known where is minizinc -executable.
                                         ''')
 
+    parser.add_argument('--not-stable', default=False, action='store_true' \
+                        , help=''''\
+    To reduce the influence of random effect. SMAC will run every configuration for
+    multiple times to evaluate performance.
+                                            ''')
+
+    parser.add_argument('--user-gurobi-tune-tool', default=False, action='store_true' \
+                        , help=''''\
+    Use gurobi's own parameter tuning tool. Currently, do not support multiple instance 
+    tuning.
+                                                ''')
+    parser.add_argument('--tuning-tool', choices=['smac', 'grbtune'], default='smac',
+                        metavar='smac/grbtune', \
+                        help='''\
+    specify using smac or using gurobi tuning tool to perform tuning. grbtune only support gurobi solver. 
+                            ''')
+
 
     # args = parser.parse_args() #parse arguments
     args, unknownargs = parser.parse_known_args()
@@ -244,6 +261,14 @@ def main():
     Enviroment pre check
     '''
     envdic = environmentCheck(args)
+    
+    if args.tuning_tool == 'grbtune':
+        args.skip_bench = True
+        args.psmac = 1
+        args.tune_threads = False
+        if args.solver != 'gurobi':
+            raise Exception('Must use gurobi as solver when using gurobi tuning tool')
+
 
     '''
     Parameter file pre check.
@@ -324,24 +349,29 @@ def main():
         # Calculate cut off time if use didn't specify
         initializer.cut_off_time_calculation()
 
-        # generate wrapper and smac scenario
-        initializer.wrapper_setting_generator(args.solver,args.obj_cut,args.obj_mode,envdic)
-        initializer.pSMAC_scenario_generator(args.obj_mode,args.time_limit)
-        tempOut = open('temp.txt','w')
-        tempOut.write('')
-        tempOut.close()
+        if args.tuning_tool == 'grbtune':
+            initializer.lp_model_generate(envdic['osenv'])
+
+        else:
+            # generate wrapper and smac scenario
+            initializer.wrapper_setting_generator(args.solver,args.obj_cut,args.obj_mode,envdic)
+            initializer.pSMAC_scenario_generator(args.obj_mode,args.time_limit)
 
         '''
         Start Tunning
         '''
+
         if os.name == 'nt':
             smacPath = os.path.abspath("../smac-v2/smac.bat")
         else:
             smacPath = os.path.abspath("../smac-v2/smac")
-        print("smac path: ",smacPath)
         tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath,initializer.rungroup)
 
-        tunning.runSmac(env = envdic['osenv'])
+        if args.tuning_tool == 'grbtune':
+            cmd = tunning.grbtune_cmd(args.time_limit,initializer.cutOffTime,args.not_stable,args.obj_mode,initializer.lpList,args.p)
+            tunning.runGrbtune(cmd,env=envdic['osenv'])
+        else:
+            tunning.runSmac(env = envdic['osenv'])
 
     except KeyboardInterrupt:
         print("\nKeyboardInterrupt has been caught.")
@@ -367,7 +397,11 @@ def main():
         '''
         try:
             if args.skip_bench:
-                initializer.noBnechOutput()
+                if args.tuning_tool == 'grbtune':
+                    initializer.grbTuneOutput()
+                else:
+                    initializer.noBnechOutput()
+
             elif args.bench_mode is None:
                 if args.psmac > 1:
                     initializer.benchmark_main(5,-1) # run benchmark for last 1 configuration of each output file. Each run 5 times.
