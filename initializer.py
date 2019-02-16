@@ -174,7 +174,7 @@ class Initializer():
         with open('wrapperSetting.json', 'w') as f:
             f.write(json.dumps(settingDic, indent=4))
     
-    def pSMAC_scenario_generator(self,obj_mode,tuneTimeLimit):
+    def pSMAC_scenario_generator(self,obj_mode,tuneTimeLimit,more_runs):
         '''
         Generate scenario file for running the smac.
         '''
@@ -190,7 +190,11 @@ class Initializer():
         writeToFile.append('algo = {}'.format(python))
         writeToFile.append('pcs-file = {}'.format(self.pcsFile))
         writeToFile.append('execdir = .')
-        writeToFile.append('deterministic = 1')
+        if more_runs:
+            writeToFile.append('deterministic = 0')
+        else:
+            writeToFile.append('deterministic = 1')
+
         if obj_mode:
             writeToFile.append('runObj = QUALITY')
             writeToFile.append('overall_obj = MEAN')
@@ -438,6 +442,11 @@ class Initializer():
         paramDic['instances'] = dataName
         paramDic['estimated average performance'] = performance
         paramDic['tune tool'] = tuneTool
+        if self.obj_mode:
+            paramDic['tune mode'] = 'Objective of feasible solution'
+        else:
+            paramDic['tune mode'] = 'Time to optimal solution'
+        paramDic['solver time limit'] = self.cutOffTime
         paramDic['paramters'] = {}
 
         for name, value in zip(paramList[::2], paramList[1::2]):
@@ -527,6 +536,15 @@ class Initializer():
             print("=" * 50)
             return
         for f in file:
+            # remove timelimit and threads from prm file, as these parameter can be set in minizinc. we don't want set them in prm file.
+            with open(f,"r") as content:
+                lines = content.readlines()
+
+            with open(f,"w") as newfile:
+                for line in lines:
+                    if line.find('TimeLimit') == -1 and line.find('Threads') == -1:
+                        newfile.write(line)
+
             os.rename("./"+f, outputPath)
         for f in log:
             os.rename("./"+f, outputPathLog)

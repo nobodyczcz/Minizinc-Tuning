@@ -290,7 +290,7 @@ class Wrapper():
         return status, runtime, quality
 
     def output_lp(self,cmd,timelimit,env=None):
-        cmd += ['--time-limit', str(timelimit * 1000)]
+        cmd += ['--solver-time-limit', str(timelimit * 1000)]
         io = Popen(cmd, stdout=PIPE, stderr=PIPE, env=env)
         io.communicate()
 

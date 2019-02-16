@@ -71,7 +71,7 @@ class Tunning():
     Functions for Gurobi Tuning tool.
     '''
 
-    def grbtune_cmd(self,tuneTime,solverTimeLimit,non_determin,obj_mode,modelList,threads):
+    def grbtune_cmd(self,tuneTime,solverTimeLimit,more_runs,obj_mode,modelList,threads):
         tuneTimeLimit = 'TuneTimeLimit='+str(tuneTime)
         timeLimit =  'TimeLimit='+str(solverTimeLimit)
         if self.verboseOnOff:
@@ -89,8 +89,11 @@ class Tunning():
 
         cmd = ['grbtune', tuneCriterion, tuneTimeLimit,timeLimit,tuneOutput,tuneResults,tuneThreads]
 
-        if non_determin:
-            tuneTrials='TuneTrials=5'
+        if more_runs:
+            tuneTrials='TuneTrials=3'
+            cmd.append(tuneTrials)
+        else:
+            tuneTrials = 'TuneTrials=1'
             cmd.append(tuneTrials)
         cmd += modelList
         return cmd

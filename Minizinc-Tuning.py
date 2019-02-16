@@ -177,7 +177,7 @@ def argparser():
     Let program known where is minizinc -executable.
                                         ''')
 
-    parser.add_argument('--not-stable', default=False, action='store_true' \
+    parser.add_argument('--more-runs', default=False, action='store_true' \
                         , help=''''\
     To reduce the influence of random effect. SMAC will run every configuration for
     multiple times to evaluate performance.
@@ -355,7 +355,7 @@ def main():
         else:
             # generate wrapper and smac scenario
             initializer.wrapper_setting_generator(args.solver,args.obj_cut,args.obj_mode,envdic)
-            initializer.pSMAC_scenario_generator(args.obj_mode,args.time_limit)
+            initializer.pSMAC_scenario_generator(args.obj_mode,args.time_limit,args.more_runs)
 
         '''
         Start Tunning
@@ -368,7 +368,7 @@ def main():
         tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath,initializer.rungroup)
 
         if args.tuning_tool == 'grbtune':
-            cmd = tunning.grbtune_cmd(args.time_limit,initializer.cutOffTime,args.not_stable,args.obj_mode,initializer.lpList,args.p)
+            cmd = tunning.grbtune_cmd(args.time_limit,initializer.cutOffTime,args.more_runs,args.obj_mode,initializer.lpList,args.p)
             tunning.runGrbtune(cmd,env=envdic['osenv'])
         else:
             tunning.runSmac(env = envdic['osenv'])
