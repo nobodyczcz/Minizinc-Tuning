@@ -389,6 +389,9 @@ def main():
                 args.time_limit = int(initializer.cutOffTime//3 * args.tuning_runs)
             else:
                 args.time_limit = int(initializer.cutOffTime * args.tuning_runs)
+
+            if args.more_runs:
+                args.time_limit = args.time_limit * 3
             eprint('{} Tuning Time Limit set as: {}. For {} runs'.format(get_current_timestamp(), args.time_limit,args.tuning_runs))
 
         if args.tuning_tool == 'grbtune':
