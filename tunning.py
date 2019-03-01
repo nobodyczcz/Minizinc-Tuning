@@ -1,6 +1,8 @@
+import threading
 from random import randint
 from subprocess import Popen
-import time,sys
+from helpFunctions.helpFuctions import *
+
 
 
 class Tunning():
@@ -23,30 +25,39 @@ class Tunning():
 
     def vprint(self,*args, **kwargs):
         if self.verboseOnOff:
-            print('[Tuning Debug]',*args, file=sys.stderr, **kwargs)
+            eprint('[Tuning Debug]',*args, **kwargs)
 
-    def runSmac(self,env=None):
+    def runSmac(self,timelimit,env=None,restore=None):
         '''
         Run SMAC
         '''
-        args = self.psmac_args()
+        args = self.psmac_args(restore)
         child_processes=[]
+
+        # progress = threading.Thread(target=printPorgress, args=(timelimit,))
+        # progress.start()
+        t = time.time()
         for arg in args:
-            print(arg)
+            self.vprint(arg)
             cmd = arg
             time.sleep(1)
-            print('{} SMAC optimization starts'.format(self.get_current_timestamp()))
+            eprint('{} SMAC optimization starts'.format(self.get_current_timestamp()))
             io = Popen(cmd, env = env)
             child_processes.append(io)
 
-        # while child_processes[-1].poll() is None:
+
+        while child_processes[-1].poll() is None:
+            progress = round(((time.time() - t) / timelimit) * 100, 2)
+            pprint("%%%mzn-progress", progress if progress < 100 else 100)
+
+            time.sleep(2)
         #     for process in child_processes:
         #         line = process.stdout.readline()
         #         print('[',str(process.pid),']', line.decode('utf-8'), end ="")
         for process in child_processes:
             process.communicate()
 
-    def psmac_args(self):
+    def psmac_args(self,restore = None):
         '''
         Prepare the commands for running smac
         '''
@@ -58,9 +69,13 @@ class Tunning():
         #    self.smac_path = stdout_.decode('utf-8').strip('\n')
 
         for i in range(self.nSMAC):
+
             tmp = [self.smac_path, '--scenario-file', 'scenario_.txt', '--seed', str(randint(1, 999999)), \
                    '--shared-model-mode', str(self.psmac), '--shared-model-mode-frequency', '100', '--output-dir',\
                    self.outputdir, '--rungroup', self.rungroup, '--cli-listen-for-updates', 'false', '--validation', 'false']
+            if restore is not None:
+                tmp += ["--restore-scenario", restore[i]]
+
             if self.verboseOnOff:
                 tmp += ['--console-log-level', 'DEBUG']
             cmd.append(tmp)
@@ -79,7 +94,7 @@ class Tunning():
         else:
             tuneOutput = 'TuneOutput=1'
 
-        tuneResults = 'TuneResults=1'
+        tuneResults = 'TuneResults=-1'
         tuneThreads =  'Threads='+str(threads)
 
         if obj_mode:
@@ -98,14 +113,21 @@ class Tunning():
         cmd += modelList
         return cmd
 
-    def runGrbtune(self,cmd,env=None):
+    def runGrbtune(self, cmd, timelimit, env=None):
         '''
         Run SMAC
         '''
         time.sleep(1)
-        print('{} Gurobi Tune Tool optimization starts'.format(self.get_current_timestamp()))
+        eprint('{} Gurobi Tune Tool optimization starts'.format(self.get_current_timestamp()))
         self.vprint('Execute command: ',cmd)
+
+        t = time.time()
         io = Popen(cmd, env = env)
+
+        while io.poll() is None:
+            progress = round(((time.time() - t) / timelimit) * 100, 2)
+            pprint("%%%mzn-progress", progress if progress < 100 else 100)
+            time.sleep(2)
 
         io.communicate()
 

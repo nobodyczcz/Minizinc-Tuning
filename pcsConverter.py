@@ -73,15 +73,22 @@ class pcsConverter():
                     if (parameters[param]["range"][1] - parameters[param]["range"][0]) > 1000:
                         paramType = 'ordinal'
                         newRange = []
+                        default = int(parameters[param]["default"])
                         maxi = int(parameters[param]["range"][1])
                         mini = int(parameters[param]["range"][0])
                         while mini < maxi:
                             newRange.append(mini)
-                            if mini <= 0:
+                            if mini < -1:
+                                mini = mini//10
+                            elif mini >= -1 and mini <=0:
                                 mini = 1
                             else:
                                 mini = 10 * mini
+
+                            if default > mini//10 and default < mini:
+                                newRange.append(default)
                         newRange.append(maxi)
+
                         paramRange = str(newRange).replace("'", "")[1:-1]
                         paramRange = "{" + paramRange + "}"
                     else:

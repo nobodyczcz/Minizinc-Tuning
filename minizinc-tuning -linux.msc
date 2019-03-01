@@ -1,0 +1,29 @@
+{
+    "executable": "./Minizinc-Tuning/Minizinc-Tuning.exe",
+    "id": "org.minizinc.tuning-program",
+    "isGUIApplication": false,
+    "name": "Minizinc-tuning",
+    "supportsMzn": true,
+    "version": "1.2",
+    "needsSolns2Out":false,
+    "needsStdlibDir": false,
+    "needsMznExecutable": true,
+    "stdFlags": ["-v", "-p","-t","--minizinc"],
+    "tags": ["experimental","tuning", "isTool"],
+    "extraFlags": [
+      ["--tuning-solver", "Name of solver ", "string"],
+      ["--tuning-tool", "Name of tuning tool ", "string"],
+      ["--obj-mode", "Enable optimize objective mode", "bool"],
+      ["--maximize", "Specify its a maximization problem for --obj-mode", "bool"],
+      ["--tuning-time","Total tuning time limit","int"],
+      ["--cut", "Cut off time for per minizinc run", "int"],
+      ["--tune-threads", "Threat threads as tuning parameter", "bool"],
+      ["--skip-bench", "Skip bench mark, evaluate result based on smac-output only", "bool"],
+      ["--psmac", "Enable parellel smac", "int"],
+      ["--pcs-json", "Specify your own parameter configuration json file", "string"],
+      ["--restore", "Restore previous tuning, please provide the path of run group folder under smac-output folder. ", "string"],
+      ["--more-runs", "Run more trails on each configuration to reduce the influence of random effect", "bool"],
+      ["--tuning-runs","Limit tuning by how many runs","int"],
+      ["--output-dir","Specify the output directory","string"]
+    ]
+}

@@ -29,7 +29,7 @@ parser.add_argument('--cplex-dll',type=str,\
 parser.add_argument('-skip',default = False, action='store_true',\
                         help='''\
                         ''')
-parser.add_argument('-a', type=int,default = None,\
+parser.add_argument('-a',default = False,action='store_true',\
                         help='''\
                         ''')
 parser.add_argument('-row',default = -1, type=int,\
@@ -47,33 +47,16 @@ initialCwd = os.getcwd()
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 programPath = os.path.dirname(os.path.abspath(filename))
 
-if solver == 'osicbc':
-    initializer = CbcInitial(cutOffTime, 0, False, None, p, None, instance, cplex_dll,programPath,1,None,None)
-elif solver == 'cplex':
-    initializer = CplexInitial(cutOffTime, 0, False, None, p, None, instance, cplex_dll,programPath,1,None,None)
-elif solver == 'gurobi':
-    initializer = GurobiInitial(cutOffTime, 0, False, None, p, None, instance, cplex_dll,programPath,1,None,None)
-initializer.process_instance()
+initializer = Initializer(solver, cutOffTime, False, None, p,instance, cplex_dll,programPath,None,True,False)
+
+initializer.process_instance(instance,programPath)
 os.chdir(sys.path[0]+"/cache")
 initializer.initialCwd = initialCwd
-initializer.outputdir = outputDir
+initializer.outputdir = initialCwd + '/smac-output/'
+initializer.rungroup =outputDir
 
-if args.a is not None:
-    stdout_ = glob.glob('./smac-output/' + initializer.outputdir + '/traj-run*.txt')
-    print("Output found: ", stdout_)
 
-    count=1
-    for i in stdout_:
-        if len(i) != 0:
-            print("Configuration file: ", i)
-            res = [line.rstrip('\n') for line in open(i)]
-            for setting in res[args.a:]:
-                print('Out put: ', setting)
-                fileName = time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))+ str(count)
-                print('to :',fileName)
-                finalParam = initializer.param_generate(setting, initializer.initialCwd + '/' + fileName)
-                count+=1
-elif args.skip:
+if args.skip:
     initializer.noBnechOutput(-2,args.a)
 else:
     initializer.benchmark_main(1,-1)

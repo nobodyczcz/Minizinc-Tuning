@@ -10,7 +10,9 @@ import argparse,signal, shutil
 from pcsConverter import *
 from initializer import *
 from tunning import *
-from run_minizinc.runtool import *
+from helpFunctions.helpFuctions import *
+
+
 
 def argparser():
     '''
@@ -117,11 +119,15 @@ def argparser():
     time.
                         ''')
     
-    parser.add_argument('-t','--time-limit','--tuning-time',type=int,required=True,metavar='time-limit-by-seconds',\
+    parser.add_argument('-t','--time-limit','--tuning-time',type=int,default=None,metavar='time-limit-by-seconds',\
                         help='''\
     You must specify a time limit for tunning. You can read the help for
     -pcs to see our suggestion for time limit.
                         ''')
+    parser.add_argument('--tuning-runs', type=int, default=None, metavar='amount of runs', \
+                        help='''\
+    You can specify how many runs you want smac to perform, instead of tuning time limit.
+                            ''')
     
     parser.add_argument('--dll','--cplex-dll',default=None,type=str,metavar='/opt/ibm/....',\
                         help='''\
@@ -193,6 +199,21 @@ def argparser():
                         help='''\
     specify using smac or using gurobi tuning tool to perform tuning. grbtune only support gurobi solver. 
                             ''')
+    parser.add_argument('--restore', default=None,
+                        metavar='path/to/history/run', \
+                        help='''\
+    Restore previous run. You can stop tuning, and continue tuning later with this command.
+                                                        ''')
+    parser.add_argument('--no-clean', default=False,
+                        action='store_true', \
+                        help='''\
+    Do not clean cache folder
+                                                            ''')
+    parser.add_argument('--output-dir', default=None,
+                        type=str, \
+                        help='''\
+    specify the output directory
+                                                                ''')
 
 
     # args = parser.parse_args() #parse arguments
@@ -201,22 +222,22 @@ def argparser():
     return args, unknownargs
 
 def printStartMessage(args):
-    print("=" * 50)
+    print("*" * 50)
     print("Minizinc Executable: ", args.minizinc_exe)
-    print("Solver: ", args.solver)
-    print("threads: ", args.p)
-    print("Tune threads: ", args.tune_threads)
-    print("PSMAC mode: ", args.psmac)
-    print("Optimize objective mode: ", args.obj_mode)
+    eprint("Solver: ", args.solver)
+    eprint("threads: ", args.p)
+    eprint("Tune threads: ", args.tune_threads)
+    eprint("PSMAC mode: ", args.psmac)
+    eprint("Optimize objective mode: ", args.obj_mode)
     if args.obj_mode:
-        print("Maximization problem: ", args.maximize)
-    print("Cuts time: ", args.cut)
-    print("Tuning time limit: ", args.time_limit)
-    print("Parameter space file: ", args.pcs_json)
-    print("cplex dll: ", args.dll)
-    print("Verbose: ", args.v)
-    print("Skip Benchmark", args.skip_bench)
-    print("=" * 50)
+        eprint("Maximization problem: ", args.maximize)
+    eprint("Cuts time: ", args.cut)
+    eprint("Tuning time limit: ", args.time_limit)
+    eprint("Parameter space file: ", args.pcs_json)
+    eprint("cplex dll: ", args.dll)
+    eprint("Verbose: ", args.v)
+    eprint("Skip Benchmark", args.skip_bench)
+    eprint("*" * 50)
 
 def main():
     """
@@ -269,6 +290,8 @@ def main():
         if args.solver != 'gurobi':
             raise Exception('Must use gurobi as solver when using gurobi tuning tool')
 
+    if args.time_limit is None and args.tuning_runs is None:
+        raise Exception('You must specify either --time-limit or --tuning-runs')
 
     '''
     Parameter file pre check.
@@ -288,7 +311,7 @@ def main():
         try:
             args.pcs_json = os.path.abspath(programPath+'/pcsFiles/' + args.solver + '.json')
         except:
-            print('[Minizinc-Tuning error]Cannot find parameter configuration json file for ' + args.solver +\
+            eprint('[Minizinc-Tuning error]Cannot find parameter configuration json file for ' + args.solver +\
                             ' under Minizinc-Tuning/pcsFiles/ . Please specify one with -pcsJson argument')
             raise
         
@@ -300,15 +323,15 @@ def main():
     '''
     if len(unknownargs) > 0:
         args.instances += unknownargs
-        print(args.instances)
+        eprint(args.instances)
 
     if args.instances_file is not None:
-        print("Read instances list file: ",args.instances_file)
+        eprint("Read instances list file: ",args.instances_file)
     else:
         if args.instances is None:
             raise Exception('You need either specify a instances list file or give instances by commandline arguments. Use -h for help')
         else:
-            print("Instances from arguments: " ,' '.join(args.instances))
+            eprint("Instances from arguments: " ,' '.join(args.instances))
     
     '''
     Benchmark mode setting check
@@ -335,23 +358,41 @@ def main():
 
     initializer = Initializer(args.solver,args.cut, args.v, pcsFile, args.p, args.instances_file,
                                  args.dll,initialCwd, args.minizinc_exe,args.maximize, args.obj_mode)
+    stateFiles = None
+
+    if args.restore is not None:
+        restore =  os.path.abspath(args.restore)
+        rungroups = os.path.basename(restore)
+        outputDir = args.restore.replace(rungroups, "")
+        stateFiles = glob.glob(outputDir+rungroups+"/state*")
+        for i in stateFiles:
+            i = os.path.normpath(i)
+        eprint(get_current_timestamp(),"Find state folders: ", stateFiles)
+
+    if args.output_dir is not None:
+        initializer.setOutputDir(os.path.abspath(args.output_dir))
+
+    # combine instances fils and generate relating temp files
+    initializer.process_instance(args.instances,programPath,args.minizinc)
+
+    # check threads settings
+    initializer.thread_check(args.psmac)
+
+    # change working directory to /cache
+    os.chdir(programPath+"/cache")
 
     try:
-        # combine instances fils and generate relating temp files
-        initializer.process_instance(args.instances,programPath,args.minizinc)
-
-        # check threads settings
-        initializer.thread_check(args.psmac)
-
-        # change working directory to /cache
-        os.chdir(programPath+"/cache")
-        
         # Calculate cut off time if use didn't specify
         initializer.cut_off_time_calculation()
+        if args.time_limit is None:
+            if args.cut == 0:
+                args.time_limit = int(initializer.cutOffTime//3 * args.tuning_runs)
+            else:
+                args.time_limit = int(initializer.cutOffTime * args.tuning_runs)
+            eprint('{} Tuning Time Limit set as: {}. For {} runs'.format(get_current_timestamp(), args.time_limit,args.tuning_runs))
 
         if args.tuning_tool == 'grbtune':
             initializer.lp_model_generate(envdic['osenv'])
-
         else:
             # generate wrapper and smac scenario
             initializer.wrapper_setting_generator(args.solver,args.obj_cut,args.obj_mode,envdic)
@@ -369,12 +410,12 @@ def main():
 
         if args.tuning_tool == 'grbtune':
             cmd = tunning.grbtune_cmd(args.time_limit,initializer.cutOffTime,args.more_runs,args.obj_mode,initializer.lpList,args.p)
-            tunning.runGrbtune(cmd,env=envdic['osenv'])
+            tunning.runGrbtune(cmd, args.time_limit, env=envdic['osenv'])
         else:
-            tunning.runSmac(env = envdic['osenv'])
+            tunning.runSmac(args.time_limit, env = envdic['osenv'], restore = stateFiles)
 
     except KeyboardInterrupt:
-        print("\nKeyboardInterrupt has been caught.")
+        eprint("\nKeyboardInterrupt has been caught.")
 
     finally:
         #use following code to ensure all miniinc process are killed.
@@ -411,11 +452,13 @@ def main():
                 try:
                     initializer.benchmark_main(times,last)
                 except Exception as e:
-                    print('[Benchmark Mode Error] ', e)
+                    eprint('[Benchmark Mode Error] ', e)
         except KeyboardInterrupt:
             pass
-        print("\nCleaning up...")
-        initializer.remove_tmp_files()
+
+        if not args.no_clean:
+            eprint("\nCleaning up...")
+            initializer.remove_tmp_files()
 
 def environmentCheck(args):
     envdic = {}
@@ -458,7 +501,7 @@ def environmentCheck(args):
 
 
 if __name__=="__main__":
-    print("[Tunning program start.]")
+    eprint(get_current_timestamp()," Tunning program start.")
     main()
 
 

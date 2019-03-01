@@ -215,6 +215,12 @@ class Wrapper():
             status = 'TIMEOUT'
             runtime = self.cutoff
             quality = 1.0E9
+        except Exception as e:
+            self.vprint('[Wrapper Err] Exception')
+            io.terminate()
+            status = 'CRASHED'
+            runtime = self.cutoff
+            quality = 1.0E9
         finally:
             try:
                 os.remove(pidFile)
@@ -293,8 +299,6 @@ class Wrapper():
         cmd += ['--solver-time-limit', str(timelimit * 1000)]
         io = Popen(cmd, stdout=PIPE, stderr=PIPE, env=env)
         io.communicate()
-
-
 
 
     def process_param(self,params,outputdir = None):

@@ -1,15 +1,8 @@
 from run_minizinc.runtool import *
-
+from helpFunctions.helpFuctions import *
 '''
 This file store the wrapper of solvers which will be directly called by SMAC.
 '''
-
-
-def eprint( *args, **kwargs):
-    """
-    A help funtion that print to stderr
-    """
-    print(*args, file=sys.stderr, **kwargs)
 
 if __name__=="__main__":
     try:
@@ -91,6 +84,8 @@ if __name__=="__main__":
         runtime = 99999
         quality = 1.0E9
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
+    except KeyboardInterrupt:
+        eprint('KeyboardInterrupt caught')
 
 
 

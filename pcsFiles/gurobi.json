@@ -47,6 +47,19 @@
             ],
             "default": "-1"
         },
+        "Method": {
+            "type": "categorical",
+            "range": [
+                "-1",
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "default": "-1"
+        },
         "PartitionPlace": {
             "type": "integer",
             "range": [
@@ -167,6 +180,16 @@
             ],
             "default": "-1"
         },
+        "MIPFocus": {
+            "type": "categorical",
+            "range": [
+                "0",
+                "1",
+                "2",
+                "3"
+            ],
+            "default": "0"
+        },
         "StrongCGCuts": {
             "type": "categorical",
             "range": [
@@ -252,6 +275,39 @@
                 2000000000
             ],
             "default": -1
+        },
+        "ImproveStartGap": {
+            "type": "ordinal",
+            "range": [
+                "0",
+                "0.1",
+                "0.2",
+                "0.3",
+                "0.4",
+                "0.5",
+                "0.6",
+                "0.7",
+                "0.8",
+                "0.9",
+                "1"
+            ],
+            "default": "0"
+        },
+        "RINS": {
+            "type": "integer",
+            "range": [
+                -1,
+                2000000000
+            ],
+            "default": -1
+        },
+        "SubMIPNodes": {
+            "type": "integer",
+            "range": [
+                -1,
+                2000000000
+            ],
+            "default": 500
         },
         "Presolve": {
             "type": "categorical",
