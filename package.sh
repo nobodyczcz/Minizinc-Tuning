@@ -17,17 +17,18 @@ pyinstaller Minizinc-Tuning.py
 echo tuning done
 mv ./dist/wrappers ./dist/Minizinc-Tuning/
 echo move wrappers done
-cp -r --copy-contents example ./dist/Minizinc-Tuning/
+cp -R example ./dist/Minizinc-Tuning/
 echo move example done
-cp -r --copy-contents pcsFiles ./dist/Minizinc-Tuning/
+cp -R pcsFiles ./dist/Minizinc-Tuning/
 echo move pcsFiles done
-cp -r --copy-contents smac-v2 ./dist/Minizinc-Tuning/
+cp -R smac-v2 ./dist/Minizinc-Tuning/
 echo move smac-v2 done
 mkdir ./dist/Minizinc-Tuning/cache
 echo create cache
 
-cp -r --copy-contents ./dist/Minizinc-Tuning $minizincPath/share/minizinc/solvers/
+cp -R ./dist/Minizinc-Tuning $minizincPath/share/minizinc/solvers/
 cp ./minizinc-tuning.msc $minizincPath/share/minizinc/solvers/
+cp ./tuningConfiguration.json $minizincPath/
 echo move to $minizincPath/share/minizinc/solvers/ done
 
 chmod u+x $minizincPath/share/minizinc/solvers/Minizinc-Tuning/Minizinc-Tuning
