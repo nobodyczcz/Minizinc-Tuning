@@ -70,45 +70,45 @@ class Tunning():
 
         for i in range(self.nSMAC):
 
-            tmp = [self.smac_path, '--scenario-file', 'scenario_.txt', '--seed', str(randint(1, 999999)), \
-                   '--shared-model-mode', str(self.psmac), '--shared-model-mode-frequency', '100', '--output-dir',\
-                   self.outputdir, '--rungroup', self.rungroup, '--cli-listen-for-updates', 'false', '--validation', 'false']
+            tmp = [self.smac_path, "--scenario-file", "scenario_.txt", "--seed", str(randint(1, 999999)), \
+                   "--shared-model-mode", str(self.psmac), "--shared-model-mode-frequency", "100", "--output-dir",\
+                   self.outputdir, "--rungroup", self.rungroup, "--cli-listen-for-updates", "false", "--validation", "false"]
             if restore is not None:
                 tmp += ["--restore-scenario", restore[i]]
 
             if self.verboseOnOff:
-                tmp += ['--console-log-level', 'DEBUG']
+                tmp += ["--console-log-level", "DEBUG"]
             cmd.append(tmp)
 
         return cmd
 
-    '''
+    """
     Functions for Gurobi Tuning tool.
-    '''
+    """
 
     def grbtune_cmd(self,tuneTime,solverTimeLimit,more_runs,obj_mode,modelList,threads):
-        tuneTimeLimit = 'TuneTimeLimit='+str(tuneTime)
-        timeLimit =  'TimeLimit='+str(solverTimeLimit)
+        tuneTimeLimit = "TuneTimeLimit="+str(tuneTime)
+        timeLimit =  "TimeLimit="+str(solverTimeLimit)
         if self.verboseOnOff:
-            tuneOutput = 'TuneOutput=2'
+            tuneOutput = "TuneOutput=2"
         else:
-            tuneOutput = 'TuneOutput=1'
+            tuneOutput = "TuneOutput=1"
 
-        tuneResults = 'TuneResults=-1'
-        tuneThreads =  'Threads='+str(threads)
+        tuneResults = "TuneResults=-1"
+        tuneThreads =  "Threads="+str(threads)
 
         if obj_mode:
-            tuneCriterion = 'TuneCriterion=2'
+            tuneCriterion = "TuneCriterion=2"
         else:
-            tuneCriterion = 'TuneCriterion=-1'
+            tuneCriterion = "TuneCriterion=-1"
 
-        cmd = ['grbtune', tuneCriterion, tuneTimeLimit,timeLimit,tuneOutput,tuneResults,tuneThreads]
+        cmd = ["grbtune", tuneCriterion, tuneTimeLimit,timeLimit,tuneOutput,tuneResults,tuneThreads]
 
         if more_runs:
-            tuneTrials='TuneTrials=3'
+            tuneTrials="TuneTrials=3"
             cmd.append(tuneTrials)
         else:
-            tuneTrials = 'TuneTrials=1'
+            tuneTrials = "TuneTrials=1"
             cmd.append(tuneTrials)
         cmd += modelList
         return cmd
@@ -118,8 +118,8 @@ class Tunning():
         Run SMAC
         '''
         time.sleep(1)
-        eprint('{} Gurobi Tune Tool optimization starts'.format(self.get_current_timestamp()))
-        self.vprint('Execute command: ',cmd)
+        eprint("{} Gurobi Tune Tool optimization starts".format(self.get_current_timestamp()))
+        self.vprint("Execute command: ",cmd)
 
         t = time.time()
         io = Popen(cmd, env = env)
