@@ -386,7 +386,7 @@ def main():
         initializer.cut_off_time_calculation()
         if args.time_limit is None:
             if args.cut == 0:
-                args.time_limit = int(initializer.cutOffTime//3 * args.tuning_runs)
+                args.time_limit = int((initializer.cutOffTime * args.tuning_runs)//3)
             else:
                 args.time_limit = int(initializer.cutOffTime * args.tuning_runs)
 
