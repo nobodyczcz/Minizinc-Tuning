@@ -19,8 +19,8 @@ class Initializer():
         self.nThreadMinizinc = nThreadMinizinc # number of threads allocated to per Minizinc
         self.insPath = insPath # path for file listing all instances for optimization
         self.dll = dll # path for cplex-dll
-        self.timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())) + '_' + str(randint(1, 999999)) # timestamp for careation of output directory
-        self.rungroup = 'run_' + self.timestamp
+        self.timestamp = time.strftime('%y%m%d_%H%M%S', time.localtime(time.time())) # timestamp for careation of output directory
+        self.rungroup = self.timestamp + "_SmacModel"
         self.instanceList = None
         self.initialCwd = initialCwd
         self.minizinc_exe = minizinc_exe
@@ -48,7 +48,7 @@ class Initializer():
             eprint('[Wrapper Debug]',args, **kwargs)
 
     def setOutputDir(self,dir):
-        self.outputdir = dir+('\\smac-output\\' if os.name == 'nt' else '/smac-output/')
+        self.outputdir = dir
         self.resultOutput = dir
 
     def get_current_timestamp(self):
@@ -345,7 +345,8 @@ class Initializer():
         '''
         eprint('{} SMAC optimization completes'.format(self.get_current_timestamp()))
         eprint('{} Benchmarking starts'.format(self.get_current_timestamp()))
-        stdout_ = glob.glob(self.outputdir + self.rungroup + '/traj-run*.txt')
+        self.vprint(self.outputdir +"/" + self.rungroup + '/traj-run*.txt')
+        stdout_ = glob.glob(self.outputdir + "/"+ self.rungroup + '/traj-run*.txt')
         eprint("Output found: ", stdout_)
 
         benchtime = {}
@@ -366,7 +367,7 @@ class Initializer():
                     benchset[count] = setting
                     benchquality[count] = avgtime
                     if all:
-                        fileName ='Setting' + str(count) + time.strftime('[%Y%m%d%H%M%S]', time.localtime(time.time()))
+                        fileName ='Setting' + str(count) + time.strftime('%y%m%d_%H%M%S]', time.localtime(time.time()))
                         outputPath = self.initialCwd+'/'+fileName
                         paramList = self.param_to_list(setting)
                         finalParam = self.wrapper.process_param(paramList, outputPath)
@@ -398,9 +399,9 @@ class Initializer():
             modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
         except:
             modelName = ''
-        fileName = time.strftime('%y%m%d-%H%M', time.localtime(time.time()))+ modelName
+        fileName = self.timestamp +"_"+ modelName
         outputPath = self.resultOutput + "/" + fileName
-        outputJson = outputPath+'Smac.json'
+        outputJson = outputPath+'Smac.pcf'
         paramList = self.param_to_list(setting)
         finalParam = self.wrapper.process_param(paramList, outputPath)
         eprint("-" * 50)
@@ -536,7 +537,7 @@ class Initializer():
             modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
         except:
             modelName = ''
-        fileName = time.strftime('%y%m%d-%H%M', time.localtime(time.time())) + modelName
+        fileName = self.timestamp+"_" + modelName
         outputPath = outputDir + fileName+'Grb.prm'
         outputPathLog = outputDir + fileName+'Grb.log'
 
@@ -563,7 +564,7 @@ class Initializer():
             eprint('Output log file to: ', outputPathLog)
 
         paramList = self.grbTunePrmToList(outputPath)
-        outputPathJson = outputDir + fileName + 'GrbTune.json'
+        outputPathJson = outputDir + fileName + 'GrbTune.pcf'
 
         self.param_to_json(paramList, outputPathJson, tuneTool='Gurobi tune tool')
         eprint("-" * 50)

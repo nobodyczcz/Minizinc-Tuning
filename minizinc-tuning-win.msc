@@ -11,19 +11,19 @@
     "stdFlags": ["-v", "-p","-t","--minizinc"],
     "tags": ["experimental","tuning", "isTool"],
     "extraFlags": [
-      ["--tuning-solver", "Name of solver ", "string"],
-      ["--tuning-tool", "Name of tuning tool ", "string"],
-      ["--obj-mode", "Enable optimize objective mode", "bool"],
-      ["--maximize", "Specify its a maximization problem for --obj-mode", "bool"],
-      ["--tuning-time","Total tuning time limit","int"],
-      ["--cut", "Cut off time for per minizinc run", "int"],
-      ["--tune-threads", "Threat threads as tuning parameter", "bool"],
-      ["--skip-bench", "Skip bench mark, evaluate result based on smac-output only", "bool"],
-      ["--psmac", "Enable parellel smac", "int"],
-      ["--pcs-json", "Specify your own parameter configuration json file", "string"],
-      ["--restore", "Restore previous tuning, please provide the path of run group folder under smac-output folder. ", "string"],
-      ["--more-runs", "Run more trails on each configuration to reduce the influence of random effect", "bool"],
-      ["--tuning-runs","Limit tuning by how many runs","int"],
-      ["--output-dir","Specify the output directory","string"]
+      ["--tuning-solver", "Name of solver ", "string","true"],
+      ["--tuning-tool", "Name of tuning tool ", "string","true"],
+      ["--obj-mode", "Enable optimize objective mode", "bool","true"],
+      ["--maximize", "Specify its a maximization problem for --obj-mode", "bool","true"],
+      ["--tuning-time","Total tuning time limit","int","true"],
+      ["--cut", "Cut off time for per minizinc run", "int","true"],
+      ["--tune-threads", "Threat threads as tuning parameter", "bool","true"],
+      ["--skip-bench", "Skip bench mark, evaluate result based on smac-output only", "bool","true"],
+      ["--psmac", "Enable parellel smac", "int","true"],
+      ["--pcs-json", "Specify your own parameter configuration json file", "string","true"],
+      ["--restore", "Restore previous tuning, please provide the path of run group folder under smac-output folder. ", "string","true"],
+      ["--more-runs", "Run more trails on each configuration to reduce the influence of random effect", "bool","true"],
+      ["--tuning-runs","Limit tuning by how many runs","int","true"],
+      ["--output-dir","Specify the output directory","string","true"]
     ]
 }

@@ -1,9 +1,20 @@
 c:\Users\czcz2\Anaconda3\Scripts\pyinstaller.exe Minizinc-Tuning.py
 c:\Users\czcz2\Anaconda3\Scripts\pyinstaller.exe wrappers.py
+c:\Users\czcz2\Anaconda3\Scripts\pyinstaller.exe -F setup.py
+
 echo pyinstaller done
 
 move .\dist\wrappers .\dist\Minizinc-Tuning\
 echo move wrappers done
+
+move .\dist\setup.exe .\dist\Minizinc-Tuning\
+echo move setup done
+
+xcopy .\minizinc-tuning.msc .\dist\Minizinc-Tuning\
+echo copy minizinc-tuning.msc done
+xcopy .\tuningConfiguration.json .\dist\Minizinc-Tuning\
+echo copy tuningConfiguration done
+
 
 MKDIR .\dist\Minizinc-Tuning\example\
 xcopy /s example .\dist\Minizinc-Tuning\example\

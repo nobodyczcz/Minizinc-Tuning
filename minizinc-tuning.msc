@@ -1,5 +1,5 @@
 {
-    "executable": "./Minizinc-Tuning/Minizinc-Tuning.exe",
+    "executable": "",
     "id": "org.minizinc.tuning-program",
     "isGUIApplication": false,
     "name": "Minizinc-tuning",
