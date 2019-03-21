@@ -16,12 +16,10 @@ Gruobi: Tested on gurobi 8.1. Having issues when using gurobi 7.5, cannot reprod
    SMAC2 is written in java.
 
 2. Minizinc
-   
-3. Working on linux, mac and windows
 
 ## Install
 
-1. Download the latest released version and unzip it.
+1. Download the latest [released version](https://github.com/nobodyczcz/Minizinc-Tuning/releases) and unzip it.
 
 2. Run the "setup" program to let Minizinc and Minizinc IDE known where is the tuning program 
 
