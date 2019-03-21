@@ -14,28 +14,25 @@ Gruobi: Tested on gurobi 8.1. Having issues when using gurobi 7.5, cannot reprod
 1. Java (Tested on 8, not sure does it working on 9 or 10)
 
    SMAC2 is written in java.
+
+2. Minizinc
    
-2. Python 3.x (Not required when using released version)
+3. Working on linux, mac and windows
 
-   This program is written in python. (At first we use SMAC3 in python, which require some dependencies only working on linux, but based on the consideration of cross-platform we move to SMAC2 in Java)
+## Install
 
-3. Minizinc
-   
-4. Working on linux, mac and windows
+1. Download the latest released version and unzip it.
 
-## Basic Usage
+2. Run the "setup" program to let Minizinc and Minizinc IDE known where is the tuning program 
+
+3. You can add the tuning program folder to enviroment path if you use command line version frequently.
+
+## Basic Commandline Usage
 1. On default, the program will try to minimize the time cost ot obtain optimal solution and use the parameter space configuration files in pcsFiles/ folder.
 
 2. Go to the directory of your model files and data files
 
 3. Use a command in following format to start tunning:
-
-using python souce code version:
-```
-python Path/to/Minizinc-Tunning.py --solver [1.solver] -p [2.No.of threads] -t [3.time limit] [4.model and data] 
-```
-
-or released version (linux):
 ```
 Path/to/Minizinc-Tunning --solver [1.solver] -p [2.No.of threads] -t [3.time limit] [4.model and data] 
 ```
@@ -58,11 +55,7 @@ The time limit should be enough for runing the model for at leat 80 times. If yo
 
 #### For the mapping.mzn model in example directory
 ```
-python ../Minizinc-Tunning.py --solver cplex -p 2 -t 3600 "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn"  --cplex-dll path/to/libcplexXXXX.so
-```
-released version:
-```
-../Minizinc-Tunning --solver cplex -p 2 -t 3600 "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn"  --cplex-dll path/to/libcplexXXXX.so
+../Minizinc-Tunning --solver cplex -p 2 -t 3600 "mapping.mzn mesh3x3_mp3_2.dzn ring_mp3.dzn" 
 ```
 ## Advanced
 
