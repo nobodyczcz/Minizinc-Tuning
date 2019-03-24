@@ -396,7 +396,7 @@ class Initializer():
 
     def output_result(self,setting,benchquality,benchtime,best_self):
         try:
-            modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
+            modelName = re.search("([^\\\/]+(\.mzn))",self.instanceList[0]).group(1)
             self.vprint(self.instanceList[0])
             self.vprint(modelName)
         except:
@@ -439,11 +439,11 @@ class Initializer():
         dataName = []
         for instance in self.instanceList:
             try:
-                modelName.append(re.search("([^\\\/]+(.mzn))",instance).group(1))
+                modelName.append(re.search("([^\\\/]+(\.mzn))",instance).group(1))
             except:
                 pass
             try:
-                dataName.append(re.search("([^\\\/]+(.dzn))",instance).group(1))
+                dataName.append(re.search("([^\\\/]+(\.dzn))",instance).group(1))
             except:
                 pass
 
@@ -498,11 +498,11 @@ class Initializer():
         eprint('{} Start converting minizinc model to mps model'.format(self.get_current_timestamp()))
         for instance in self.instanceList:
             try:
-                modelName = re.search("([^\\\/]+(.mzn))",instance).group(1)
+                modelName = re.search("([^\\\/]+(\.mzn))",instance).group(1)
             except:
                 modelName = ''
             try:
-                dataName = re.search("([^\\\/]+(.dzn))",instance).group(1)
+                dataName = re.search("([^\\\/]+(\.dzn))",instance).group(1)
             except:
                 dataName = ''
             fullName = modelName+dataName+'.mps'
@@ -536,7 +536,7 @@ class Initializer():
         file = glob.glob('tune1.prm')
         log = glob.glob('tune1.log')
         try:
-            modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
+            modelName = re.search("([^\\\/]+(\.mzn))",self.instanceList[0]).group(1)
         except:
             modelName = ''
         fileName = self.timestamp+"_" + modelName
