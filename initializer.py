@@ -397,6 +397,8 @@ class Initializer():
     def output_result(self,setting,benchquality,benchtime,best_self):
         try:
             modelName = re.search("([^\\\/]+(.mzn))",self.instanceList[0]).group(1)
+            self.vprint(self.instanceList[0])
+            self.vprint(modelName)
         except:
             modelName = ''
         fileName = self.timestamp +"_"+ modelName
@@ -509,9 +511,9 @@ class Initializer():
             cmd = self.wrapper.generate_cmd(None, self.solver, inslist)
             cmd += ['--writeModel', fullName]
             self.wrapper.output_lp(cmd,1,env)
-            eprint('{} lp model file generated: {}'.format(self.get_current_timestamp(),fullName))
+            eprint('{} mps model file generated: {}'.format(self.get_current_timestamp(),fullName))
             self.lpList.append(fullName)
-        eprint('{} Output lp models done'.format(self.get_current_timestamp()))
+        eprint('{} Output mps models done'.format(self.get_current_timestamp()))
 
     def grbTunePrmToList(self,filePath):
         paramList = []
