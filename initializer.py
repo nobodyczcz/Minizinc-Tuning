@@ -29,7 +29,9 @@ class Initializer():
         self.basicCmd = [minizinc_exe, '--output-mode', 'json', '--output-objective']
         self.lpList = []
         self.setOutputDir(initialCwd)
+        self.outputFile = None
         self.wrapper = self.createWrapper()
+        self.totalTuningTime = None
 
     def createWrapper(self):
         if self.solver == "osicbc":
@@ -404,13 +406,14 @@ class Initializer():
         fileName = self.timestamp +"_"+ modelName
         outputPath = self.resultOutput + "/" + fileName
         outputJson = outputPath+'Smac.pcf'
+
         paramList = self.param_to_list(setting)
         finalParam = self.wrapper.process_param(paramList, outputPath)
         eprint("-" * 50)
         eprint('Recommendation :\n{}'.format(finalParam))
         eprint('Running in {} threads mode'.format(self.nThreadMinizinc))
         eprint('Result: {}'.format(round(benchquality[best_self] if self.obj_mode else benchtime[best_self], 3)))
-        self.param_to_json(paramList,outputJson, benchquality[best_self] if self.obj_mode else benchtime[best_self])
+        self.param_to_json(paramList,outputJson,finalParam, benchquality[best_self] if self.obj_mode else benchtime[best_self])
         eprint("-" * 50)
         print("==========")
                     
@@ -428,13 +431,15 @@ class Initializer():
                 arglist += ['-' + tmp[0], tmp[1]]
         return arglist
 
-    def param_to_json(self,paramList,outputdir, performance=None, tuneTool='smac'):
+    def param_to_json(self,paramList,outputdir,prmPath, performance=None, tuneTool='smac'):
         '''
         Convert smac-output to json format.
         :param setting: parameter in list format
         :param outputdir:
         :return:
         '''
+        if self.outputFile is not None:
+            outputdir = self.outputFile
         modelName = []
         dataName = []
         for instance in self.instanceList:
@@ -455,12 +460,19 @@ class Initializer():
         paramDic['estimated average performance'] = performance
         paramDic['tune tool'] = tuneTool
         paramDic['runGroup'] = self.rungroup
+        #start=outputdir
         if self.obj_mode:
             paramDic['tune mode'] = 'Objective of feasible solution'
         else:
             paramDic['tune mode'] = 'Time to optimal solution'
         paramDic['solver time limit'] = self.cutOffTime
         paramDic['parameters'] = {}
+        paramDic['total tuning time'] = self.totalTuningTime
+        if os.path.isfile(prmPath):
+            paramDic['prm file path'] = prmPath
+        else:
+            paramDic['prm file path'] = None
+
 
         for name, value in zip(paramList[::2], paramList[1::2]):
             if name == '-MinizincThreads':

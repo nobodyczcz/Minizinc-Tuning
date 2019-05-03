@@ -307,8 +307,12 @@ class Wrapper():
     def generate_cmd(self, tempParam,solver,instance,dll=None):
         cmd = self.basicCmd + ['-p', str(self.threads)] + instance
 
+
         if tempParam is not None:
-            cmd += ['--readParam', tempParam]
+            if self.solver == "osicbc":
+                cmd += ['--cbcArgs', tempParam]
+            else:
+                cmd += ['--readParam', tempParam]
 
         if dll is not None:
             cmd += ['--'+solver+'-dll', dll]
