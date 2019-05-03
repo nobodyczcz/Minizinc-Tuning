@@ -6,7 +6,7 @@ Created on Fri Dec  7 16:05:40 2018
 @author: czcz2
 """
 
-import argparse,signal, shutil
+import signal
 from pcsConverter import *
 from initializer import *
 from tunning import *
