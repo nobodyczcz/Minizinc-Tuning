@@ -27,7 +27,20 @@ def main():
     paths = result[index+1:]
 
     done = False
-    programPath=None
+
+    if getattr(sys, 'frozen', False):
+        # we are running in a bundle
+        programPath = sys.executable
+        programPath = os.path.dirname(programPath)
+    else:
+        # we are running in a normal Python environment
+        programPath = os.path.dirname(os.path.abspath(__file__))
+
+    if os.name == 'nt':
+        exeName = "Minizinc-Tuning.exe"
+    else:
+        exeName = "Minizinc-Tuning"
+
     for i in paths:
         i=i.strip()
         if not os.path.exists(i):
@@ -41,18 +54,7 @@ def main():
             with open("minizinc-tuning.msc","r") as f:
                 data = json.load(f)
 
-            if getattr(sys, 'frozen', False):
-                # we are running in a bundle
-                programPath = sys.executable
-                programPath = os.path.dirname(programPath)
-            else:
-                # we are running in a normal Python environment
-                programPath = os.path.dirname(os.path.abspath(__file__))
 
-            if os.name == 'nt':
-                exeName = "Minizinc-Tuning.exe"
-            else:
-                exeName = "Minizinc-Tuning"
             data["executable"] = os.path.join(programPath,exeName)
             print("Writing minizinc-tuning.msc to :", i)
             with open(os.path.join(i,"minizinc-tuning.msc"),"w") as f:
@@ -82,8 +84,7 @@ def main():
         smacPath = os.path.join(smacPath, 'smac')
         st = os.stat(smacPath)
         os.chmod(smacPath, st.st_mode | stat.S_IEXEC)
-
-    print("Chmod successful")
+        print("Chmod successful")
     print("Setup done, Minizinc should be able to find tuning-program now")
     input("Enter anything to exit:")
 
