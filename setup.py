@@ -71,12 +71,18 @@ def main():
         print("Moving and Editing minizinc-tuning.msc successful")
 
     if os.name != 'nt' and programPath is not None:
-        exePath = os.path.join(programPath,'Minizinc-Tuning')
+        if getattr(sys, 'frozen', False):
+            exePath = os.path.join(programPath,'Minizinc-Tuning')
+        else:
+            exePath = os.path.join(programPath, 'Minizinc-Tuning.py')
         st = os.stat(exePath)
         os.chmod(exePath, st.st_mode | stat.S_IEXEC)
 
-        wrapperPath = os.path.join(programPath,'wrappers')
-        wrapperPath = os.path.join(wrapperPath,'wrappers')
+        if getattr(sys, 'frozen', False):
+            wrapperPath = os.path.join(programPath,'wrappers')
+            wrapperPath = os.path.join(wrapperPath,'wrappers')
+        else:
+            wrapperPath = os.path.join(programPath, 'wrappers.py')
         st = os.stat(wrapperPath)
         os.chmod(wrapperPath, st.st_mode | stat.S_IEXEC)
 
