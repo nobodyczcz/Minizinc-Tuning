@@ -91,7 +91,8 @@ def main():
             eprint('[Minizinc-Tuning error]Cannot find parameter configuration json file for ' + args.solver +\
                             ' under Minizinc-Tuning/pcsFiles/ . Please specify one with -pcsJson argument')
             raise
-        
+    if not os.path.exists(programPath+'/cache'):
+        os.mkdir(programPath+'/cache')
     pcsFile = converter.jsonToPcs(args.pcs_json, programPath + "/cache/temppcs.pcs", args.p if args.tune_threads else None)
 
     

@@ -167,6 +167,12 @@ class Wrapper():
         return status, runtime, quality
 
     def runMinizinc_time(self,cmd,env = None):
+        """
+            The function will execute the command line, shut down the program when reach time limit
+            :param cmd: the command line will be executed
+            :param cutoff: cut off time of each run
+            :return: status, runtime, quality
+        """
         t = time.time()
         self.vprint('[Wraper out]', cmd)
 
@@ -309,10 +315,7 @@ class Wrapper():
 
 
         if tempParam is not None:
-            if self.solver == "osicbc":
-                cmd += ['--cbcArgs', tempParam]
-            else:
-                cmd += ['--readParam', tempParam]
+            cmd += ['--readParam', tempParam]
 
         if dll is not None:
             cmd += ['--'+solver+'-dll', dll]
@@ -344,16 +347,29 @@ class OsicbcWrapper(Wrapper):
 
     def process_param(self,params,outputdir = None):
         # Prepare temp parameter file
-        args = ''
+        args = '"'
         for name, value in zip(params[::2], params[1::2]):
             if name == '-MinizincThreads':
                 self.threads = value
             else:
                 args += ' ' + name + ' ' + value
+        args += '"'
         if outputdir is not None:
             with open(outputdir+'cbc_cfg','w') as f:
                 f.write(args)
         return args
+
+    def generate_cmd(self, tempParam,solver,instance,dll=None):
+        cmd = self.basicCmd + ['-p', str(self.threads)] + instance
+
+
+        if tempParam is not None:
+            cmd += ['--cbcArgs', tempParam]
+
+
+        if dll is not None:
+            cmd += ['--'+solver+'-dll', dll]
+        return cmd
 
 class GurobiWrapper(Wrapper):
     def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
