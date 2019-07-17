@@ -69,7 +69,7 @@ class Initializer():
             paramList = self.default_param_to_list()
             param = self.wrapper.process_param(paramList)
             inslist = self.wrapper.seperateInstance(instance.replace('"', ''))
-            cmd = self.wrapper.generate_cmd(param,self.solver,inslist)
+            cmd = self.wrapper.generate_cmd(param,self.solver,inslist,self.dll)
             status,time,quality = self.wrapper.runMinizinc_time(cmd)
 
             if status == "CRASHED":
