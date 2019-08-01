@@ -269,17 +269,20 @@ class Wrapper():
 
             if quality is not None:
                 status = "SUCCESS"
-                if maximize:
-                    quality = -quality
+                if quality ==0:
+                    status = "CRASHED"
             else:
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
                 if runtime < self.cutoff:
-                    status = 'CRASHED'
+                    status = 'UNSAT'
                 else:
                     status = "TIMEOUT"
                 quality = 1.0E9
                 runtime = self.cutoff
+
+            if maximize:
+                quality = -quality
 
         except TimeoutExpired as e:
             io.terminate()

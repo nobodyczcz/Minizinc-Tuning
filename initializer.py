@@ -118,6 +118,7 @@ class Initializer():
         instanceList = []
 
         if isminizinc: # minizinc IDE use a different way to pass models and datas to tuning program
+            self.vprint("call by minizinc mode, instances:",instance)
             model = ''
             datas = []
             for i in instance:
