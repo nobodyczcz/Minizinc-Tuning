@@ -77,13 +77,13 @@ if __name__=="__main__":
         status = "CRASHED"
         runtime = 99999
         quality = 1.0E9
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
+        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, sys.argv[5], 0))
     except Exception as e:
         eprint('[Wrapper Error]',e)
         status = "CRASHED"
         runtime = 99999
         quality = 1.0E9
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, 0, 0))
+        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, sys.argv[5], 0))
     except KeyboardInterrupt:
         eprint('KeyboardInterrupt caught')
 
