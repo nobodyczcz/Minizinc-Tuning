@@ -69,7 +69,7 @@ if __name__=="__main__":
         except:
             pass
         wrapper.vprint('[Wrapper Debug] Run Finish ',status,' ', runtime,' ', quality)
-        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, runlength, quality, seed,
+        print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, runlength, quality, int(sys.argv[5]),
                                                                             specifics))
 
     except FileNotFoundError as e:
