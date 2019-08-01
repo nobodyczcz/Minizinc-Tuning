@@ -275,11 +275,10 @@ class Wrapper():
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
                 if runtime < self.cutoff:
-                    status = 'UNSAT'
+                    status = "UNSAT"
                 else:
                     status = "TIMEOUT"
                 quality = 1.0E9
-                runtime = self.cutoff
 
             if maximize:
                 quality = -quality
