@@ -44,7 +44,7 @@ if __name__=="__main__":
         else:
             raise Exception('[Wrapper Error] Solver do not exist')
         wrapper.vprint('[Wrapper Debug] Read Wrapper setting',jsonData)
-        tempParam = wrapper.process_param(params)
+        tempParam = wrapper.process_param(params,randomSeed=seed)
         instancelist = wrapper.seperateInstance(instance)
         cmd = wrapper.generate_cmd(tempParam,solver,instancelist,dll)
 

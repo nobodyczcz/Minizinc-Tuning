@@ -310,7 +310,7 @@ class Wrapper():
         io.communicate()
 
 
-    def process_param(self,params,outputdir = None):
+    def process_param(self,params,outputdir = None,randomSeed=None):
         raise Exception('Must override this method')
 
     def generate_cmd(self, tempParam,solver,instance,dll=None):
@@ -328,7 +328,7 @@ class CplexWrapper(Wrapper):
     def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
         Wrapper.__init__(self, solver, threads,verbose,minizinc_exe,cutoff)
 
-    def process_param(self,params,outputdir = None):
+    def process_param(self,params,outputdir = None,randomSeed=None):
         # Prepare temp parameter file
         paramfile = 'CPLEX Parameter File Version 12.6\n'
         for name, value in zip(params[::2], params[1::2]):
@@ -336,6 +336,8 @@ class CplexWrapper(Wrapper):
                 self.threads = value
             else:
                 paramfile += name.strip('-') + '\t' + value + '\n'
+        if randomSeed is not None:
+            paramfile += "CPX_PARAM_RANDOMSEED" + '\t' + str(randomSeed) + '\n'
         if outputdir is not None:
             tempParam = outputdir+"cplex_cfg"
         else:
@@ -348,7 +350,7 @@ class OsicbcWrapper(Wrapper):
     def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
         Wrapper.__init__(self, solver, threads,verbose,minizinc_exe,cutoff)
 
-    def process_param(self,params,outputdir = None):
+    def process_param(self,params,outputdir = None,randomSeed=None):
         # Prepare temp parameter file
         args = '"'
         for name, value in zip(params[::2], params[1::2]):
@@ -356,7 +358,10 @@ class OsicbcWrapper(Wrapper):
                 self.threads = value
             else:
                 args += ' ' + name + ' ' + value
+        if randomSeed is not None:
+            args += ' ' + "-RandomC" + ' ' + str(randomSeed)
         args += '"'
+
         if outputdir is not None:
             with open(outputdir+'cbc_cfg','w') as f:
                 f.write(args)
@@ -378,7 +383,7 @@ class GurobiWrapper(Wrapper):
     def __init__(self, solver, threads,verbose,minizinc_exe='minizinc',cutoff=None):
         Wrapper.__init__(self, solver, threads,verbose,minizinc_exe,cutoff)
 
-    def process_param(self,params, outputdir = None):
+    def process_param(self,params, outputdir = None,randomSeed=None):
         # Prepare temp parameter file
         paramfile = '# Parameter Setting for Gruobi\n'
         for name, value in zip(params[::2], params[1::2]):
@@ -386,6 +391,8 @@ class GurobiWrapper(Wrapper):
                 self.threads = value
             else:
                 paramfile += name.strip('-') + '\t' + value + '\n'
+        if randomSeed is not None:
+            paramfile += "Seed" + '\t' + str(randomSeed) + '\n'
         if outputdir is not None:
             tempParam = outputdir+"gurobi_cfg"
         else:
