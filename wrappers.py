@@ -28,7 +28,7 @@ if __name__=="__main__":
         specifics = sys.argv[2]
         cutoff = int(float(sys.argv[3]) + 1)  # runsolver only rounds down to integer
         runlength = int(sys.argv[4])
-        seed = int(sys.argv[5])
+        seed = None if int(sys.argv[5]) == -1 else int(sys.argv[5])
         params = sys.argv[6:]
 
 

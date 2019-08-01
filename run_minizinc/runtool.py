@@ -358,8 +358,8 @@ class OsicbcWrapper(Wrapper):
             else:
                 args += ' ' + name + ' ' + value
         if randomSeed is not None:
-            args += ' ' + "-RandomC" + ' ' + str(randomSeed)
-        args += '"'
+            args += ' ' + '-RandomC' + ' ' + randomSeed
+        args += ' "'
 
         if outputdir is not None:
             with open(outputdir+'cbc_cfg','w') as f:
