@@ -358,7 +358,7 @@ class OsicbcWrapper(Wrapper):
             else:
                 args += ' ' + name + ' ' + value
         if randomSeed is not None:
-            args += ' ' + '-RandomC' + ' ' + randomSeed
+            args += ' ' + '-RandomC' + ' ' + str(randomSeed)
         args += ' "'
 
         if outputdir is not None:
