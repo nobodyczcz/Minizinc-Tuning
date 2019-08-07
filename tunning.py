@@ -6,12 +6,13 @@ from helpFunctions.helpFuctions import *
 
 
 class Tunning():
-    def __init__(self,verboseOnOff,nSMAC,outputdir,smacPath,rungroup):
+    def __init__(self,verboseOnOff,nSMAC,outputdir,smacPath,rungroup,noFirstCrashStop=False):
         self.smac_path = smacPath
         self.verboseOnOff = verboseOnOff
         self.nSMAC = nSMAC
         self.outputdir = outputdir
         self.rungroup = rungroup
+        self.noFirstCrashStop = noFirstCrashStop
         if nSMAC > 1:
             self.psmac = "true"
         else:
@@ -72,12 +73,15 @@ class Tunning():
 
             tmp = [self.smac_path, "--scenario-file", "scenario_.txt", "--seed", str(randint(1, 999999)), \
                    "--shared-model-mode", str(self.psmac), "--shared-model-mode-frequency", "100", "--output-dir",\
-                   self.outputdir, "--rungroup", self.rungroup, "--cli-listen-for-updates", "false", "--validation", "false"]
+                   self.outputdir, "--rungroup", self.rungroup, "--cli-listen-for-updates", "false", "--validation",\
+                   "false","--check-sat-consistency-exception","false"]
             if restore is not None:
                 tmp += ["--restore-scenario", restore[i]]
 
             if self.verboseOnOff:
                 tmp += ["--console-log-level", "DEBUG"]
+            if self.noFirstCrashStop:
+                tmp += ["--abortOnFirstRunCrash ","false"]
             cmd.append(tmp)
 
         return cmd

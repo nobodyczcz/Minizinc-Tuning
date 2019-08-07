@@ -209,24 +209,24 @@ class Wrapper():
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
 
                 if runtime < self.cutoff*0.9:
-                    status = 'UNSAT'
-                    runtime = 1.0E9
+                    status = "CRASHED"
+                    quality = self.cutoff * 10000
                 else:
                     status = "TIMEOUT"
-                quality = 1.0E9
+                    quality = self.cutoff * 10000
 
         except TimeoutExpired as e:
             self.vprint('[Wrapper Err] Timeout')
             io.terminate()
             status = 'TIMEOUT'
             runtime = self.cutoff
-            quality = 1.0E9
+            quality = self.cutoff * 10000
         except Exception as e:
             self.vprint('[Wrapper Err] Exception')
             io.terminate()
             status = 'CRASHED'
             runtime = self.cutoff
-            quality = 1.0E9
+            quality = self.cutoff * 10000
         finally:
             try:
                 os.remove(pidFile)
@@ -274,13 +274,15 @@ class Wrapper():
             else:
                 self.vprint('[MiniZinc Warn][Not Satisfy][stdout]', output)
                 self.vprint('[MiniZinc Warn][Not Satisfy][stderr]', stderr_.decode('utf-8'))
-                # if runtime < self.cutoff*0.9:
-                #     status = "UNSAT"
-                # else:
-                status = "TIMEOUT"
-                quality = 1.0E9
+                if runtime < self.cutoff*0.9:
+                    status = "CRASHED"
+                    quality = self.cutoff * 10000
+                else:
+                    status = "TIMEOUT"
+                    quality = self.cutoff*10000
 
-            if maximize:
+
+            if maximize and quality!="":
                 quality = -quality
 
         except TimeoutExpired as e:
@@ -288,14 +290,14 @@ class Wrapper():
             self.vprint('[Wrapper Exception] ', 'Minizinc did not stop on timelimit, killed by wrapper')
             status = "Crashed"
             runtime = self.cutoff
-            quality = 1.0E9
+            quality = self.cutoff * 10000
 
         except Exception as e:
             self.vprint('[Wrapper Exception] ', e)
             io.terminate()
             status = "Crashed"
             runtime = self.cutoff
-            quality = 1.0E9
+            quality = self.cutoff * 10000
         finally:
             try:
                 os.remove(pidFile)

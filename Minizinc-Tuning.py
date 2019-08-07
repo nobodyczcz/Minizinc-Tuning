@@ -195,7 +195,7 @@ def main():
             smacPath = os.path.abspath("../smac-v2/smac.bat")
         else:
             smacPath = os.path.abspath("../smac-v2/smac")
-        tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath,initializer.rungroup)
+        tunning = Tunning(args.v,args.psmac,initializer.outputdir,smacPath,initializer.rungroup,args.no_stop_first_crash)
 
         if args.tuning_tool == 'grbtune':
             cmd = tunning.grbtune_cmd(args.time_limit,initializer.cutOffTime,args.more_runs,args.obj_mode,initializer.lpList,args.p)

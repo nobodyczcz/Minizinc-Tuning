@@ -265,6 +265,11 @@ def argparser():
                         help='''\
     specify the output file and path.
                                                                     ''')
+    parser.add_argument('--no-stop-first-crash', default=False,
+                        action='store_true',\
+                        help='''\
+        do not stop tuning on first run crash
+                                                                        ''')
 
     # args = parser.parse_args() #parse arguments
     args, unknownargs = parser.parse_known_args()

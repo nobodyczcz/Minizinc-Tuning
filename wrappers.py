@@ -76,13 +76,13 @@ if __name__=="__main__":
         eprint('[Wrapper Error] Failed when loading wrapperSetting', e)
         status = "CRASHED"
         runtime = 99999
-        quality = 1.0E9
+        quality = ""
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, sys.argv[5], 0))
     except Exception as e:
         eprint('[Wrapper Error]',e)
         status = "CRASHED"
         runtime = 99999
-        quality = 1.0E9
+        quality = ""
         print('Result of this algorithm run: {}, {}, {}, {}, {}, {}'.format(status, runtime, 0, quality, sys.argv[5], 0))
     except KeyboardInterrupt:
         eprint('KeyboardInterrupt caught')
